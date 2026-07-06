@@ -17,23 +17,23 @@ export async function getResponse(question: string, lang: Lang): Promise<string>
 
   // Simple keyword matching for the demo
   if (lower.includes('gate') || lower.includes('gate_a') || lower.includes('gate g')) {
-    if (lower.includes('a')) return knowledgeBase.venues.gates.gate_a[lang];
-    if (lower.includes('b')) return knowledgeBase.venues.gates.gate_b[lang];
-    if (lower.includes('c')) return knowledgeBase.venues.gates.gate_c[lang];
-    if (lower.includes('g')) return knowledgeBase.venues.gates.gate_g[lang];
-    return knowledgeBase.venues.gates.gate_a[lang]; // default
+    if (lower.includes('a')) return knowledgeBase.venues.gates.gate_a?.[lang] || knowledgeBase.venues.gates.gate_a?.en || 'Gate A';
+    if (lower.includes('b')) return knowledgeBase.venues.gates.gate_b?.[lang] || knowledgeBase.venues.gates.gate_b?.en || 'Gate B';
+    if (lower.includes('c')) return knowledgeBase.venues.gates.gate_c?.[lang] || knowledgeBase.venues.gates.gate_c?.en || 'Gate C';
+    if (lower.includes('g')) return knowledgeBase.venues.gates.gate_g?.[lang] || knowledgeBase.venues.gates.gate_g?.en || 'Gate G';
+    return knowledgeBase.venues.gates.gate_a?.[lang] || knowledgeBase.venues.gates.gate_a?.en || 'Gate A';
   }
 
   if (lower.includes('restroom') || lower.includes('toilet') || lower.includes('bathroom') || lower.includes('baño') || lower.includes('toilettes')) {
-    return knowledgeBase.venues.restrooms.map(r => r[lang]).join('\n');
+    return knowledgeBase.venues.restrooms.map(r => r?.[lang] || r?.en || '').join('\n');
   }
 
   if (lower.includes('food') || lower.includes('eat') || lower.includes('comida') || lower.includes('manger')) {
-    return knowledgeBase.venues.food.map(r => r[lang]).join('\n');
+    return knowledgeBase.venues.food.map(r => r?.[lang] || r?.en || '').join('\n');
   }
 
   if (lower.includes('match') || lower.includes('start') || lower.includes('inicio') || lower.includes('début') || lower.includes('commence')) {
-    return knowledgeBase.faqs[0][lang];
+    return knowledgeBase.faqs[0]?.[lang] || knowledgeBase.faqs[0]?.en || 'Match information is available on the FIFA website.';
   }
 
   return knowledgeBase.fallback[lang] || knowledgeBase.fallback.en;

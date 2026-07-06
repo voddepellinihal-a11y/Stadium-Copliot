@@ -2,10 +2,10 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Send } from 'lucide-react';
-import { useApp, Lang } from '../shared/AppContext';
+import { useApp, Lang, CityKey } from '../shared/AppContext';
 import { checkRateLimit, sanitizeInput, validateInput } from '../../lib/security';
-import cityKnowledge from '../../data/city_knowledge.json';
-import { t, CityKnowledge } from '../../data/translations';
+import { t } from '../../data/translations';
+import { getCityData } from '../../data/cityData';
 
 interface Message {
   id: string;
@@ -17,10 +17,10 @@ interface Message {
 
 const responseCache = new Map<string, string>();
 
-function findAnswer(question: string, city: string, lang: Lang): string {
+function findAnswer(question: string, city: CityKey, lang: Lang): string {
   const lower = question.toLowerCase();
-  const venue = (cityKnowledge as CityKnowledge)[city];
-  if (!venue) return t(lang, 'sorryError');
+  const venue = getCityData(city);
+  if (!venue.name) return t(lang, 'sorryError');
 
   const cacheKey = `${city}:${lang}:${lower}`;
   if (responseCache.has(cacheKey)) return responseCache.get(cacheKey)!;
@@ -78,9 +78,16 @@ export function Chat() {
   const [rateLimitWarning, setRateLimitWarning] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const warningTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const scrollToBottom = useCallback(() => { messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }); }, []);
   useEffect(() => { scrollToBottom(); }, [messages, scrollToBottom]);
+
+  useEffect(() => {
+    return () => {
+      if (warningTimerRef.current) clearTimeout(warningTimerRef.current);
+    };
+  }, []);
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,13 +99,15 @@ export function Chat() {
     const validation = validateInput(question);
     if (!validation.valid) {
       setRateLimitWarning(validation.error || t(lang, 'errorOccurred'));
-      setTimeout(() => setRateLimitWarning(''), 3000);
+      if (warningTimerRef.current) clearTimeout(warningTimerRef.current);
+      warningTimerRef.current = setTimeout(() => setRateLimitWarning(''), 3000);
       return;
     }
 
     if (!checkRateLimit()) {
       setRateLimitWarning(t(lang, 'tooManyMessages'));
-      setTimeout(() => setRateLimitWarning(''), 5000);
+      if (warningTimerRef.current) clearTimeout(warningTimerRef.current);
+      warningTimerRef.current = setTimeout(() => setRateLimitWarning(''), 5000);
       return;
     }
 

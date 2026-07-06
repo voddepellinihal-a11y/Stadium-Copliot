@@ -3,8 +3,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Shield, RefreshCw, ChevronRight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { useApp } from '../shared/AppContext';
-import { t, CityKnowledge } from '../../data/translations';
-import cityKnowledgeData from '../../data/city_knowledge.json';
+import { t } from '../../data/translations';
+import { getCityData } from '../../data/cityData';
 
 type ZoneData = { capacity: number; current: number; trend: 'up' | 'down' | 'stable' };
 type Incident = { id: number; zone: string; severity: 'low' | 'medium' | 'high'; title: string; status: 'active' | 'resolved' };
@@ -17,20 +17,22 @@ export default function OpsContent() {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [showSchedule, setShowSchedule] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const cityData = (cityKnowledgeData as CityKnowledge)[city] || {
-    name: '', country: '', location: '', languages: [], capacity: 0,
-    gates: {}, restrooms: [], food: [], services: {}, transport: {},
-    accessibility: { wheelchair_routes: { en: '' }, assistance: { en: '' } },
-    schedule: '', bag_policy: { en: '' }
-  };
+  const cityData = getCityData(city);
 
   useEffect(() => {
     const generateZoneData = (): Record<string, ZoneData> => {
       const zoneNames = ['North Gate', 'South Gate', 'East Concourse', 'West Stand', 'VIP Zone', 'General Admission'];
-      return Object.fromEntries(zoneNames.map(name => [
-        name,
-        { capacity: Math.floor(Math.random() * 15000) + 5000, current: Math.floor(Math.random() * 12000) + 2000, trend: (['up', 'down', 'stable'] as const)[Math.floor(Math.random() * 3)] },
-      ]));
+      const trends: ZoneData['trend'][] = ['up', 'down', 'stable'];
+      const result: Record<string, ZoneData> = {};
+      for (const name of zoneNames) {
+        const trendIndex = Math.floor(Math.random() * trends.length);
+        result[name] = {
+          capacity: Math.floor(Math.random() * 15000) + 5000,
+          current: Math.floor(Math.random() * 12000) + 2000,
+          trend: trends[trendIndex] || 'stable',
+        };
+      }
+      return result;
     };
 
     const generateIncidents = (): Incident[] => [
@@ -47,14 +49,16 @@ export default function OpsContent() {
     timerRef.current = setInterval(() => {
       setZones(prev => {
         const updated = { ...prev };
-        Object.keys(updated).forEach(key => {
+        for (const key of Object.keys(updated)) {
+          const zone = updated[key];
+          if (!zone) continue;
           const change = Math.floor(Math.random() * 200) - 100;
           updated[key] = {
-            ...updated[key],
-            current: Math.max(0, Math.min(updated[key].capacity, updated[key].current + change)),
+            capacity: zone.capacity,
+            current: Math.max(0, Math.min(zone.capacity, zone.current + change)),
             trend: change > 50 ? 'up' : change < -50 ? 'down' : 'stable',
           };
-        });
+        }
         return updated;
       });
       setLastUpdate(new Date());

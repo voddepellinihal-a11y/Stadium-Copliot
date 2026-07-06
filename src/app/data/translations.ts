@@ -766,6 +766,13 @@ export const translations: Record<Lang, TranslationKeys> = {
   },
 };
 
+/**
+ * Returns a translated string for the given language and key.
+ * Falls back to English if the key is missing in the target language.
+ * @param lang - Target language ('en', 'es', or 'fr')
+ * @param key - Translation key from TranslationKeys
+ * @returns Translated string, or the key itself as last resort
+ */
 export function t(lang: Lang, key: keyof TranslationKeys): string {
   return translations[lang][key] || translations.en[key] || key;
 }

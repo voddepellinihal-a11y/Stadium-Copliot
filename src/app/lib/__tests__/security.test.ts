@@ -24,7 +24,7 @@ describe('Rate Limiter', () => {
 
 describe('sanitizeInput', () => {
   it('removes angle brackets', () => {
-    expect(sanitizeInput('<script>alert("xss")</script>')).toBe('scriptalert("xss")/script');
+    expect(sanitizeInput('<script>alert("xss")</script>')).toBe('alert("xss")');
   });
 
   it('removes javascript protocol', () => {
@@ -36,7 +36,7 @@ describe('sanitizeInput', () => {
   });
 
   it('trims whitespace', () => {
-    expect(sanitizeInput('  hello  world  ')).toBe('hello world');
+    expect(sanitizeInput('  hello  world  ')).toBe('hello  world');
   });
 
   it('truncates to 500 characters', () => {

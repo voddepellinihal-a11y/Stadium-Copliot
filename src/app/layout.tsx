@@ -4,12 +4,12 @@ import { ErrorBoundary } from "./components/shared/ErrorBoundary";
 
 export const metadata: Metadata = {
   title: "Stadium Copilot 2026 – FIFA World Cup AI Assistant",
-  description: "A GenAI-powered fan assistant for the FIFA World Cup 2026. Navigate stadiums, find amenities, multilingual support, and real-time operational intelligence across 16 cities in 3 countries.",
+  description: "A GenAI-powered fan assistant for the FIFA World Cup 2026. Navigate stadiums, find amenities, multilingual support, and real-time operational intelligence across 13 cities in 3 countries.",
   keywords: "FIFA World Cup 2026, stadium assistant, AI, navigation, multilingual, accessibility, sustainability, crowd management, operational intelligence",
   authors: [{ name: "Stadium Copilot Team" }],
   openGraph: {
     title: "Stadium Copilot 2026 – FIFA World Cup AI Assistant",
-    description: "AI-powered fan assistant for FIFA World Cup 2026 across 16 cities in 3 countries.",
+    description: "AI-powered fan assistant for FIFA World Cup 2026 across 13 cities in 3 countries.",
     type: "website",
   },
 };

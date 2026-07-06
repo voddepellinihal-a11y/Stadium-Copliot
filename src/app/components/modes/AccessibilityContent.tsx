@@ -1,25 +1,28 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Accessibility, MapPin, Phone, AlertTriangle, CheckCircle, Volume2, Contrast, Languages } from 'lucide-react';
 import { useApp } from '../shared/AppContext';
-import { t, CityKnowledge } from '../../data/translations';
-import cityKnowledgeData from '../../data/city_knowledge.json';
+import { t } from '../../data/translations';
+import { getCityData } from '../../data/cityData';
 
 export default function AccessibilityContent() {
   const { language, highContrast, setHighContrast, fontScale, setFontScale, city } = useApp();
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
   const [emergencyActive, setEmergencyActive] = useState(false);
-  const cityData = (cityKnowledgeData as CityKnowledge)[city] || {
-    name: '', country: '', location: '', languages: [], capacity: 0,
-    gates: {}, restrooms: [], food: [], services: {}, transport: {},
-    accessibility: { wheelchair_routes: { en: '' }, assistance: { en: '' } },
-    schedule: '', bag_policy: { en: '' }
-  };
+  const emergencyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (emergencyTimerRef.current) clearTimeout(emergencyTimerRef.current);
+    };
+  }, []);
+  const cityData = getCityData(city);
 
   const handleEmergency = (_type: 'medical' | 'security' | 'lost') => {
     setEmergencyActive(true);
-    setTimeout(() => setEmergencyActive(false), 5000);
+    if (emergencyTimerRef.current) clearTimeout(emergencyTimerRef.current);
+    emergencyTimerRef.current = setTimeout(() => setEmergencyActive(false), 5000);
   };
 
   const getAccessibleRoutes = () => [

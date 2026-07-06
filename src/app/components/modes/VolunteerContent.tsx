@@ -3,8 +3,8 @@
 import React, { useState, useRef } from 'react';
 import { MapPin, Navigation, AlertTriangle, Users, Info, MessageSquare, Languages } from 'lucide-react';
 import { useApp } from '../shared/AppContext';
-import { t, CityKnowledge } from '../../data/translations';
-import cityKnowledgeData from '../../data/city_knowledge.json';
+import { t } from '../../data/translations';
+import { getCityData } from '../../data/cityData';
 
 export default function VolunteerContent() {
   const { language, highContrast, city } = useApp();
@@ -14,14 +14,13 @@ export default function VolunteerContent() {
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const cityData = (cityKnowledgeData as CityKnowledge)[city] || {
-    name: '', country: '', location: '', languages: [], capacity: 0,
-    gates: {}, restrooms: [], food: [], services: {}, transport: {},
-    accessibility: { wheelchair_routes: { en: '' }, assistance: { en: '' } },
-    schedule: '', bag_policy: { en: '' }
-  };
+  const cityData = getCityData(city);
   const gateKeys = cityData.gates ? Object.keys(cityData.gates) : [];
-  const gateNames = gateKeys.map(k => cityData.gates[k as keyof typeof cityData.gates][language as 'en' | 'es' | 'fr'] || cityData.gates[k as keyof typeof cityData.gates].en);
+  const gateNames = gateKeys.map(k => {
+    const gate = cityData.gates[k];
+    if (!gate) return k;
+    return gate[language] || gate.en || k;
+  });
 
   const faqTopics = [
     { id: 'gates', icon: MapPin, label: 'gatesRestrooms' },
@@ -58,6 +57,7 @@ export default function VolunteerContent() {
     setLoading(true);
     setReply('');
     setSelectedTopic(null);
+    const fallback = quickResponses.gates?.[language] || 'I can help you find the right answer. Please check with the information desk.';
     try {
       const res = await fetch('/api/volunteer', {
         method: 'POST',
@@ -68,10 +68,10 @@ export default function VolunteerContent() {
         const data = await res.json();
         setReply(data.reply || data.answer);
       } else {
-        setReply(quickResponses.gates[language] || 'I can help you find the right answer. Please check with the information desk.');
+        setReply(fallback);
       }
     } catch {
-      setReply(quickResponses.gates[language] || 'I can help you find the right answer. Please check with the information desk.');
+      setReply(fallback);
     } finally {
       setLoading(false);
     }
@@ -132,7 +132,7 @@ export default function VolunteerContent() {
               <Languages className="w-3.5 h-3.5 text-gray-400" aria-hidden="true" />
               <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-wide">{language}</span>
             </div>
-            <p className="text-xs leading-relaxed">{quickResponses[selectedTopic][language]}</p>
+            <p className="text-xs leading-relaxed">{quickResponses[selectedTopic]?.[language] || ''}</p>
           </div>
         </div>
       )}

@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { Leaf, CheckCircle, Circle, Droplets, Zap, Recycle } from 'lucide-react';
 import { useApp } from '../shared/AppContext';
-import { t, CityKnowledge } from '../../data/translations';
-import cityKnowledgeData from '../../data/city_knowledge.json';
+import { t } from '../../data/translations';
+import { getCityData } from '../../data/cityData';
 
 export default function SustainabilityContent() {
   const { language, highContrast, city } = useApp();
@@ -15,12 +15,7 @@ export default function SustainabilityContent() {
     { id: 4, labelKey: 'walkToAmenities' as const, icon: '🚶', completed: false },
     { id: 5, labelKey: 'shareRideWithFriends' as const, icon: '🚗', completed: false },
   ]);
-  const cityData = (cityKnowledgeData as CityKnowledge)[city] || {
-    name: '', country: '', location: '', languages: [], capacity: 0,
-    gates: {}, restrooms: [], food: [], services: {}, transport: {},
-    accessibility: { wheelchair_routes: { en: '' }, assistance: { en: '' } },
-    schedule: '', bag_policy: { en: '' }
-  };
+  const cityData = getCityData(city);
 
   const score = Math.round((actions.filter(a => a.completed).length / actions.length) * 100);
 

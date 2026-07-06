@@ -33,6 +33,10 @@ interface AppState {
 
 const AppContext = createContext<AppState | undefined>(undefined);
 
+/**
+ * Global state provider for the Stadium Copilot application.
+ * Manages mode, language, city, theme, and authentication state.
+ */
 export function AppProvider({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<AppMode>('fan');
   const [language, setLanguage] = useState<Lang>('en');
@@ -57,6 +61,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
   );
 }
 
+/**
+ * Hook to access the global app state.
+ * Must be used within an AppProvider.
+ * @returns The current app state and setter functions
+ * @throws Error if used outside of AppProvider
+ */
 export function useApp() {
   const context = useContext(AppContext);
   if (!context) throw new Error('useApp must be used within AppProvider');
