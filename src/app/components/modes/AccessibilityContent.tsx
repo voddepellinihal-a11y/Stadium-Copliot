@@ -1,129 +1,214 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Accessibility, Volume2, Eye, ZoomIn, Map, ChevronRight } from 'lucide-react';
+import { Accessibility, MapPin, Phone, AlertTriangle, CheckCircle, Volume2, Contrast, Languages } from 'lucide-react';
 import { useApp } from '../shared/AppContext';
+import { t, CityKnowledge } from '../../data/translations';
+import cityKnowledgeData from '../../data/city_knowledge.json';
 
 export default function AccessibilityContent() {
-  const { language: lang, highContrast: globalContrast, setHighContrast } = useApp();
-  const [fontSize, setFontSize] = useState(100);
-  const [voiceEnabled, setVoiceEnabled] = useState(false);
-  const [showEscalation, setShowEscalation] = useState(false);
+  const { language, highContrast, setHighContrast, fontScale, setFontScale, city } = useApp();
+  const [activeFeature, setActiveFeature] = useState<string | null>(null);
+  const [emergencyActive, setEmergencyActive] = useState(false);
+  const cityData = (cityKnowledgeData as CityKnowledge)[city];
 
-  const t = (en: string, es: string, fr: string) => lang === 'en' ? en : lang === 'es' ? es : fr;
+  const handleEmergency = (_type: 'medical' | 'security' | 'lost') => {
+    setEmergencyActive(true);
+    setTimeout(() => setEmergencyActive(false), 5000);
+  };
 
-  const features = [
-    { icon: <Eye className="w-8 h-8" />, title: t('High Contrast', 'Alto Contraste', 'Haut Contraste'), desc: t('Toggle high contrast colors', 'Active colores de alto contraste', 'Activez les couleurs contrastées'), action: () => setHighContrast(!globalContrast), active: globalContrast },
-    { icon: <ZoomIn className="w-8 h-8" />, title: t('Text Size', 'Tamaño Texto', 'Taille Texte'), desc: t('Adjust text size', 'Ajuste tamaño', 'Ajustez la taille'), control: 'slider', value: fontSize, setValue: setFontSize },
-    { icon: <Volume2 className="w-8 h-8" />, title: t('Voice Output', 'Salida de Voz', 'Sortie Vocale'), desc: t('Enable text-to-speech', 'Active texto a voz', 'Activez synthèse vocale'), action: () => setVoiceEnabled(!voiceEnabled), active: voiceEnabled },
+  const getAccessibleRoutes = () => [
+    { from: 'North Gate', to: 'Section 101', distance: '200m', elevator: true, wheelchair: true, color: '#3b82f6' },
+    { from: 'South Gate', to: 'Section 205', distance: '350m', elevator: true, wheelchair: true, color: '#8b5cf6' },
+    { from: 'East Entrance', to: 'VIP Lounge', distance: '150m', elevator: true, wheelchair: true, color: '#10b981' },
   ];
 
+  const wheelchairRoutes = cityData.accessibility?.wheelchair_routes
+    ? [cityData.accessibility.wheelchair_routes[language as 'en' | 'es' | 'fr'] || cityData.accessibility.wheelchair_routes.en]
+    : ['Wheelchair accessible routes available at all gates'];
+
   return (
-    <div className={`flex-1 overflow-y-auto ${globalContrast ? 'bg-black' : 'bg-gray-50'}`} style={{ fontSize: `${fontSize}%` }} role="main" aria-label={t('Accessibility Companion', 'Compañero de Accesibilidad', "Compagnon d'Accessibilité")}>
-      <div className="max-w-5xl mx-auto p-4 space-y-4">
-        {/* Header */}
-        <div className={`p-5 rounded-2xl ${globalContrast ? 'bg-gray-900 border-2 border-yellow-500' : 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white'}`}>
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center" aria-hidden="true">
-              <Accessibility className="w-7 h-7" />
-            </div>
-            <div>
-              <h2 className="text-xl font-bold">{t('Accessibility Companion', 'Compañero de Accesibilidad', "Compagnon d'Accessibilité")}</h2>
-              <p className="text-sm opacity-90">{t('Inclusive for everyone!', '¡Inclusivo para todos!', 'Inclusif pour tous!')}</p>
-            </div>
+    <div className="h-full flex flex-col p-4 pb-2" role="tabpanel" id="panel-accessibility" aria-labelledby="tab-accessibility">
+      <div className="mb-3">
+        <div className="flex items-center gap-2 mb-1">
+          <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${highContrast ? 'bg-gray-800 text-indigo-400' : 'bg-indigo-50'}`}>
+            <Accessibility className="w-5 h-5 text-indigo-600" />
+          </div>
+          <div>
+            <h1 className="text-lg font-bold">{t(language, 'accessibility')}</h1>
+            <p className="text-xs text-gray-500">{t(language, 'accessibilityDesc')}</p>
           </div>
         </div>
+      </div>
 
-        {/* Step-Free Routes */}
-        <div className={`p-4 rounded-xl ${globalContrast ? 'bg-gray-900 border border-gray-700' : 'bg-white shadow-sm'}`}>
-          <h3 className="font-bold text-sm mb-3">
-            <Map className="w-4 h-4 inline text-purple-600 mr-2" aria-hidden="true" />
-            {t('Step-Free Routes', 'Rutas Sin Escaleras', 'Itinéraires Sans Marches')}
-          </h3>
-          <div className="grid sm:grid-cols-2 gap-2" role="list" aria-label={t('Available step-free routes', 'Rutas sin escaleras disponibles', 'Itinéraires sans marches disponibles')}>
-            {[
-              'Gate A → Section 101-110 ♿',
-              'Gate B → Section 111-120 ♿',
-              'Gate C → Section 121-130 ♿',
-              'Parking A → Gate A ♿',
-            ].map((r, i) => (
-              <div key={i} role="listitem" className={`flex items-center justify-between p-3 rounded-lg text-sm ${globalContrast ? 'bg-gray-800' : 'bg-gray-50'}`}>
-                <span>{r}</span>
-                <ChevronRight className="w-4 h-4 opacity-40" aria-hidden="true" />
+      {/* Accessibility Controls */}
+      <div className={`rounded-2xl p-3 mb-3 ${highContrast ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}>
+        <h3 className="font-bold text-xs mb-2">{t(language, 'displaySettings')}</h3>
+        <div className="space-y-3">
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <label htmlFor="font-slider" className="text-xs font-medium">{t(language, 'fontSize')}</label>
+              <span className="text-xs text-gray-500">{Math.round(fontScale * 100)}%</span>
+            </div>
+            <input
+              id="font-slider"
+              type="range"
+              min="0.8"
+              max="1.5"
+              step="0.1"
+              value={fontScale}
+              onChange={e => setFontScale(parseFloat(e.target.value))}
+              aria-label={t(language, 'fontSize')}
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+            />
+          </div>
+          <button
+            onClick={() => setHighContrast(!highContrast)}
+            role="switch"
+            aria-checked={highContrast}
+            aria-label={t(language, 'highContrast')}
+            className={`flex items-center justify-between w-full p-2.5 rounded-xl transition-all ${
+              highContrast ? 'bg-yellow-500 text-black font-bold' : 'bg-gray-100 hover:bg-gray-200'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <Contrast className="w-4 h-4" aria-hidden="true" />
+              <span className="text-xs font-medium">{t(language, 'highContrast')}</span>
+            </div>
+            <div className={`w-10 h-5 rounded-full flex items-center px-0.5 ${highContrast ? 'bg-black justify-end' : 'bg-gray-300 justify-start'}`}>
+              <div className="w-4 h-4 rounded-full bg-white shadow" />
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="grid grid-cols-3 gap-2 mb-3" role="group" aria-label="Accessibility quick actions">
+        <button
+          onClick={() => setActiveFeature(activeFeature === 'stepFree' ? null : 'stepFree')}
+          role="checkbox"
+          aria-checked={activeFeature === 'stepFree'}
+          aria-label={t(language, 'stepFreeRoutes')}
+          className={`flex flex-col items-center p-2.5 rounded-xl border-2 transition-all ${
+            highContrast
+              ? activeFeature === 'stepFree' ? 'bg-yellow-500 border-yellow-500 text-black' : 'border-gray-600 text-gray-300'
+              : activeFeature === 'stepFree' ? 'bg-blue-100 border-blue-500' : 'border-gray-200 hover:border-blue-300 bg-white'
+          }`}
+        >
+          <MapPin className="w-5 h-5 mb-1" aria-hidden="true" />
+          <span className="text-[9px] font-semibold text-center leading-tight">{t(language, 'stepFreeRoutes')}</span>
+        </button>
+        <button
+          onClick={() => setActiveFeature(activeFeature === 'hearing' ? null : 'hearing')}
+          role="checkbox"
+          aria-checked={activeFeature === 'hearing'}
+          aria-label={t(language, 'hearingAid')}
+          className={`flex flex-col items-center p-2.5 rounded-xl border-2 transition-all ${
+            highContrast
+              ? activeFeature === 'hearing' ? 'bg-yellow-500 border-yellow-500 text-black' : 'border-gray-600 text-gray-300'
+              : activeFeature === 'hearing' ? 'bg-blue-100 border-blue-500' : 'border-gray-200 hover:border-blue-300 bg-white'
+          }`}
+        >
+          <Volume2 className="w-5 h-5 mb-1" aria-hidden="true" />
+          <span className="text-[9px] font-semibold text-center leading-tight">{t(language, 'hearingAid')}</span>
+        </button>
+        <button
+          onClick={() => setActiveFeature(activeFeature === 'sensory' ? null : 'sensory')}
+          role="checkbox"
+          aria-checked={activeFeature === 'sensory'}
+          aria-label={t(language, 'sensoryKits')}
+          className={`flex flex-col items-center p-2.5 rounded-xl border-2 transition-all ${
+            highContrast
+              ? activeFeature === 'sensory' ? 'bg-yellow-500 border-yellow-500 text-black' : 'border-gray-600 text-gray-300'
+              : activeFeature === 'sensory' ? 'bg-blue-100 border-blue-500' : 'border-gray-200 hover:border-blue-300 bg-white'
+          }`}
+        >
+          <Languages className="w-5 h-5 mb-1" aria-hidden="true" />
+          <span className="text-[9px] font-semibold text-center leading-tight">{t(language, 'sensoryKits')}</span>
+        </button>
+      </div>
+
+      {/* Step-Free Routes */}
+      {activeFeature === 'stepFree' && (
+        <div className={`rounded-2xl p-3 mb-3 ${highContrast ? 'bg-gray-800' : 'bg-white border border-gray-200'}`} role="list" aria-label="Step-free routes">
+          <h3 className="font-bold text-xs mb-2">{t(language, 'stepFreeRoutes')}</h3>
+          <div className="space-y-2">
+            {getAccessibleRoutes().map((route, i) => (
+              <div key={i} className={`flex items-center gap-3 p-2 rounded-xl ${highContrast ? 'bg-gray-700' : 'bg-gray-50'}`} role="listitem">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: route.color + '20', color: route.color }}>
+                  <MapPin className="w-4 h-4" aria-hidden="true" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-[10px] font-semibold">{route.from} → {route.to}</div>
+                  <div className="text-[9px] text-gray-500">{route.distance} • {route.elevator ? 'Elevator' : 'Ramp'}</div>
+                </div>
+                <CheckCircle className="w-4 h-4 text-green-500" aria-hidden="true" />
               </div>
             ))}
           </div>
         </div>
+      )}
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-2 gap-3">
-          {features.map((feat, i) => (
-            <div key={i} className={`p-4 rounded-xl transition-all ${
-              globalContrast ? feat.active ? 'bg-yellow-500 text-black border-2 border-yellow-500' : 'bg-gray-900 border border-gray-700'
-              : feat.active ? 'bg-purple-50 border-2 border-purple-500 shadow-md' : 'bg-white shadow-sm hover:shadow-md'
-            }`}>
-              <div className="flex items-start gap-3">
-                <div className={`p-2 rounded-lg ${feat.active ? 'opacity-100' : globalContrast ? 'bg-gray-800' : 'bg-purple-100'}`} aria-hidden="true">
-                  {feat.icon}
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-semibold text-sm">{feat.title}</h4>
-                  <p className="text-xs opacity-70 mt-0.5">{feat.desc}</p>
-                  {feat.action && (
-                    <button
-                      onClick={feat.action}
-                      aria-pressed={feat.active}
-                      aria-label={`${feat.title}: ${feat.active ? t('Active', 'Activo', 'Actif') : t('Enable', 'Activar', 'Activer')}`}
-                      className={`mt-2 px-4 py-1.5 rounded-lg text-xs font-semibold ${feat.active ? globalContrast ? 'bg-black text-yellow-500' : 'bg-purple-600 text-white' : globalContrast ? 'bg-gray-800 text-white border border-gray-600' : 'bg-gray-200 text-gray-700'}`}
-                    >
-                      {feat.active ? '✓ Active' : 'Enable'}
-                    </button>
-                  )}
-                  {feat.control === 'slider' && (
-                    <div className="mt-2">
-                      <label htmlFor={`font-slider-${i}`} className="sr-only">{t('Font size', 'Tamaño de fuente', 'Taille de police')}</label>
-                      <input
-                        id={`font-slider-${i}`}
-                        type="range"
-                        min="75"
-                        max="150"
-                        value={feat.value}
-                        onChange={e => feat.setValue(parseInt(e.target.value))}
-                        aria-valuenow={feat.value}
-                        aria-valuemin={75}
-                        aria-valuemax={150}
-                        aria-label={t('Font size', 'Tamaño de fuente', 'Taille de police')}
-                        className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-gray-300"
-                      />
-                      <div className="flex justify-between text-[10px] opacity-50 mt-0.5" aria-hidden="true">
-                        <span>A</span><span>{feat.value}%</span><span className="text-lg">A</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
+      {/* Accessible Seating */}
+      <div className={`rounded-2xl p-3 mb-3 ${highContrast ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}>
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="font-bold text-xs">{t(language, 'accessibleSeating')}</h3>
+          <span className={`text-xs font-bold ${highContrast ? 'text-yellow-400' : 'text-blue-600'}`}>
+            {cityData.capacity?.toLocaleString() || 'N/A'}
+          </span>
+        </div>
+        <div className="space-y-1.5">
+          {wheelchairRoutes.map((route, i) => (
+            <div key={i} className={`flex items-center gap-2 p-2 rounded-xl text-xs ${highContrast ? 'bg-gray-700' : 'bg-gray-50'}`}>
+              <MapPin className="w-3.5 h-3.5 text-green-500" aria-hidden="true" />
+              <span className="text-[10px]">{route}</span>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Emergency Assistance */}
-        <div className={`p-4 rounded-xl ${globalContrast ? 'bg-gray-900 border border-gray-700' : 'bg-white shadow-sm'}`}>
-          <h3 className="font-bold text-sm mb-3">{t('Need Human Assistance?', '¿Necesita Ayuda?', "Besoin d'Aide?")}</h3>
-          <button
-            onClick={() => setShowEscalation(!showEscalation)}
-            aria-expanded={showEscalation}
-            aria-label={t('Emergency Assistance', 'Asistencia de Emergencia', "Assistance d'Urgence")}
-            className="w-full p-3 rounded-lg text-sm font-semibold bg-red-500 text-white hover:bg-red-600"
-          >
-            {t('Emergency Assistance', 'Asistencia de Emergencia', "Assistance d'Urgence")}
-          </button>
-          {showEscalation && (
-            <div className={`mt-3 p-3 rounded-lg text-sm ${globalContrast ? 'bg-gray-800 border border-yellow-500' : 'bg-red-50 border border-red-200'}`} role="alert">
-              <p className="font-bold mb-1">{t('Help is on the way!', '¡Ayuda en camino!', "L'aide arrive!")}</p>
-              <p>{t('A volunteer has been notified of your location.', 'Un voluntario ha sido notificado.', 'Un bénévole a été averti.')}</p>
+      {/* Emergency Escalation */}
+      <div className={`rounded-2xl p-3 ${emergencyActive ? 'ring-2 ring-red-500' : ''} ${highContrast ? 'bg-gray-800' : 'bg-white border border-gray-200'}`} role="alert" aria-live="assertive">
+        <h3 className="font-bold text-xs mb-2 flex items-center gap-2">
+          <AlertTriangle className="w-4 h-4 text-red-500" aria-hidden="true" />
+          {t(language, 'emergencyEscalation')}
+        </h3>
+        {emergencyActive ? (
+          <div className="p-3 rounded-xl bg-red-100 text-red-800 text-xs font-medium text-center">
+            <div className="flex items-center justify-center gap-2 mb-1">
+              <Phone className="w-4 h-4 animate-pulse" aria-hidden="true" />
+              <span>{t(language, 'alertSent')}</span>
             </div>
-          )}
-        </div>
+            <p className="text-[10px] text-red-600">Staff notified • Response team dispatched</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              onClick={() => handleEmergency('medical')}
+              aria-label="Medical emergency escalation"
+              className="flex flex-col items-center p-2 rounded-xl bg-red-50 hover:bg-red-100 transition-colors"
+            >
+              <span className="text-lg" aria-hidden="true">🏥</span>
+              <span className="text-[9px] font-semibold mt-1">{t(language, 'medical')}</span>
+            </button>
+            <button
+              onClick={() => handleEmergency('security')}
+              aria-label="Security emergency escalation"
+              className="flex flex-col items-center p-2 rounded-xl bg-amber-50 hover:bg-amber-100 transition-colors"
+            >
+              <span className="text-lg" aria-hidden="true">🛡️</span>
+              <span className="text-[9px] font-semibold mt-1">{t(language, 'security')}</span>
+            </button>
+            <button
+              onClick={() => handleEmergency('lost')}
+              aria-label="Lost person emergency escalation"
+              className="flex flex-col items-center p-2 rounded-xl bg-blue-50 hover:bg-blue-100 transition-colors"
+            >
+              <span className="text-lg" aria-hidden="true">👤</span>
+              <span className="text-[9px] font-semibold mt-1">{t(language, 'lostPerson')}</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

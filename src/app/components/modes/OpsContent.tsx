@@ -1,133 +1,215 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Activity, AlertTriangle, Users, Clock, Map, Shield, Bell } from 'lucide-react';
+import React, { useEffect, useState, useRef } from 'react';
+import { Shield, RefreshCw, ChevronRight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { useApp } from '../shared/AppContext';
+import { t, CityKnowledge } from '../../data/translations';
+import cityKnowledgeData from '../../data/city_knowledge.json';
 
-interface ZoneData {
-  name: string;
-  density: number;
-  trend: 'up' | 'down' | 'stable';
-  count: number;
-}
-
-const zones: string[] = ['gate_a', 'gate_b', 'gate_c', 'concourse_a', 'concourse_b', 'section_101', 'section_115', 'section_120', 'parking_a', 'train_station'];
+type ZoneData = { capacity: number; current: number; trend: 'up' | 'down' | 'stable' };
+type Incident = { id: number; zone: string; severity: 'low' | 'medium' | 'high'; title: string; status: 'active' | 'resolved' };
 
 export default function OpsContent() {
-  const { language: lang, highContrast } = useApp();
-  const [crowdData, setCrowdData] = useState<ZoneData[]>([]);
+  const { language, highContrast, city } = useApp();
+  const [selectedZone, setSelectedZone] = useState<string | null>(null);
+  const [zones, setZones] = useState<Record<string, ZoneData>>({});
+  const [incidents, setIncidents] = useState<Incident[]>([]);
+  const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  const [showSchedule, setShowSchedule] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const cityData = (cityKnowledgeData as CityKnowledge)[city];
 
   useEffect(() => {
-    const initial: ZoneData[] = zones.map(z => ({
-      name: z,
-      density: Math.random() * 0.8,
-      trend: (['up', 'down', 'stable'] as const)[Math.floor(Math.random() * 3)],
-      count: Math.floor(Math.random() * 1500),
-    }));
-    setCrowdData(initial);
+    const generateZoneData = (): Record<string, ZoneData> => {
+      const zoneNames = ['North Gate', 'South Gate', 'East Concourse', 'West Stand', 'VIP Zone', 'General Admission'];
+      return Object.fromEntries(zoneNames.map(name => [
+        name,
+        { capacity: Math.floor(Math.random() * 15000) + 5000, current: Math.floor(Math.random() * 12000) + 2000, trend: (['up', 'down', 'stable'] as const)[Math.floor(Math.random() * 3)] },
+      ]));
+    };
 
-    const interval = setInterval(() => {
-      setCrowdData(prev => prev.map(z => {
-        const delta = (Math.random() - 0.5) * 0.15;
-        const nd = Math.max(0, Math.min(1, z.density + delta));
-        const trend: ZoneData['trend'] = delta > 0.03 ? 'up' : delta < -0.03 ? 'down' : 'stable';
-        return { ...z, density: Math.round(nd * 100) / 100, trend, count: Math.floor(nd * 1500) };
-      }));
+    const generateIncidents = (): Incident[] => [
+      { id: 1, zone: 'North Gate', severity: 'medium', title: language === 'en' ? 'High traffic volume' : language === 'es' ? 'Alto volumen de tráfico' : 'Fort volume de trafic', status: 'active' },
+      { id: 2, zone: 'South Gate', severity: 'low', title: language === 'en' ? 'Minor queue forming' : language === 'es' ? 'Cola menor formándose' : 'File mineure en formation', status: 'active' },
+      { id: 3, zone: 'VIP Zone', severity: 'high', title: language === 'en' ? 'Accessibility alert' : language === 'es' ? 'Alerta de accesibilidad' : 'Alerte accessibilité', status: 'active' },
+      { id: 4, zone: 'East Concourse', severity: 'low', title: language === 'en' ? 'Maintenance scheduled' : language === 'es' ? 'Mantenimiento programado' : 'Maintenance programmée', status: 'resolved' },
+    ];
+
+    setZones(generateZoneData());
+    setIncidents(generateIncidents());
+    setLastUpdate(new Date());
+
+    timerRef.current = setInterval(() => {
+      setZones(prev => {
+        const updated = { ...prev };
+        Object.keys(updated).forEach(key => {
+          const change = Math.floor(Math.random() * 200) - 100;
+          updated[key] = {
+            ...updated[key],
+            current: Math.max(0, Math.min(updated[key].capacity, updated[key].current + change)),
+            trend: change > 50 ? 'up' : change < -50 ? 'down' : 'stable',
+          };
+        });
+        return updated;
+      });
+      setLastUpdate(new Date());
     }, 3000);
-    return () => clearInterval(interval);
-  }, []);
 
-  const getColor = (d: number) => d >= 0.7 ? 'bg-red-500' : d >= 0.4 ? 'bg-yellow-500' : 'bg-green-500';
-  const avgDensity = crowdData.length ? crowdData.reduce((s, z) => s + z.density, 0) / crowdData.length : 0;
-  const t = (en: string, es: string, fr: string) => lang === 'en' ? en : lang === 'es' ? es : fr;
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+  }, [language]);
+
+  const getSeverityColor = (severity: string) => {
+    if (highContrast) return 'bg-gray-800 text-white';
+    return severity === 'high' ? 'bg-red-100 text-red-800' : severity === 'medium' ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800';
+  };
+
+  const getStatusColor = (status: string) => {
+    if (highContrast) return status === 'active' ? 'text-yellow-400' : 'text-green-400';
+    return status === 'active' ? 'text-red-600' : 'text-green-600';
+  };
+
+  const getCapacityColor = (current: number, capacity: number) => {
+    const pct = current / capacity;
+    if (pct > 0.85) return highContrast ? 'text-red-400' : 'text-red-600';
+    if (pct > 0.65) return highContrast ? 'text-yellow-400' : 'text-amber-600';
+    return highContrast ? 'text-green-400' : 'text-green-600';
+  };
+
+  const TrendIcon = ({ trend }: { trend: 'up' | 'down' | 'stable' }) => {
+    if (trend === 'up') return <TrendingUp className="w-3.5 h-3.5 text-red-500" />;
+    if (trend === 'down') return <TrendingDown className="w-3.5 h-3.5 text-green-500" />;
+    return <Minus className="w-3.5 h-3.5 text-gray-400" />;
+  };
 
   return (
-    <div className={`flex-1 overflow-y-auto ${highContrast ? 'bg-black' : 'bg-gray-100'}`} role="main" aria-label={t('Operations Dashboard', 'Panel de Operaciones', "Tableau de Bord")}>
-      <div className="max-w-7xl mx-auto p-4 space-y-4">
-        {/* KPI Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3" role="group" aria-label={t('Key Metrics', 'Métricas Clave', 'Métriques Clés')}>
-          {[
-            { icon: <Activity className="w-5 h-5" />, label: t('Avg Density', 'Densidad Prom.', 'Densité Moy.'), value: `${(avgDensity * 100).toFixed(0)}%` },
-            { icon: <AlertTriangle className="w-5 h-5" />, label: t('Hotspots', 'Puntos Críticos', 'Points Chauds'), value: `${crowdData.filter(z => z.density >= 0.7).length}` },
-            { icon: <Users className="w-5 h-5" />, label: t('Total Fans', 'Total Fans', 'Total Fans'), value: crowdData.reduce((s, z) => s + (z.count || 0), 0).toLocaleString() },
-            { icon: <Clock className="w-5 h-5" />, label: t('Updated', 'Actualizado', 'Mis à Jour'), value: t('Live', 'En Vivo', 'En Direct') },
-          ].map((card, i) => (
-            <div key={i} className={`p-4 rounded-xl ${highContrast ? 'bg-gray-900 border border-gray-700' : 'bg-white shadow-sm'}`}>
-              <div className="flex items-center gap-2 mb-1">
-                <span aria-hidden="true">{card.icon}</span>
-                <span className="text-xs opacity-60">{card.label}</span>
+    <div className="h-full flex flex-col p-4 pb-2" role="tabpanel" id="panel-ops" aria-labelledby="tab-ops">
+      <div className="mb-3">
+        <div className="flex items-center gap-2 mb-1">
+          <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${highContrast ? 'bg-gray-800 text-purple-400' : 'bg-purple-50'}`}>
+            <Shield className="w-5 h-5 text-purple-600" />
+          </div>
+          <div>
+            <h1 className="text-lg font-bold">{t(language, 'ops')}</h1>
+            <p className="text-xs text-gray-500">{t(language, 'opsDesc')}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Key Metrics */}
+      <div className="grid grid-cols-2 gap-2 mb-3" role="group" aria-label="Key metrics">
+        <div className={`rounded-xl p-3 text-center ${highContrast ? 'bg-gray-800' : 'bg-blue-50'}`}>
+          <div className={`text-2xl font-bold ${getCapacityColor(Object.values(zones).reduce((s, z) => s + z.current, 0), Object.values(zones).reduce((s, z) => s + z.capacity, 0))}`} aria-live="polite">
+            {Object.values(zones).reduce((s, z) => s + z.current, 0).toLocaleString()}
+          </div>
+          <div className="text-[10px] text-gray-500 font-semibold uppercase tracking-wide">{t(language, 'capacity')}</div>
+        </div>
+        <div className={`rounded-xl p-3 text-center ${highContrast ? 'bg-gray-800' : 'bg-red-50'}`}>
+          <div className="text-2xl font-bold text-red-600" aria-live="polite">{incidents.filter(i => i.status === 'active').length}</div>
+          <div className="text-[10px] text-gray-500 font-semibold uppercase tracking-wide">{t(language, 'alerts')}</div>
+        </div>
+      </div>
+
+      {/* Live Crowd Heatmap */}
+      <div className={`rounded-2xl p-3 mb-3 ${highContrast ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}>
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="font-bold text-xs">{t(language, 'liveHeatmap')}</h3>
+          <div className="flex items-center gap-1.5 text-[10px] text-gray-500" aria-live="polite">
+            <RefreshCw className="w-3 h-3 animate-spin" aria-hidden="true" />
+            <span>{lastUpdate.toLocaleTimeString()}</span>
+          </div>
+        </div>
+        <div className="space-y-1.5" role="list" aria-label="Zone crowd data">
+          {Object.entries(zones).map(([name, data]) => {
+            const pct = (data.current / data.capacity) * 100;
+            return (
+              <div
+                key={name}
+                role="listitem"
+                tabIndex={0}
+                aria-label={`${name}: ${data.current.toLocaleString()} of ${data.capacity.toLocaleString()} people, ${pct.toFixed(0)}% capacity`}
+                onClick={() => setSelectedZone(selectedZone === name ? null : name)}
+                onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedZone(selectedZone === name ? null : name); } }}
+                className={`flex items-center gap-2 p-2 rounded-xl cursor-pointer transition-all ${
+                  selectedZone === name
+                    ? highContrast ? 'bg-gray-700 ring-2 ring-yellow-500' : 'bg-blue-50 ring-2 ring-blue-500 shadow-sm'
+                    : highContrast ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
+                }`}
+              >
+                <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: pct > 85 ? '#ef4444' : pct > 65 ? '#f59e0b' : '#22c55e' }} aria-hidden="true" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-xs font-semibold truncate">{name}</span>
+                    <div className="flex items-center gap-1.5">
+                      <TrendIcon trend={data.trend} />
+                      <span className={`text-[10px] font-bold ${getCapacityColor(data.current, data.capacity)}`}>{pct.toFixed(0)}%</span>
+                    </div>
+                  </div>
+                  <div className="w-full h-1.5 rounded-full bg-gray-200 overflow-hidden" role="progressbar" aria-valuenow={Math.round(pct)} aria-valuemin={0} aria-valuemax={100} aria-label={`${name} capacity`}>
+                    <div className="h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, backgroundColor: pct > 85 ? '#ef4444' : pct > 65 ? '#f59e0b' : '#22c55e' }} />
+                  </div>
+                  <div className="flex justify-between mt-0.5">
+                    <span className="text-[9px] text-gray-400">{data.current.toLocaleString()} / {data.capacity.toLocaleString()}</span>
+                    <span className="text-[9px] text-gray-400">{data.trend === 'up' ? '↑ Rising' : data.trend === 'down' ? '↓ Falling' : '→ Stable'}</span>
+                  </div>
+                </div>
               </div>
-              <div className="text-2xl font-bold" aria-label={`${card.label}: ${card.value}`}>{card.value}</div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Active Incidents */}
+      <div className={`rounded-2xl p-3 mb-3 ${highContrast ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}>
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="font-bold text-xs">{t(language, 'activeIncidents')}</h3>
+          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${highContrast ? 'bg-gray-700 text-yellow-400' : 'bg-red-100 text-red-700'}`}>
+            {incidents.filter(i => i.status === 'active').length} {t(language, 'alerts')}
+          </span>
+        </div>
+        <div className="space-y-1.5" role="log" aria-label="Incident list">
+          {incidents.map(inc => (
+            <div key={inc.id} className={`flex items-center gap-2 p-2 rounded-xl ${highContrast ? 'bg-gray-700' : 'bg-gray-50'}`} role="document">
+              <div className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${getSeverityColor(inc.severity)}`}>
+                {inc.severity}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[10px] font-semibold truncate">{inc.title}</div>
+                <div className="text-[9px] text-gray-500">{inc.zone}</div>
+              </div>
+              <div className="flex items-center gap-1">
+                <span className={`text-[10px] font-bold ${getStatusColor(inc.status)}`}>{inc.status}</span>
+                <button aria-label={`View incident details: ${inc.title}`} className="p-1 hover:bg-gray-200 rounded-lg transition-colors">
+                  <ChevronRight className="w-3 h-3 text-gray-400" />
+                </button>
+              </div>
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Heatmap */}
-        <div className={`p-4 rounded-xl ${highContrast ? 'bg-gray-900 border border-gray-700' : 'bg-white shadow-sm'}`}>
-          <h3 className="font-bold text-sm mb-3 flex items-center gap-2">
-            <Map className="w-4 h-4" aria-hidden="true" /> {t('Live Stadium Heatmap', 'Mapa de Calor', 'Carte de Chaleur')}
-          </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2" role="img" aria-label={t('Stadium zone density map', 'Mapa de densidad de zonas', 'Carte de densité des zones')}>
-            {crowdData.map(z => (
-              <div
-                key={z.name}
-                className="p-3 rounded-lg text-center"
-                style={{ backgroundColor: highContrast ? '#1f2937' : `${getColor(z.density)}22` }}
-                role="img"
-                aria-label={`${z.name.replace('_', ' ')}: ${z.count} fans, ${z.density >= 0.7 ? 'high' : z.density >= 0.4 ? 'medium' : 'low'} density`}
-              >
-                <div className="text-[10px] font-mono mb-1 opacity-70">{z.name.replace('_', ' ').toUpperCase()}</div>
-                <div className={`w-2 h-2 rounded-full mx-auto mb-1 ${getColor(z.density)}`} aria-hidden="true"></div>
-                <div className="text-sm font-bold">{z.count}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Alerts & Reports */}
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className={`p-4 rounded-xl ${highContrast ? 'bg-gray-900 border border-gray-700' : 'bg-white shadow-sm'}`}>
-            <h3 className="font-bold text-sm mb-3">
-              <Shield className="w-4 h-4 inline text-red-500 mr-2" aria-hidden="true" />
-              {t('Report Incident', 'Reportar', 'Signaler')}
-            </h3>
-            <div role="list">
-              {[
-                { type: t('Medical', 'Médico', 'Médical'), severity: 'high' },
-                { type: t('Crowding', 'Aglomeración', 'Foule'), severity: 'medium' },
-                { type: t('Facility', 'Instalación', 'Installation'), severity: 'low' },
-                { type: t('Security', 'Seguridad', 'Sécurité'), severity: 'critical' },
-              ].map((inc, i) => (
-                <button key={i} role="listitem" className={`w-full flex items-center justify-between p-2.5 rounded-lg text-sm ${highContrast ? 'hover:bg-gray-800' : 'hover:bg-gray-50'}`}>
-                  <span>{inc.type}</span>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full ${inc.severity === 'critical' ? 'bg-red-100 text-red-700' : inc.severity === 'high' ? 'bg-orange-100 text-orange-700' : 'bg-gray-100 text-gray-600'}`}>
-                    {inc.severity}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className={`p-4 rounded-xl ${highContrast ? 'bg-gray-900 border border-gray-700' : 'bg-white shadow-sm'}`}>
-            <h3 className="font-bold text-sm mb-3">
-              <Bell className="w-4 h-4 inline text-yellow-500 mr-2" aria-hidden="true" />
-              {t('Active Alerts', 'Alertas', 'Alertes')}
-            </h3>
-            <div role="list" aria-label={t('Active alerts list', 'Lista de alertas', 'Liste des alertes')}>
-              {[
-                { msg: t('Gate C congestion', 'Congestión Puerta C', 'Congestion Porte C'), time: '2m', level: 'warning' as const },
-                { msg: t('Parking A at 85%', 'Estacionamiento A al 85%', 'Parking A à 85%'), time: '5m', level: 'info' as const },
-              ].map((a, i) => (
-                <div key={i} role="listitem" className={`flex items-start gap-2 p-2.5 rounded-lg text-sm mb-1 ${highContrast ? 'bg-gray-800' : 'bg-gray-50'}`}>
-                  <AlertTriangle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${a.level === 'warning' ? 'text-yellow-500' : 'text-blue-500'}`} aria-hidden="true" />
-                  <div>
-                    <p>{a.msg}</p>
-                    <p className="text-[10px] opacity-50">{a.time}</p>
-                  </div>
+      {/* Schedule */}
+      <div className={`rounded-2xl p-3 ${highContrast ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}>
+        <button onClick={() => setShowSchedule(!showSchedule)} aria-expanded={showSchedule} aria-controls="ops-schedule" className="w-full flex items-center justify-between">
+          <h3 className="font-bold text-xs">{t(language, 'todaysSchedule')}</h3>
+          <ChevronRight className={`w-4 h-4 transition-transform ${showSchedule ? 'rotate-90' : ''}`} aria-hidden="true" />
+        </button>
+        {showSchedule && (
+          <div id="ops-schedule" className="mt-2 space-y-1.5" role="list" aria-label="Today's schedule">
+            {Array.isArray(cityData.schedule) ? cityData.schedule.map((s: { time: string; event: string; type: string }, i: number) => (
+              <div key={i} className={`flex items-center gap-2 p-2 rounded-xl text-xs ${highContrast ? 'bg-gray-700' : 'bg-gray-50'}`} role="listitem">
+                <div className="text-[10px] font-bold text-gray-500 w-12 text-center">{s.time}</div>
+                <div className="flex-1">
+                  <div className="font-semibold text-[10px]">{s.event}</div>
+                  <div className="text-[9px] text-gray-500">{s.type}</div>
                 </div>
-              ))}
-            </div>
+              </div>
+            )) : (
+              <div className={`p-2 rounded-xl text-xs ${highContrast ? 'bg-gray-700' : 'bg-gray-50'}`} role="listitem">
+                <span className="text-[10px]">{typeof cityData.schedule === 'object' ? cityData.schedule[language as 'en' | 'es' | 'fr'] || cityData.schedule.en : cityData.schedule}</span>
+              </div>
+            )}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

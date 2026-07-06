@@ -1,110 +1,135 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Leaf, Train, Bike, Droplets, Zap, Award, Recycle } from 'lucide-react';
+import { Leaf, CheckCircle, Circle, Droplets, Zap, Recycle } from 'lucide-react';
 import { useApp } from '../shared/AppContext';
+import { t, CityKnowledge } from '../../data/translations';
+import cityKnowledgeData from '../../data/city_knowledge.json';
 
-const tips = [
-  { icon: <Train className="w-6 h-6" />, color: 'text-green-600',
-    en: 'Take the shuttle or public transit to reduce emissions. Shuttles run every 15 minutes from major transit hubs.',
-    es: 'Tome el autobús o transporte público para reducir emisiones.',
-    fr: 'Prenez la navette ou les transports en commun pour réduire les émissions.' },
-  { icon: <Bike className="w-6 h-6" />, color: 'text-emerald-600',
-    en: 'Walking or biking? Use designated green routes. Free bike parking at all gates!',
-    es: '¿Caminando o en bicicleta? Use las rutas verdes. Estacionamiento gratis.',
-    fr: 'Vous marchez ou à vélo ? Utilisez les voies vertes. Stationnement vélo gratuit!' },
-  { icon: <Droplets className="w-6 h-6" />, color: 'text-blue-600',
-    en: 'Refill your water bottle at 50+ stations. 10,000+ plastic bottles saved per match!',
-    es: 'Recargue su botella en 50+ estaciones. ¡10,000+ botellas ahorradas!',
-    fr: 'Remplissez votre gourde à 50+ stations. 10 000+ bouteilles sauvées!' },
-  { icon: <Recycle className="w-6 h-6" />, color: 'text-teal-600',
-    en: 'Use designated recycling bins. Green for recyclables, black for waste.',
-    es: 'Use contenedores de reciclaje. Verde para reciclables, negro para residuos.',
-    fr: 'Utilisez les bacs de recyclage. Vert pour recyclables, noir pour déchets.' },
-  { icon: <Zap className="w-6 h-6" />, color: 'text-yellow-600',
-    en: 'The stadium runs on 100% renewable energy - solar panels and LED lighting throughout.',
-    es: 'El estadio funciona con 100% energía renovable - paneles solares e iluminación LED.',
-    fr: "Le stade fonctionne avec 100% d'énergie renouvelable." },
-  { icon: <Leaf className="w-6 h-6" />, color: 'text-green-700',
-    en: 'Digital tickets only - no paper waste! Show your QR code for paperless entry.',
-    es: '¡Solo boletos digitales! Muestre su código QR para entrada sin papel.',
-    fr: 'Billets numériques uniquement ! Montrez votre code QR.' },
+const defaultActions = [
+  { id: 1, label: 'Use public transit', labelEs: 'Usar transporte público', labelFr: 'Utiliser les transports en commun', icon: '🚌', completed: false },
+  { id: 2, label: 'Bring reusable bottle', labelEs: 'Traer botella reutilizable', labelFr: 'Apporter une bouteille réutilisable', icon: '♻️', completed: false },
+  { id: 3, label: 'Use recycling bins', labelEs: 'Usar contenedores de reciclaje', labelFr: 'Utiliser les bacs de recyclage', icon: '♻️', completed: false },
+  { id: 4, label: 'Walk to nearby amenities', labelEs: 'Caminar a amenidades cercanas', labelFr: 'Marcher vers les commodités à proximité', icon: '🚶', completed: false },
+  { id: 5, label: 'Share ride with friends', labelEs: 'Compartir viaje con amigos', labelFr: 'Partager le trajet avec des amis', icon: '🚗', completed: false },
 ];
 
 export default function SustainabilityContent() {
-  const { language: lang, highContrast } = useApp();
-  const [score, setScore] = useState(45);
-  const [actions, setActions] = useState<string[]>([]);
+  const { language, highContrast, city } = useApp();
+  const [actions, setActions] = useState(defaultActions);
+  const cityData = (cityKnowledgeData as CityKnowledge)[city];
 
-  const t = (en: string, es: string, fr: string) => lang === 'en' ? en : lang === 'es' ? es : fr;
+  const score = Math.round((actions.filter(a => a.completed).length / actions.length) * 100);
 
-  const items = [
-    { key: 'transit', en: 'Used public transit', es: 'Usé transporte público', fr: 'Transport en commun' },
-    { key: 'walked', en: 'Walked or biked', es: 'Caminé o bicicleta', fr: 'Marché ou vélo' },
-    { key: 'refill', en: 'Used refillable bottle', es: 'Usé botella recargable', fr: 'Gourde réutilisable' },
-    { key: 'recycle', en: 'Used recycling bins', es: 'Usé reciclaje', fr: 'Utilisé recyclage' },
-    { key: 'digital', en: 'Used digital ticket', es: 'Usé boleto digital', fr: 'Billet numérique' },
-  ];
-
-  const toggle = (key: string) => {
-    const updated = actions.includes(key) ? actions.filter(a => a !== key) : [...actions, key];
-    setActions(updated);
-    setScore(Math.min(100, updated.length * 20));
+  const toggleAction = (id: number) => {
+    setActions(prev => prev.map(a => a.id === id ? { ...a, completed: !a.completed } : a));
   };
 
-  const badge = score >= 80 ? '🏆 Green Champion' : score >= 50 ? '🌿 Eco-Friendly' : score >= 20 ? '🌱 Getting Started' : '♻️ Beginner';
+  const getLabel = (action: typeof defaultActions[0]) => {
+    if (language === 'es') return action.labelEs;
+    if (language === 'fr') return action.labelFr;
+    return action.label;
+  };
+
+  const getScoreColor = () => {
+    if (score >= 80) return 'text-green-600';
+    if (score >= 60) return 'text-amber-600';
+    return 'text-red-600';
+  };
+
+  const getScoreBg = () => {
+    if (score >= 80) return highContrast ? 'bg-green-900' : 'bg-green-50';
+    if (score >= 60) return highContrast ? 'bg-amber-900' : 'bg-amber-50';
+    return highContrast ? 'bg-red-900' : 'bg-red-50';
+  };
+
+  const sustainabilityFeatures = cityData.sustainability?.features || [
+    'Water recycling systems',
+    'Solar panel arrays',
+    'Composting programs'
+  ];
 
   return (
-    <div className={`flex-1 overflow-y-auto ${highContrast ? 'bg-black' : 'bg-gray-50'}`} role="main" aria-label={t('Sustainability Tracker', 'Rastreador de Sostenibilidad', 'Suivi Durabilité')}>
-      <div className="max-w-5xl mx-auto p-4 space-y-4">
-        {/* Score Card */}
-        <div className={`p-6 rounded-2xl text-center ${highContrast ? 'bg-gray-900 border border-gray-700' : 'bg-white shadow-md'}`}>
-          <div className="text-5xl mb-2" aria-hidden="true">{badge.split(' ')[0]}</div>
-          <div className="text-3xl font-bold" aria-label={`${t('Score', 'Puntuación', 'Score')}: ${score}%`}>{score}%</div>
-          <div className="text-sm mt-1 font-semibold">{badge.slice(badge.indexOf(' ') + 1)}</div>
-          <div className={`h-2 rounded-full mt-3 ${highContrast ? 'bg-gray-700' : 'bg-gray-200'}`} role="progressbar" aria-valuenow={score} aria-valuemin={0} aria-valuemax={100} aria-label={t('Green score', 'Puntuación verde', 'Score vert')}>
-            <div className={`h-full rounded-full transition-all duration-1000 ${highContrast ? 'bg-yellow-500' : 'bg-green-500'}`} style={{ width: `${score}%` }}></div>
+    <div className="h-full flex flex-col p-4 pb-2" role="tabpanel" id="panel-sustainability" aria-labelledby="tab-sustainability">
+      <div className="mb-3">
+        <div className="flex items-center gap-2 mb-1">
+          <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${highContrast ? 'bg-gray-800 text-green-400' : 'bg-green-50'}`}>
+            <Leaf className="w-5 h-5 text-green-600" />
+          </div>
+          <div>
+            <h1 className="text-lg font-bold">{t(language, 'sustainability')}</h1>
+            <p className="text-xs text-gray-500">{t(language, 'sustainabilityDesc')}</p>
           </div>
         </div>
+      </div>
 
-        {/* Action Tracker */}
-        <div className={`p-4 rounded-xl ${highContrast ? 'bg-gray-900 border border-gray-700' : 'bg-white shadow-sm'}`}>
-          <h3 className="font-bold text-sm mb-3">
-            <Award className="w-4 h-4 inline text-green-600 mr-2" aria-hidden="true" />
-            {t('Track Your Green Actions', 'Registra tus Acciones Verdes', 'Suivez Vos Actions Vertes')}
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2" role="group" aria-label={t('Green actions checklist', 'Lista de acciones verdes', 'Liste d\'actions vertes')}>
-            {items.map(item => (
-              <button
-                key={item.key}
-                onClick={() => toggle(item.key)}
-                role="checkbox"
-                aria-checked={actions.includes(item.key)}
-                aria-label={t(item.en, item.es, item.fr)}
-                className={`p-3 rounded-lg text-sm text-left transition-all ${
-                  actions.includes(item.key) ? highContrast ? 'bg-yellow-500 text-black border-2 border-yellow-500' : 'bg-green-100 text-green-800 border-2 border-green-500'
-                  : highContrast ? 'bg-gray-800 border border-gray-600' : 'bg-gray-50 border'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${actions.includes(item.key) ? 'bg-green-500 border-green-500' : highContrast ? 'border-gray-500' : 'border-gray-300'}`} aria-hidden="true">
-                    {actions.includes(item.key) && <span className="text-white text-xs">✓</span>}
-                  </div>
-                  <span>{t(item.en, item.es, item.fr)}</span>
-                </div>
-              </button>
-            ))}
-          </div>
+      {/* Score */}
+      <div className={`rounded-2xl p-4 mb-3 text-center ${getScoreBg()}`} role="status" aria-label={`Sustainability score: ${score}%`}>
+        <div className="text-5xl font-black mb-1">
+          <span className={getScoreColor()}>{score}</span>
+          <span className="text-2xl">%</span>
         </div>
+        <p className="text-xs font-medium text-gray-600">{t(language, 'score')} {t(language, 'sustainability')}</p>
+        <div className="w-full h-3 rounded-full bg-gray-200 mt-3 overflow-hidden" role="progressbar" aria-valuenow={score} aria-valuemin={0} aria-valuemax={100} aria-label="Sustainability score progress">
+          <div className="h-full rounded-full bg-gradient-to-r from-green-500 to-emerald-600 transition-all duration-500" style={{ width: `${score}%` }} />
+        </div>
+        <p className="text-[10px] text-gray-500 mt-2">{actions.filter(a => a.completed).length} / {actions.length} {t(language, 'actionsCompleted')}</p>
+      </div>
 
-        {/* Tips */}
-        <div className="grid gap-3 md:grid-cols-2">
-          {tips.map((tip, i) => (
-            <div key={i} className={`p-4 rounded-xl ${highContrast ? 'bg-gray-900 border border-gray-700' : 'bg-white shadow-sm hover:shadow-md'}`}>
-              <div className={`mb-2 ${tip.color}`} aria-hidden="true">{tip.icon}</div>
-              <p className="text-sm leading-relaxed">{t(tip.en, tip.es, tip.fr)}</p>
-            </div>
+      {/* Action Checklist */}
+      <div className={`rounded-2xl p-3 mb-3 ${highContrast ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}>
+        <h3 className="font-bold text-xs mb-2">{t(language, 'ecoActions')}</h3>
+        <div className="space-y-1.5" role="group" aria-label="Sustainability actions">
+          {actions.map(action => (
+            <button
+              key={action.id}
+              onClick={() => toggleAction(action.id)}
+              role="checkbox"
+              aria-checked={action.completed}
+              aria-label={getLabel(action)}
+              className={`flex items-center gap-3 w-full p-2.5 rounded-xl text-left transition-all ${
+                highContrast
+                  ? action.completed ? 'bg-green-900 text-green-400' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : action.completed ? 'bg-green-50 text-green-700' : 'bg-gray-50 hover:bg-gray-100'
+              }`}
+            >
+              {action.completed ? (
+                <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" aria-hidden="true" />
+              ) : (
+                <Circle className="w-5 h-5 text-gray-400 flex-shrink-0" aria-hidden="true" />
+              )}
+              <span className="text-lg" aria-hidden="true">{action.icon}</span>
+              <span className={`text-xs font-medium ${action.completed ? 'line-through' : ''}`}>{getLabel(action)}</span>
+            </button>
           ))}
+        </div>
+      </div>
+
+      {/* Stadium Features */}
+      <div className={`rounded-2xl p-3 ${highContrast ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}>
+        <h3 className="font-bold text-xs mb-2">{t(language, 'stadiumFeatures')}</h3>
+        <div className="space-y-1.5">
+          <div className={`flex items-center gap-2 p-2 rounded-xl ${highContrast ? 'bg-gray-700' : 'bg-gray-50'}`}>
+            <Droplets className="w-4 h-4 text-blue-500" aria-hidden="true" />
+            <div>
+              <div className="text-[10px] font-semibold">{t(language, 'waterRecycling')}</div>
+              <div className="text-[9px] text-gray-500">{sustainabilityFeatures[0]}</div>
+            </div>
+          </div>
+          <div className={`flex items-center gap-2 p-2 rounded-xl ${highContrast ? 'bg-gray-700' : 'bg-gray-50'}`}>
+            <Zap className="w-4 h-4 text-yellow-500" aria-hidden="true" />
+            <div>
+              <div className="text-[10px] font-semibold">{t(language, 'solarPower')}</div>
+              <div className="text-[9px] text-gray-500">{sustainabilityFeatures[1]}</div>
+            </div>
+          </div>
+          <div className={`flex items-center gap-2 p-2 rounded-xl ${highContrast ? 'bg-gray-700' : 'bg-gray-50'}`}>
+            <Recycle className="w-4 h-4 text-green-500" aria-hidden="true" />
+            <div>
+              <div className="text-[10px] font-semibold">{t(language, 'composting')}</div>
+              <div className="text-[9px] text-gray-500">{sustainabilityFeatures[2]}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

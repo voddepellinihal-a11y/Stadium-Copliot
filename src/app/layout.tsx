@@ -24,8 +24,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="h-full" dir="ltr">
+      <head>
+        <meta name="theme-color" content="#2563eb" />
+      </head>
       <body className="antialiased h-full flex flex-col">
-        <a href="#chat-input" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:text-blue-600 focus:ring-2 focus:ring-blue-500">
           Skip to main content
         </a>
         <ErrorBoundary>

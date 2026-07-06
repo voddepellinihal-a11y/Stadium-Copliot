@@ -19,6 +19,8 @@ interface AppState {
   setLanguage: (lang: Lang) => void;
   highContrast: boolean;
   setHighContrast: (v: boolean) => void;
+  fontScale: number;
+  setFontScale: (v: number) => void;
   city: CityKey;
   setCity: (city: CityKey) => void;
   isAuthenticated: boolean;
@@ -33,6 +35,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<AppMode>('fan');
   const [language, setLanguage] = useState<Lang>('en');
   const [highContrast, setHighContrast] = useState(false);
+  const [fontScale, setFontScale] = useState(1);
   const [city, setCity] = useState<CityKey>('metlife');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState('fan');
@@ -42,6 +45,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       mode, setMode,
       language, setLanguage,
       highContrast, setHighContrast,
+      fontScale, setFontScale,
       city, setCity,
       isAuthenticated, setIsAuthenticated,
       userRole, setUserRole,

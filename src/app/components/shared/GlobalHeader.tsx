@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { Eye, ChevronDown, Globe } from 'lucide-react';
 import { useApp, AppMode, CityKey } from './AppContext';
 import { t } from '../../data/translations';
@@ -32,16 +32,31 @@ export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: ()
   const { mode, setMode, language, highContrast, setHighContrast, city, setCity } = useApp();
   const [cityOpen, setCityOpen] = React.useState(false);
   const cityRef = useRef<HTMLDivElement>(null);
+  const cityButtonRef = useRef<HTMLButtonElement>(null);
+
+  const closeCity = useCallback(() => setCityOpen(false), []);
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (cityRef.current && !cityRef.current.contains(e.target as Node)) {
-        setCityOpen(false);
+        closeCity();
       }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
-  }, []);
+  }, [closeCity]);
+
+  useEffect(() => {
+    if (!cityOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeCity();
+        cityButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [cityOpen, closeCity]);
 
   return (
     <header
@@ -58,6 +73,7 @@ export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: ()
               className={`w-9 h-9 rounded-xl flex items-center justify-center font-bold text-lg shadow-sm ${
                 highContrast ? 'bg-black text-yellow-500' : 'bg-white/20 backdrop-blur-sm'
               }`}
+              aria-hidden="true"
             >
               ⚽
             </div>
@@ -79,6 +95,8 @@ export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: ()
                 onClick={() => setMode(m)}
                 role="tab"
                 aria-selected={mode === m}
+                aria-controls={`panel-${m}`}
+                id={`tab-${m}`}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   mode === m
                     ? highContrast ? 'bg-black text-yellow-500' : 'bg-white text-blue-700 shadow-sm'
@@ -95,30 +113,34 @@ export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: ()
             {/* City selector */}
             <div className="relative" ref={cityRef}>
               <button
+                ref={cityButtonRef}
                 onClick={() => setCityOpen(!cityOpen)}
                 aria-expanded={cityOpen}
                 aria-haspopup="listbox"
                 aria-label={t(language, 'selectCity')}
+                aria-controls="city-listbox"
                 className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium ${
                   highContrast ? 'bg-black text-yellow-500' : 'bg-white/15 hover:bg-white/25'
                 }`}
               >
-                <span>{cityFlags[city]}</span>
+                <span aria-hidden="true">{cityFlags[city]}</span>
                 <span className="hidden sm:inline">{t(language, cityNameKeys[city] as 'metlifeStadium').split(' ')[0]}</span>
                 <span className="sm:hidden text-[10px]">{city.toUpperCase().slice(0, 4)}</span>
-                <ChevronDown className="w-3 h-3 opacity-70" />
+                <ChevronDown className="w-3 h-3 opacity-70" aria-hidden="true" />
               </button>
               {cityOpen && (
                 <div
+                  id="city-listbox"
                   className={`absolute right-0 mt-1 w-64 max-h-80 overflow-y-auto rounded-xl shadow-2xl z-50 ${
                     highContrast ? 'bg-gray-900 border border-gray-700' : 'bg-white border'
                   }`}
                   role="listbox"
+                  aria-label={t(language, 'selectCity')}
                 >
                   {cityKeys.map(key => (
                     <button
                       key={key}
-                      onClick={() => { setCity(key); setCityOpen(false); }}
+                      onClick={() => { setCity(key); setCityOpen(false); cityButtonRef.current?.focus(); }}
                       role="option"
                       aria-selected={city === key}
                       className={`flex items-center gap-2 w-full text-left px-3 py-2 text-sm transition-colors ${
@@ -127,7 +149,7 @@ export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: ()
                           : highContrast ? 'text-white hover:bg-gray-800' : 'text-gray-700 hover:bg-gray-50'
                       }`}
                     >
-                      <span className="text-lg">{cityFlags[key]}</span>
+                      <span className="text-lg" aria-hidden="true">{cityFlags[key]}</span>
                       <span>{t(language, cityNameKeys[key] as 'metlifeStadium')}</span>
                     </button>
                   ))}
@@ -143,7 +165,7 @@ export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: ()
                 highContrast ? 'bg-black text-yellow-500' : 'bg-white/20 hover:bg-white/30'
               }`}
             >
-              <Globe className="w-4 h-4" />
+              <Globe className="w-4 h-4" aria-hidden="true" />
               <span className="uppercase">{language}</span>
             </button>
 
@@ -156,16 +178,16 @@ export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: ()
                 highContrast ? 'bg-black text-yellow-500' : 'bg-white/15 hover:bg-white/25'
               }`}
             >
-              <Eye className="w-4 h-4" />
+              <Eye className="w-4 h-4" aria-hidden="true" />
             </button>
           </div>
         </div>
 
         {/* Current mode label - Mobile */}
         <div className="md:hidden mt-1.5">
-          <div className="flex items-center gap-1.5 text-xs opacity-80">
+          <div className="flex items-center gap-1.5 text-xs opacity-80" aria-live="polite">
             <span className="font-medium">{t(language, modeLabelKeys[mode])}</span>
-            <span className="opacity-50">•</span>
+            <span className="opacity-50" aria-hidden="true">•</span>
             <span className="opacity-50">{t(language, cityNameKeys[city] as 'metlifeStadium')}</span>
           </div>
         </div>

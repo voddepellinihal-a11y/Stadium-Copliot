@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, { useState, Suspense, useEffect, useRef, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { AppProvider, useApp, Lang } from './components/shared/AppContext';
 import GlobalHeader from './components/shared/GlobalHeader';
@@ -40,6 +40,17 @@ const langConfig: { code: Lang; name: string; flag: string; nativeName: string }
 ];
 
 function LanguageModal({ onSelect, onClose }: { onSelect: (lang: Lang) => void; onClose: () => void }) {
+  const firstButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    firstButtonRef.current?.focus();
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [onClose]);
+
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={onClose} role="dialog" aria-modal="true" aria-label={t('en', 'selectLanguage')}>
       <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden" onClick={e => e.stopPropagation()}>
@@ -48,10 +59,11 @@ function LanguageModal({ onSelect, onClose }: { onSelect: (lang: Lang) => void; 
           <h2 className="text-xl font-bold">Choose Your Language</h2>
           <p className="text-sm opacity-80 mt-1">Elige tu idioma / Choisissez votre langue</p>
         </div>
-        <div className="p-4 space-y-2">
-          {langConfig.map(l => (
+        <div className="p-4 space-y-2" role="group" aria-label="Language options">
+          {langConfig.map((l, idx) => (
             <button
               key={l.code}
+              ref={idx === 0 ? firstButtonRef : undefined}
               onClick={() => { onSelect(l.code); onClose(); }}
               className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all group"
               aria-label={`Select ${l.nativeName}`}
@@ -67,7 +79,7 @@ function LanguageModal({ onSelect, onClose }: { onSelect: (lang: Lang) => void; 
             </button>
           ))}
         </div>
-        <button onClick={onClose} className="w-full p-3 text-sm text-gray-400 hover:text-gray-600 transition-colors">
+        <button onClick={onClose} aria-label="Close language selector" className="w-full p-3 text-sm text-gray-400 hover:text-gray-600 transition-colors">
           Close
         </button>
       </div>
@@ -79,7 +91,7 @@ function ModeRouter() {
   const { mode, setMode, highContrast, language, setLanguage } = useApp();
   const [showLangModal, setShowLangModal] = useState(false);
 
-  const renderContent = () => {
+  const renderContent = useCallback(() => {
     switch (mode as ModeKey) {
       case 'fan': return <Chat />;
       case 'volunteer': return <VolunteerContent />;
@@ -89,12 +101,12 @@ function ModeRouter() {
       case 'accessibility': return <AccessibilityContent />;
       default: return <Chat />;
     }
-  };
+  }, [mode]);
 
   return (
     <div className={`flex flex-col h-screen overflow-hidden transition-colors duration-300 ${highContrast ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'}`}>
       <GlobalHeader onLanguageClick={() => setShowLangModal(true)} />
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 overflow-hidden" id="main-content">
         <Suspense fallback={<LoadingSpinner />}>
           {renderContent()}
         </Suspense>
@@ -115,7 +127,9 @@ function ModeRouter() {
               onClick={() => setMode(m.key)}
               role="tab"
               aria-selected={isActive}
+              aria-controls={`panel-${m.key}`}
               aria-label={t(language, m.labelKey)}
+              id={`tab-${m.key}`}
               className={`flex flex-col items-center justify-center gap-0.5 px-1.5 py-1 rounded-xl transition-all min-w-0 flex-1 ${
                 isActive
                   ? highContrast

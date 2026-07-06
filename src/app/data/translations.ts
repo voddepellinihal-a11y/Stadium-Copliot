@@ -47,6 +47,13 @@ type TranslationKeys = {
   quickResponseHub: string;
   availableScripts: string;
   scriptContent: string;
+  volunteerDesc: string;
+  officialResponse: string;
+  askVolunteer: string;
+  gatesRestrooms: string;
+  safetyProcedures: string;
+  lostPerson: string;
+  wheelchairAccess: string;
 
   // Ops
   opsDashboard: string;
@@ -60,11 +67,17 @@ type TranslationKeys = {
   activeAlerts: string;
   gateCCongestion: string;
   parkingAAt85: string;
+  opsDesc: string;
+  capacity: string;
+  alerts: string;
+  activeIncidents: string;
+  todaysSchedule: string;
 
   // Analytics
   analyticsDashboard: string;
   overview: string;
   topQueries: string;
+  topQuestions: string;
   performance: string;
   languages: string;
   totalQueries: string;
@@ -79,6 +92,27 @@ type TranslationKeys = {
   uptime: string;
   realtimeInsights: string;
   insightsText: string;
+  analyticsDesc: string;
+  responseTime: string;
+  satisfactionRate: string;
+  languagesServed: string;
+  activeUsers: string;
+  whereIsNearestGate: string;
+  wheelchairAccessibility: string;
+  bagPolicyAllowed: string;
+  publicTransportRoutes: string;
+  nearestRestroom: string;
+  menuAndDietary: string;
+  asked: string;
+  satisfaction: string;
+  responses: string;
+  navigation: string;
+  crowdManagement: string;
+  transportation: string;
+  aiResponseTime: string;
+  ragAccuracy: string;
+  fallbackRate: string;
+  securityCompliance: string;
 
   // Sustainability
   sustainabilityTracker: string;
@@ -93,6 +127,13 @@ type TranslationKeys = {
   usedRefillable: string;
   usedRecycling: string;
   usedDigitalTicket: string;
+  sustainabilityDesc: string;
+  actionsCompleted: string;
+  ecoActions: string;
+  stadiumFeatures: string;
+  waterRecycling: string;
+  solarPower: string;
+  composting: string;
 
   // Accessibility
   accessibilityCompanion: string;
@@ -110,6 +151,16 @@ type TranslationKeys = {
   emergencyAssistance: string;
   helpOnWay: string;
   volunteerNotified: string;
+  accessibilityDesc: string;
+  displaySettings: string;
+  fontSize: string;
+  hearingAid: string;
+  sensoryKits: string;
+  accessibleSeating: string;
+  emergencyEscalation: string;
+  alertSent: string;
+  medical: string;
+  security: string;
 
   // Error
   somethingWrong: string;
@@ -183,6 +234,13 @@ export const translations: Record<Lang, TranslationKeys> = {
     quickResponseHub: 'Quick-Response Hub',
     availableScripts: 'Available scripts',
     scriptContent: 'Script content',
+    volunteerDesc: 'Volunteer quick response hub with scripted answers',
+    officialResponse: 'Use official responses only. Always verify information before sharing with fans.',
+    askVolunteer: 'Ask a volunteer question...',
+    gatesRestrooms: 'Gates & Restrooms',
+    safetyProcedures: 'Safety Procedures',
+    lostPerson: 'Lost Person',
+    wheelchairAccess: 'Wheelchair Access',
 
     // Ops
     opsDashboard: 'Operations Dashboard',
@@ -196,11 +254,17 @@ export const translations: Record<Lang, TranslationKeys> = {
     activeAlerts: 'Active Alerts',
     gateCCongestion: 'Gate C congestion',
     parkingAAt85: 'Parking A at 85%',
+    opsDesc: 'Real-time crowd monitoring and incident management',
+    capacity: 'Capacity',
+    alerts: 'Alerts',
+    activeIncidents: 'Active Incidents',
+    todaysSchedule: "Today's Schedule",
 
     // Analytics
     analyticsDashboard: 'Analytics Dashboard',
     overview: 'Overview',
     topQueries: 'Top Queries',
+    topQuestions: 'Top Questions',
     performance: 'Performance',
     languages: 'Languages',
     totalQueries: 'Total Queries',
@@ -215,6 +279,27 @@ export const translations: Record<Lang, TranslationKeys> = {
     uptime: 'Uptime',
     realtimeInsights: 'Real-Time Insights',
     insightsText: 'Stadium Copilot has handled over 6,800 fan queries with 87% resolution rate. Average response time: 1.2 seconds.',
+    analyticsDesc: 'Performance metrics and operational insights',
+    responseTime: 'Response Time',
+    satisfactionRate: 'Satisfaction Rate',
+    languagesServed: 'Languages Served',
+    activeUsers: 'Active Users',
+    whereIsNearestGate: 'Where is the nearest gate?',
+    wheelchairAccessibility: 'Wheelchair accessibility options',
+    bagPolicyAllowed: 'What bags are allowed?',
+    publicTransportRoutes: 'Public transport routes',
+    nearestRestroom: 'Nearest restroom location',
+    menuAndDietary: 'Menu and dietary options',
+    asked: 'asked',
+    satisfaction: 'satisfaction',
+    responses: 'responses',
+    navigation: 'Navigation',
+    crowdManagement: 'Crowd Management',
+    transportation: 'Transportation',
+    aiResponseTime: 'AI Response Time',
+    ragAccuracy: 'RAG Accuracy',
+    fallbackRate: 'Fallback Rate',
+    securityCompliance: 'Security Compliance',
 
     // Sustainability
     sustainabilityTracker: 'Sustainability Tracker',
@@ -229,6 +314,13 @@ export const translations: Record<Lang, TranslationKeys> = {
     usedRefillable: 'Used refillable bottle',
     usedRecycling: 'Used recycling bins',
     usedDigitalTicket: 'Used digital ticket',
+    sustainabilityDesc: 'Track your eco-friendly actions at the stadium',
+    actionsCompleted: 'actions completed',
+    ecoActions: 'Eco Actions',
+    stadiumFeatures: 'Stadium Features',
+    waterRecycling: 'Water Recycling',
+    solarPower: 'Solar Power',
+    composting: 'Composting Programs',
 
     // Accessibility
     accessibilityCompanion: 'Accessibility Companion',
@@ -246,6 +338,16 @@ export const translations: Record<Lang, TranslationKeys> = {
     emergencyAssistance: 'Emergency Assistance',
     helpOnWay: 'Help is on the way!',
     volunteerNotified: 'A volunteer has been notified of your location.',
+    accessibilityDesc: 'Accessibility companion for all visitors',
+    displaySettings: 'Display Settings',
+    fontSize: 'Font Size',
+    hearingAid: 'Hearing Aid',
+    sensoryKits: 'Sensory Kits',
+    accessibleSeating: 'Accessible Seating',
+    emergencyEscalation: 'Emergency Escalation',
+    alertSent: 'Alert Sent!',
+    medical: 'Medical',
+    security: 'Security',
 
     // Error
     somethingWrong: 'Something went wrong',
@@ -318,6 +420,13 @@ export const translations: Record<Lang, TranslationKeys> = {
     quickResponseHub: 'Centro de Respuesta Rápida',
     availableScripts: 'Guiones disponibles',
     scriptContent: 'Contenido del guion',
+    volunteerDesc: 'Centro de respuesta rápida para voluntarios con guiones',
+    officialResponse: 'Use solo respuestas oficiales. Siempre verifique la información antes de compartir con los fanáticos.',
+    askVolunteer: 'Haga una pregunta al voluntario...',
+    gatesRestrooms: 'Puertos y Baños',
+    safetyProcedures: 'Procedimientos de Seguridad',
+    lostPerson: 'Persona Perdida',
+    wheelchairAccess: 'Acceso para Silla de Ruedas',
 
     // Ops
     opsDashboard: 'Panel de Operaciones',
@@ -331,11 +440,17 @@ export const translations: Record<Lang, TranslationKeys> = {
     activeAlerts: 'Alertas Activas',
     gateCCongestion: 'Congestión Puerta C',
     parkingAAt85: 'Estacionamiento A al 85%',
+    opsDesc: 'Monitoreo de multitudes en tiempo real y gestión de incidentes',
+    capacity: 'Capacidad',
+    alerts: 'Alertas',
+    activeIncidents: 'Incidentes Activos',
+    todaysSchedule: 'Horario de Hoy',
 
     // Analytics
     analyticsDashboard: 'Panel de Analítica',
     overview: 'Resumen',
     topQueries: 'Consultas',
+    topQuestions: 'Preguntas Principales',
     performance: 'Rendimiento',
     languages: 'Idiomas',
     totalQueries: 'Total Consultas',
@@ -350,6 +465,27 @@ export const translations: Record<Lang, TranslationKeys> = {
     uptime: 'Tiempo Activo',
     realtimeInsights: 'Información en Tiempo Real',
     insightsText: 'Stadium Copilot ha manejado más de 6,800 consultas con 87% de resolución. Tiempo de respuesta promedio: 1.2 segundos.',
+    analyticsDesc: 'Métricas de rendimiento e información operativa',
+    responseTime: 'Tiempo de Respuesta',
+    satisfactionRate: 'Tasa de Satisfacción',
+    languagesServed: 'Idiomas Atendidos',
+    activeUsers: 'Usuarios Activos',
+    whereIsNearestGate: '¿Dónde está la puerta más cercana?',
+    wheelchairAccessibility: 'Opciones de accesibilidad para silla de ruedas',
+    bagPolicyAllowed: '¿Qué bolsas están permitidas?',
+    publicTransportRoutes: 'Rutas de transporte público',
+    nearestRestroom: 'Ubicación del baño más cercano',
+    menuAndDietary: 'Menú y opciones dietéticas',
+    asked: 'preguntado',
+    satisfaction: 'satisfacción',
+    responses: 'respuestas',
+    navigation: 'Navegación',
+    crowdManagement: 'Gestión de Multitudes',
+    transportation: 'Transporte',
+    aiResponseTime: 'Tiempo de Respuesta IA',
+    ragAccuracy: 'Precisión RAG',
+    fallbackRate: 'Tasa de Respaldo',
+    securityCompliance: 'Cumplimiento de Seguridad',
 
     // Sustainability
     sustainabilityTracker: 'Rastreador de Sostenibilidad',
@@ -364,6 +500,13 @@ export const translations: Record<Lang, TranslationKeys> = {
     usedRefillable: 'Usé botella recargable',
     usedRecycling: 'Usé contenedores de reciclaje',
     usedDigitalTicket: 'Usé boleto digital',
+    sustainabilityDesc: 'Registra tus acciones ecológicas en el estadio',
+    actionsCompleted: 'acciones completadas',
+    ecoActions: 'Acciones Ecológicas',
+    stadiumFeatures: 'Características del Estadio',
+    waterRecycling: 'Reciclaje de Agua',
+    solarPower: 'Energía Solar',
+    composting: 'Programas de Compostaje',
 
     // Accessibility
     accessibilityCompanion: 'Compañero de Accesibilidad',
@@ -381,6 +524,16 @@ export const translations: Record<Lang, TranslationKeys> = {
     emergencyAssistance: 'Asistencia de Emergencia',
     helpOnWay: '¡Ayuda en camino!',
     volunteerNotified: 'Un voluntario ha sido notificado de tu ubicación.',
+    accessibilityDesc: 'Compañero de accesibilidad para todos los visitantes',
+    displaySettings: 'Configuración de Pantalla',
+    fontSize: 'Tamaño de Fuente',
+    hearingAid: 'Auxiliar Auditivo',
+    sensoryKits: 'Kit Sensorial',
+    accessibleSeating: 'Asientos Accesibles',
+    emergencyEscalation: 'Escalamiento de Emergencia',
+    alertSent: '¡Alerta Enviada!',
+    medical: 'Médico',
+    security: 'Seguridad',
 
     // Error
     somethingWrong: 'Algo salió mal',
@@ -453,6 +606,13 @@ export const translations: Record<Lang, TranslationKeys> = {
     quickResponseHub: 'Centre de Réponse Rapide',
     availableScripts: 'Scripts disponibles',
     scriptContent: 'Contenu du script',
+    volunteerDesc: 'Centre de réponse rapide pour bénévoles avec scripts',
+    officialResponse: 'Utilisez uniquement les réponses officielles. Vérifiez toujours les informations avant de les partager avec les fans.',
+    askVolunteer: 'Posez une question à un bénévole...',
+    gatesRestrooms: 'Portes et Toilettes',
+    safetyProcedures: 'Procédures de Sécurité',
+    lostPerson: 'Personne Perdue',
+    wheelchairAccess: 'Accès Fauteuil Roulant',
 
     // Ops
     opsDashboard: 'Tableau de Bord Opérations',
@@ -466,11 +626,17 @@ export const translations: Record<Lang, TranslationKeys> = {
     activeAlerts: 'Alertes Actives',
     gateCCongestion: 'Congestion Porte C',
     parkingAAt85: 'Parking A à 85%',
+    opsDesc: 'Surveillance des foules en temps réel et gestion des incidents',
+    capacity: 'Capacité',
+    alerts: 'Alertes',
+    activeIncidents: 'Incidents Actifs',
+    todaysSchedule: "Emploi du Jour",
 
     // Analytics
     analyticsDashboard: 'Tableau Analytique',
     overview: 'Aperçu',
     topQueries: 'Requêtes',
+    topQuestions: 'Questions Principales',
     performance: 'Performance',
     languages: 'Langues',
     totalQueries: 'Total Requêtes',
@@ -485,6 +651,27 @@ export const translations: Record<Lang, TranslationKeys> = {
     uptime: 'Temps Actif',
     realtimeInsights: 'Informations en Temps Réel',
     insightsText: "Stadium Copilot a traité plus de 6 800 requêtes avec un taux de résolution de 87 %. Temps de réponse moyen : 1,2 seconde.",
+    analyticsDesc: 'Métriques de performance et informations opérationnelles',
+    responseTime: 'Temps de Réponse',
+    satisfactionRate: 'Taux de Satisfaction',
+    languagesServed: 'Langues Servies',
+    activeUsers: 'Utilisateurs Actifs',
+    whereIsNearestGate: 'Où est la porte la plus proche ?',
+    wheelchairAccessibility: "Options d'accessibilité pour fauteuil roulant",
+    bagPolicyAllowed: 'Quels sacs sont autorisés ?',
+    publicTransportRoutes: 'Itinéraires de transport en commun',
+    nearestRestroom: 'Emplacement des toilettes les plus proches',
+    menuAndDietary: 'Menu et options diététiques',
+    asked: 'demandé',
+    satisfaction: 'satisfaction',
+    responses: 'réponses',
+    navigation: 'Navigation',
+    crowdManagement: 'Gestion des Foules',
+    transportation: 'Transport',
+    aiResponseTime: 'Temps de Réponse IA',
+    ragAccuracy: 'Précision RAG',
+    fallbackRate: 'Taux de Repli',
+    securityCompliance: 'Conformité Sécuritaire',
 
     // Sustainability
     sustainabilityTracker: 'Suivi Durabilité',
@@ -497,8 +684,15 @@ export const translations: Record<Lang, TranslationKeys> = {
     usedTransit: 'Transport en commun',
     walkedOrBiked: 'Marché ou à vélo',
     usedRefillable: 'Gourde réutilisable',
-    usedRecycling: 'Recyclage utilisé',
+    usedRecycling: 'Bacs de recyclage',
     usedDigitalTicket: 'Billet numérique',
+    sustainabilityDesc: 'Suivez vos actions écologiques au stade',
+    actionsCompleted: 'actions terminées',
+    ecoActions: 'Actions Écologiques',
+    stadiumFeatures: 'Équipements du Stade',
+    waterRecycling: 'Recyclage de l\'Eau',
+    solarPower: 'Énergie Solaire',
+    composting: 'Programmes de Compostage',
 
     // Accessibility
     accessibilityCompanion: "Compagnon d'Accessibilité",
@@ -516,6 +710,16 @@ export const translations: Record<Lang, TranslationKeys> = {
     emergencyAssistance: 'Assistance d\'Urgence',
     helpOnWay: 'L\'aide arrive !',
     volunteerNotified: 'Un bénévole a été averti de votre position.',
+    accessibilityDesc: 'Compagnon d\'accessibilité pour tous les visiteurs',
+    displaySettings: 'Paramètres d\'Affichage',
+    fontSize: 'Taille de Police',
+    hearingAid: 'Aide Auditive',
+    sensoryKits: 'Kit Sensoriel',
+    accessibleSeating: 'Places Accessibles',
+    emergencyEscalation: 'Escalade d\'Urgence',
+    alertSent: 'Alerte Envoyée !',
+    medical: 'Médical',
+    security: 'Sécurité',
 
     // Error
     somethingWrong: 'Une erreur s\'est produite',
@@ -545,3 +749,29 @@ export const translations: Record<Lang, TranslationKeys> = {
 export function t(lang: Lang, key: keyof TranslationKeys): string {
   return translations[lang][key] || translations.en[key] || key;
 }
+
+export type CityKnowledge = Record<string, {
+  name: string;
+  country: string;
+  location: string;
+  languages: string[];
+  capacity: number;
+  gates: Record<string, Record<string, string>>;
+  restrooms: Record<string, string>[];
+  food: Record<string, string>[];
+  services: Record<string, Record<string, string>>;
+  transport: Record<string, Record<string, string>>;
+  accessibility: {
+    wheelchair_routes: Record<string, string>;
+    assistance: Record<string, string>;
+    sensory_rooms?: Record<string, string>;
+    total_seats?: number;
+    step_free_routes?: string[];
+  };
+  schedule: Record<string, string> | string;
+  bag_policy: Record<string, string>;
+  sustainability?: {
+    features: string[];
+    green_score?: number;
+  };
+}>;
