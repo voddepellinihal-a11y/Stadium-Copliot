@@ -65,7 +65,7 @@ function LanguageModal({ onSelect, onClose }: { onSelect: (lang: Lang) => void; 
 }
 
 function ModeRouter() {
-  const { mode, setMode, highContrast, language } = useApp();
+  const { mode, setMode, highContrast, language, setLanguage } = useApp();
   const [showLangModal, setShowLangModal] = useState(false);
 
   const renderContent = () => {
@@ -120,7 +120,7 @@ function ModeRouter() {
         })}
       </nav>
 
-      {showLangModal && <LanguageModal onSelect={() => {}} onClose={() => setShowLangModal(false)} />}
+      {showLangModal && <LanguageModal onSelect={setLanguage} onClose={() => setShowLangModal(false)} />}
     </div>
   );
 }
