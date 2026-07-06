@@ -1,15 +1,9 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { Eye, ChevronDown, Globe, Shield } from 'lucide-react';
+import { Eye, ChevronDown, Globe } from 'lucide-react';
 import { useApp, AppMode, CityKey } from './AppContext';
-
-const cityNames: Record<CityKey, string> = {
-  metlife: 'MetLife Stadium',
-  sofi: 'SoFi Stadium',
-  azteca: 'Estadio Azteca',
-  bc_place: 'BC Place',
-};
+import { t } from '../../data/translations';
 
 const cityFlags: Record<CityKey, string> = {
   metlife: '🇺🇸',
@@ -18,16 +12,24 @@ const cityFlags: Record<CityKey, string> = {
   bc_place: '🇨🇦',
 };
 
-const modeLabels: Record<AppMode, Record<string, string>> = {
-  fan: { en: 'Fan Chat', es: 'Chat Fan', fr: 'Chat Fan' },
-  volunteer: { en: 'Volunteer', es: 'Voluntario', fr: 'Bénévole' },
-  ops: { en: 'Operations', es: 'Operaciones', fr: 'Opérations' },
-  analytics: { en: 'Analytics', es: 'Analítica', fr: 'Analytique' },
-  sustainability: { en: 'Green', es: 'Verde', fr: 'Vert' },
-  accessibility: { en: 'Access', es: 'Acceso', fr: 'Accès' },
+const cityKeys: CityKey[] = ['metlife', 'sofi', 'azteca', 'bc_place'];
+const cityNameKeys: Record<CityKey, 'metlifeStadium' | 'sofiStadium' | 'aztecaStadium' | 'bcPlaceStadium'> = {
+  metlife: 'metlifeStadium',
+  sofi: 'sofiStadium',
+  azteca: 'aztecaStadium',
+  bc_place: 'bcPlaceStadium',
 };
 
-export default function GlobalHeader() {
+const modeLabelKeys: Record<AppMode, 'fan' | 'volunteer' | 'ops' | 'analytics' | 'sustainability' | 'accessibility'> = {
+  fan: 'fan',
+  volunteer: 'volunteer',
+  ops: 'ops',
+  analytics: 'analytics',
+  sustainability: 'sustainability',
+  accessibility: 'accessibility',
+};
+
+export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: () => void }) {
   const { mode, setMode, language, setLanguage, highContrast, setHighContrast, city, setCity } = useApp();
   const [cityOpen, setCityOpen] = React.useState(false);
   const cityRef = useRef<HTMLDivElement>(null);
@@ -49,7 +51,6 @@ export default function GlobalHeader() {
       } shadow-lg`}
       role="banner"
     >
-      {/* Top row: Logo + Mode tabs + Actions */}
       <div className="max-w-7xl mx-auto px-3 py-2">
         <div className="flex items-center justify-between gap-2">
           {/* Logo */}
@@ -62,8 +63,8 @@ export default function GlobalHeader() {
               ⚽
             </div>
             <div className="hidden sm:block">
-              <div className="text-sm font-bold leading-tight">Stadium Copilot</div>
-              <div className="text-[9px] opacity-70 leading-tight">FIFA World Cup 2026</div>
+              <div className="text-sm font-bold leading-tight">{t(language, 'stadiumCopilot')}</div>
+              <div className="text-[9px] opacity-70 leading-tight">{t(language, 'fifaWorldCup')}</div>
             </div>
           </div>
 
@@ -71,9 +72,9 @@ export default function GlobalHeader() {
           <nav
             className="hidden md:flex items-center gap-1 bg-white/10 rounded-xl px-1.5 py-1"
             role="tablist"
-            aria-label="Mode navigation"
+            aria-label={t(language, 'quickActions')}
           >
-            {(Object.keys(modeLabels) as AppMode[]).map(m => (
+            {(Object.keys(modeLabelKeys) as AppMode[]).map(m => (
               <button
                 key={m}
                 onClick={() => setMode(m)}
@@ -85,7 +86,7 @@ export default function GlobalHeader() {
                     : 'text-white/70 hover:text-white hover:bg-white/10'
                 }`}
               >
-                {modeLabels[m][language]}
+                {t(language, modeLabelKeys[m])}
               </button>
             ))}
           </nav>
@@ -98,64 +99,59 @@ export default function GlobalHeader() {
                 onClick={() => setCityOpen(!cityOpen)}
                 aria-expanded={cityOpen}
                 aria-haspopup="listbox"
+                aria-label={t(language, 'selectCity')}
                 className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium ${
                   highContrast ? 'bg-black text-yellow-500' : 'bg-white/15 hover:bg-white/25'
                 }`}
               >
                 <span>{cityFlags[city]}</span>
-                <span className="hidden sm:inline">{cityNames[city].split(' ')[0]}</span>
+                <span className="hidden sm:inline">{t(language, cityNameKeys[city]).split(' ')[0]}</span>
                 <span className="sm:hidden text-[10px]">{city.toUpperCase().slice(0, 3)}</span>
                 <ChevronDown className="w-3 h-3 opacity-70" />
               </button>
               {cityOpen && (
                 <div
-                  className={`absolute right-0 mt-1 w-48 rounded-xl shadow-2xl z-50 overflow-hidden ${
+                  className={`absolute right-0 mt-1 w-52 rounded-xl shadow-2xl z-50 overflow-hidden ${
                     highContrast ? 'bg-gray-900 border border-gray-700' : 'bg-white border'
                   }`}
                   role="listbox"
                 >
-                  {(Object.entries(cityNames) as [CityKey, string][]).map(([key, name]) => (
+                  {cityKeys.map(key => (
                     <button
                       key={key}
                       onClick={() => { setCity(key); setCityOpen(false); }}
                       role="option"
                       aria-selected={city === key}
-                      className={`flex items-center gap-2 w-full text-left px-3 py-2 text-sm transition-colors ${
+                      className={`flex items-center gap-2 w-full text-left px-3 py-2.5 text-sm transition-colors ${
                         city === key
                           ? highContrast ? 'bg-yellow-500 text-black font-bold' : 'bg-blue-50 text-blue-700 font-semibold'
                           : highContrast ? 'text-white hover:bg-gray-800' : 'text-gray-700 hover:bg-gray-50'
                       }`}
                     >
-                      <span>{cityFlags[key]}</span>
-                      <span>{name}</span>
+                      <span className="text-lg">{cityFlags[key]}</span>
+                      <span>{t(language, cityNameKeys[key])}</span>
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            {/* Language */}
-            <div className={`flex rounded-lg overflow-hidden ${highContrast ? 'bg-black' : 'bg-white/15'}`} role="radiogroup" aria-label="Select language">
-              {(['en', 'es', 'fr'] as const).map(l => (
-                <button
-                  key={l}
-                  onClick={() => setLanguage(l)}
-                  role="radio"
-                  aria-checked={language === l}
-                  aria-label={l === 'en' ? 'English' : l === 'es' ? 'Español' : 'Français'}
-                  className={`px-2 py-1.5 text-[10px] font-bold uppercase transition-colors ${
-                    language === l
-                      ? highContrast ? 'bg-yellow-500 text-black' : 'bg-white text-blue-700'
-                      : 'text-white/60 hover:text-white'
-                  }`}
-                >{l}</button>
-              ))}
-            </div>
+            {/* Language - Big button */}
+            <button
+              onClick={onLanguageClick}
+              aria-label={t(language, 'selectLanguage')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold ${
+                highContrast ? 'bg-black text-yellow-500' : 'bg-white/20 hover:bg-white/30'
+              }`}
+            >
+              <Globe className="w-4 h-4" />
+              <span className="uppercase">{language}</span>
+            </button>
 
             {/* High Contrast */}
             <button
               onClick={() => setHighContrast(!highContrast)}
-              aria-label={highContrast ? 'Disable high contrast' : 'Enable high contrast'}
+              aria-label={highContrast ? t(language, 'disableHighContrast') : t(language, 'enableHighContrast')}
               aria-pressed={highContrast}
               className={`p-2 rounded-lg transition-colors ${
                 highContrast ? 'bg-black text-yellow-500' : 'bg-white/15 hover:bg-white/25'
@@ -169,10 +165,9 @@ export default function GlobalHeader() {
         {/* Current mode label - Mobile */}
         <div className="md:hidden mt-1.5">
           <div className="flex items-center gap-1.5 text-xs opacity-80">
-            <Shield className="w-3 h-3" />
-            <span className="font-medium">{modeLabels[mode][language]}</span>
+            <span className="font-medium">{t(language, modeLabelKeys[mode])}</span>
             <span className="opacity-50">•</span>
-            <span className="opacity-50">{cityNames[city]}</span>
+            <span className="opacity-50">{t(language, cityNameKeys[city])}</span>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { AppProvider, useApp } from './components/shared/AppContext';
+import React, { useState } from 'react';
+import { AppProvider, useApp, Lang } from './components/shared/AppContext';
 import GlobalHeader from './components/shared/GlobalHeader';
 import { Chat } from './components/chat/ChatMain';
 import VolunteerContent from './components/modes/VolunteerContent';
@@ -10,20 +10,63 @@ import AnalyticsContent from './components/modes/AnalyticsContent';
 import SustainabilityContent from './components/modes/SustainabilityContent';
 import AccessibilityContent from './components/modes/AccessibilityContent';
 import { MessageSquare, Users, LayoutDashboard, BarChart3, Leaf, Accessibility } from 'lucide-react';
+import { t } from './data/translations';
 
 const modes = [
-  { key: 'fan', icon: MessageSquare, label: { en: 'Fan', es: 'Fan', fr: 'Fan' } },
-  { key: 'volunteer', icon: Users, label: { en: 'Volunteer', es: 'Voluntario', fr: 'Bénévole' } },
-  { key: 'ops', icon: LayoutDashboard, label: { en: 'Ops', es: 'Operaciones', fr: 'Ops' } },
-  { key: 'analytics', icon: BarChart3, label: { en: 'Analytics', es: 'Analítica', fr: 'Analytique' } },
-  { key: 'sustainability', icon: Leaf, label: { en: 'Green', es: 'Verde', fr: 'Vert' } },
-  { key: 'accessibility', icon: Accessibility, label: { en: 'Access', es: 'Acceso', fr: 'Accès' } },
+  { key: 'fan', icon: MessageSquare, labelKey: 'fan' as const },
+  { key: 'volunteer', icon: Users, labelKey: 'volunteer' as const },
+  { key: 'ops', icon: LayoutDashboard, labelKey: 'ops' as const },
+  { key: 'analytics', icon: BarChart3, labelKey: 'analytics' as const },
+  { key: 'sustainability', icon: Leaf, labelKey: 'sustainability' as const },
+  { key: 'accessibility', icon: Accessibility, labelKey: 'accessibility' as const },
 ] as const;
 
 type ModeKey = typeof modes[number]['key'];
 
+const langConfig: { code: Lang; name: string; flag: string; nativeName: string }[] = [
+  { code: 'en', name: 'English', flag: '🇺🇸', nativeName: 'English' },
+  { code: 'es', name: 'Spanish', flag: '🇲🇽', nativeName: 'Español' },
+  { code: 'fr', name: 'French', flag: '🇫🇷', nativeName: 'Français' },
+];
+
+function LanguageModal({ onSelect, onClose }: { onSelect: (lang: Lang) => void; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={onClose}>
+      <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden" onClick={e => e.stopPropagation()}>
+        <div className="bg-gradient-to-r from-blue-600 to-blue-800 p-6 text-center text-white">
+          <div className="text-4xl mb-2">🌍</div>
+          <h2 className="text-xl font-bold">Choose Your Language</h2>
+          <p className="text-sm opacity-80 mt-1">Elige tu idioma / Choisissez votre langue</p>
+        </div>
+        <div className="p-4 space-y-2">
+          {langConfig.map(l => (
+            <button
+              key={l.code}
+              onClick={() => { onSelect(l.code); onClose(); }}
+              className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all group"
+            >
+              <span className="text-3xl">{l.flag}</span>
+              <div className="text-left flex-1">
+                <div className="font-bold text-gray-900 text-lg">{l.nativeName}</div>
+                <div className="text-sm text-gray-500">{l.name}</div>
+              </div>
+              <div className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-blue-500 group-hover:text-white flex items-center justify-center transition-all">
+                →
+              </div>
+            </button>
+          ))}
+        </div>
+        <button onClick={onClose} className="w-full p-3 text-sm text-gray-400 hover:text-gray-600 transition-colors">
+          Close
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function ModeRouter() {
   const { mode, setMode, highContrast, language } = useApp();
+  const [showLangModal, setShowLangModal] = useState(false);
 
   const renderContent = () => {
     switch (mode as ModeKey) {
@@ -39,7 +82,7 @@ function ModeRouter() {
 
   return (
     <div className={`flex flex-col h-screen overflow-hidden transition-colors duration-300 ${highContrast ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'}`}>
-      <GlobalHeader />
+      <GlobalHeader onLanguageClick={() => setShowLangModal(true)} />
       <main className="flex-1 overflow-hidden">
         {renderContent()}
       </main>
@@ -48,7 +91,7 @@ function ModeRouter() {
           highContrast ? 'bg-gray-900 border-t-2 border-yellow-500' : 'bg-white border-t border-gray-200 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]'
         }`}
         role="tablist"
-        aria-label="Mode navigation"
+        aria-label={t(language, 'quickActions')}
       >
         {modes.map(m => {
           const Icon = m.icon;
@@ -59,6 +102,7 @@ function ModeRouter() {
               onClick={() => setMode(m.key)}
               role="tab"
               aria-selected={isActive}
+              aria-label={t(language, m.labelKey)}
               className={`flex flex-col items-center justify-center gap-0.5 px-1.5 py-1 rounded-xl transition-all min-w-0 flex-1 ${
                 isActive
                   ? highContrast
@@ -70,11 +114,13 @@ function ModeRouter() {
               }`}
             >
               <Icon className={`w-5 h-5 ${isActive ? 'drop-shadow-sm' : ''}`} strokeWidth={isActive ? 2.5 : 2} />
-              <span className="text-[9px] leading-tight truncate w-full text-center">{m.label[language]}</span>
+              <span className="text-[9px] leading-tight truncate w-full text-center">{t(language, m.labelKey)}</span>
             </button>
           );
         })}
       </nav>
+
+      {showLangModal && <LanguageModal onSelect={() => {}} onClose={() => setShowLangModal(false)} />}
     </div>
   );
 }
