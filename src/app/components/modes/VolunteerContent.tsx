@@ -14,7 +14,12 @@ export default function VolunteerContent() {
   const [selectedTopic, setSelectedTopic] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  const cityData = (cityKnowledgeData as CityKnowledge)[city];
+  const cityData = (cityKnowledgeData as CityKnowledge)[city] || {
+    name: '', country: '', location: '', languages: [], capacity: 0,
+    gates: {}, restrooms: [], food: [], services: {}, transport: {},
+    accessibility: { wheelchair_routes: { en: '' }, assistance: { en: '' } },
+    schedule: '', bag_policy: { en: '' }
+  };
   const gateKeys = cityData.gates ? Object.keys(cityData.gates) : [];
   const gateNames = gateKeys.map(k => cityData.gates[k as keyof typeof cityData.gates][language as 'en' | 'es' | 'fr'] || cityData.gates[k as keyof typeof cityData.gates].en);
 

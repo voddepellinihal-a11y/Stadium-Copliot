@@ -17,7 +17,12 @@ export default function OpsContent() {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [showSchedule, setShowSchedule] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const cityData = (cityKnowledgeData as CityKnowledge)[city];
+  const cityData = (cityKnowledgeData as CityKnowledge)[city] || {
+    name: '', country: '', location: '', languages: [], capacity: 0,
+    gates: {}, restrooms: [], food: [], services: {}, transport: {},
+    accessibility: { wheelchair_routes: { en: '' }, assistance: { en: '' } },
+    schedule: '', bag_policy: { en: '' }
+  };
 
   useEffect(() => {
     const generateZoneData = (): Record<string, ZoneData> => {
@@ -58,12 +63,12 @@ export default function OpsContent() {
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [language]);
 
-  const getSeverityColor = (severity: string) => {
+  const getSeverityColor = (severity: Incident['severity']) => {
     if (highContrast) return 'bg-gray-800 text-white';
     return severity === 'high' ? 'bg-red-100 text-red-800' : severity === 'medium' ? 'bg-amber-100 text-amber-800' : 'bg-green-100 text-green-800';
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: Incident['status']) => {
     if (highContrast) return status === 'active' ? 'text-yellow-400' : 'text-green-400';
     return status === 'active' ? 'text-red-600' : 'text-green-600';
   };

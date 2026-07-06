@@ -5,7 +5,7 @@ import { Send } from 'lucide-react';
 import { useApp, Lang } from '../shared/AppContext';
 import { checkRateLimit, sanitizeInput, validateInput } from '../../lib/security';
 import cityKnowledge from '../../data/city_knowledge.json';
-import { t } from '../../data/translations';
+import { t, CityKnowledge } from '../../data/translations';
 
 interface Message {
   id: string;
@@ -19,8 +19,7 @@ const responseCache = new Map<string, string>();
 
 function findAnswer(question: string, city: string, lang: Lang): string {
   const lower = question.toLowerCase();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const venue = (cityKnowledge as Record<string, any>)[city];
+  const venue = (cityKnowledge as CityKnowledge)[city];
   if (!venue) return t(lang, 'sorryError');
 
   const cacheKey = `${city}:${lang}:${lower}`;
@@ -35,31 +34,30 @@ function findAnswer(question: string, city: string, lang: Lang): string {
 
   let answer: string;
 
-  const emergencyWords = ['fire', 'medical', 'emergency', 'help', 'doctor', 'hospital', 'police', 'ambulance', 'fuego', 'médico', 'urgencia', 'ayuda', 'incendie', 'urgence'];
-  if (emergencyWords.some(w => lower.includes(w))) {
+  if (lower.includes('fire') || lower.includes('medical') || lower.includes('emergency') || lower.includes('help') || lower.includes('doctor') || lower.includes('hospital') || lower.includes('police') || lower.includes('ambulance') || lower.includes('fuego') || lower.includes('médico') || lower.includes('urgencia') || lower.includes('ayuda') || lower.includes('incendie') || lower.includes('urgence')) {
     answer = `🚨 EMERGENCY: Please stay calm. A staff member is being notified. Medical aid is at ${tr(venue.services?.medical)}.`;
   } else if (lower.includes('gate') || lower.includes('puerta') || lower.includes('porte')) {
     const gates = venue.gates;
-    answer = gates ? Object.values(gates).map((v) => `• ${tr(v as Record<string, string>)}`).join('\n') : fallback;
+    answer = gates ? Object.values(gates).map((v) => `• ${tr(v)}`).join('\n') : fallback;
   } else if (lower.includes('restroom') || lower.includes('bathroom') || lower.includes('toilet') || lower.includes('baño') || lower.includes('toilettes')) {
-    answer = venue.restrooms?.map((r: Record<string, string>) => `• ${tr(r)}`).join('\n') || 'Restrooms are available near all sections.';
+    answer = venue.restrooms?.map((r) => `• ${tr(r)}`).join('\n') || 'Restrooms are available near all sections.';
   } else if (lower.includes('food') || lower.includes('eat') || lower.includes('comida') || lower.includes('manger')) {
-    answer = venue.food?.map((f: Record<string, string>) => `• ${tr(f)}`).join('\n') || 'Multiple food options available throughout the concourses.';
+    answer = venue.food?.map((f) => `• ${tr(f)}`).join('\n') || 'Multiple food options available throughout the concourses.';
   } else if (lower.includes('wheelchair') || lower.includes('accessible') || lower.includes('accesible')) {
     answer = `${tr(venue.accessibility?.wheelchair_routes)}\n\nAssistance: ${tr(venue.accessibility?.assistance)}`;
   } else if (lower.includes('match') || lower.includes('start') || lower.includes('schedule') || lower.includes('partido') || lower.includes('hora')) {
-    answer = tr(venue.schedule) || 'Match schedule is available at the information boards.';
+    answer = typeof venue.schedule === 'object' ? tr(venue.schedule) : (venue.schedule || 'Match schedule is available at the information boards.');
   } else if (lower.includes('parking') || lower.includes('park') || lower.includes('estacionamiento') || lower.includes('stationnement')) {
     answer = tr(venue.transport?.parking) || 'Parking information is available at the venue website.';
   } else if (lower.includes('train') || lower.includes('metro') || lower.includes('skytrain') || lower.includes('shuttle') || lower.includes('bus') || lower.includes('transport')) {
     const transport = venue.transport;
-    answer = !transport ? 'Public transit information available at information desks.' : Object.values(transport).map((v) => `• ${tr(v as Record<string, string>)}`).join('\n');
+    answer = !transport ? 'Public transit information available at information desks.' : Object.values(transport).map((v) => `• ${tr(v)}`).join('\n');
   } else if (lower.includes('bag') || lower.includes('bolsa') || lower.includes('sac')) {
     answer = tr(venue.bag_policy) || 'Check venue policy on the official website.';
   } else if (lower.includes('medical') || lower.includes('first aid')) {
     answer = `Medical services: ${tr(venue.services?.medical)}\nLost & Found: ${tr(venue.services?.lost_and_found)}`;
   } else {
-    answer = `${fallback}\n\n${tr(venue.schedule) || ''}`;
+    answer = `${fallback}\n\n${typeof venue.schedule === 'object' ? tr(venue.schedule) : (venue.schedule || '')}`;
   }
 
   responseCache.set(cacheKey, answer);

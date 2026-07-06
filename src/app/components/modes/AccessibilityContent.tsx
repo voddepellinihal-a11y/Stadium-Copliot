@@ -10,7 +10,12 @@ export default function AccessibilityContent() {
   const { language, highContrast, setHighContrast, fontScale, setFontScale, city } = useApp();
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
   const [emergencyActive, setEmergencyActive] = useState(false);
-  const cityData = (cityKnowledgeData as CityKnowledge)[city];
+  const cityData = (cityKnowledgeData as CityKnowledge)[city] || {
+    name: '', country: '', location: '', languages: [], capacity: 0,
+    gates: {}, restrooms: [], food: [], services: {}, transport: {},
+    accessibility: { wheelchair_routes: { en: '' }, assistance: { en: '' } },
+    schedule: '', bag_policy: { en: '' }
+  };
 
   const handleEmergency = (_type: 'medical' | 'security' | 'lost') => {
     setEmergencyActive(true);

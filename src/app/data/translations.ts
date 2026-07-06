@@ -134,6 +134,11 @@ type TranslationKeys = {
   waterRecycling: string;
   solarPower: string;
   composting: string;
+  usePublicTransit: string;
+  bringReusableBottle: string;
+  useRecyclingBins: string;
+  walkToAmenities: string;
+  shareRideWithFriends: string;
 
   // Accessibility
   accessibilityCompanion: string;
@@ -321,6 +326,11 @@ export const translations: Record<Lang, TranslationKeys> = {
     waterRecycling: 'Water Recycling',
     solarPower: 'Solar Power',
     composting: 'Composting Programs',
+    usePublicTransit: 'Use public transit',
+    bringReusableBottle: 'Bring reusable bottle',
+    useRecyclingBins: 'Use recycling bins',
+    walkToAmenities: 'Walk to nearby amenities',
+    shareRideWithFriends: 'Share ride with friends',
 
     // Accessibility
     accessibilityCompanion: 'Accessibility Companion',
@@ -507,6 +517,11 @@ export const translations: Record<Lang, TranslationKeys> = {
     waterRecycling: 'Reciclaje de Agua',
     solarPower: 'Energía Solar',
     composting: 'Programas de Compostaje',
+    usePublicTransit: 'Usar transporte público',
+    bringReusableBottle: 'Traer botella reutilizable',
+    useRecyclingBins: 'Usar contenedores de reciclaje',
+    walkToAmenities: 'Caminar a amenidades cercanas',
+    shareRideWithFriends: 'Compartir viaje con amigos',
 
     // Accessibility
     accessibilityCompanion: 'Compañero de Accesibilidad',
@@ -693,6 +708,11 @@ export const translations: Record<Lang, TranslationKeys> = {
     waterRecycling: 'Recyclage de l\'Eau',
     solarPower: 'Énergie Solaire',
     composting: 'Programmes de Compostage',
+    usePublicTransit: 'Utiliser le transport en commun',
+    bringReusableBottle: 'Apporter une bouteille réutilisable',
+    useRecyclingBins: 'Utiliser les bacs de recyclage',
+    walkToAmenities: 'Marcher vers les commodités à proximité',
+    shareRideWithFriends: 'Partager le trajet avec des amis',
 
     // Accessibility
     accessibilityCompanion: "Compagnon d'Accessibilité",

@@ -6,29 +6,26 @@ import { useApp } from '../shared/AppContext';
 import { t, CityKnowledge } from '../../data/translations';
 import cityKnowledgeData from '../../data/city_knowledge.json';
 
-const defaultActions = [
-  { id: 1, label: 'Use public transit', labelEs: 'Usar transporte público', labelFr: 'Utiliser les transports en commun', icon: '🚌', completed: false },
-  { id: 2, label: 'Bring reusable bottle', labelEs: 'Traer botella reutilizable', labelFr: 'Apporter une bouteille réutilisable', icon: '♻️', completed: false },
-  { id: 3, label: 'Use recycling bins', labelEs: 'Usar contenedores de reciclaje', labelFr: 'Utiliser les bacs de recyclage', icon: '♻️', completed: false },
-  { id: 4, label: 'Walk to nearby amenities', labelEs: 'Caminar a amenidades cercanas', labelFr: 'Marcher vers les commodités à proximité', icon: '🚶', completed: false },
-  { id: 5, label: 'Share ride with friends', labelEs: 'Compartir viaje con amigos', labelFr: 'Partager le trajet avec des amis', icon: '🚗', completed: false },
-];
-
 export default function SustainabilityContent() {
   const { language, highContrast, city } = useApp();
-  const [actions, setActions] = useState(defaultActions);
-  const cityData = (cityKnowledgeData as CityKnowledge)[city];
+  const [actions, setActions] = useState([
+    { id: 1, labelKey: 'usePublicTransit' as const, icon: '🚌', completed: false },
+    { id: 2, labelKey: 'bringReusableBottle' as const, icon: '♻️', completed: false },
+    { id: 3, labelKey: 'useRecyclingBins' as const, icon: '♻️', completed: false },
+    { id: 4, labelKey: 'walkToAmenities' as const, icon: '🚶', completed: false },
+    { id: 5, labelKey: 'shareRideWithFriends' as const, icon: '🚗', completed: false },
+  ]);
+  const cityData = (cityKnowledgeData as CityKnowledge)[city] || {
+    name: '', country: '', location: '', languages: [], capacity: 0,
+    gates: {}, restrooms: [], food: [], services: {}, transport: {},
+    accessibility: { wheelchair_routes: { en: '' }, assistance: { en: '' } },
+    schedule: '', bag_policy: { en: '' }
+  };
 
   const score = Math.round((actions.filter(a => a.completed).length / actions.length) * 100);
 
   const toggleAction = (id: number) => {
     setActions(prev => prev.map(a => a.id === id ? { ...a, completed: !a.completed } : a));
-  };
-
-  const getLabel = (action: typeof defaultActions[0]) => {
-    if (language === 'es') return action.labelEs;
-    if (language === 'fr') return action.labelFr;
-    return action.label;
   };
 
   const getScoreColor = () => {
@@ -86,7 +83,7 @@ export default function SustainabilityContent() {
               onClick={() => toggleAction(action.id)}
               role="checkbox"
               aria-checked={action.completed}
-              aria-label={getLabel(action)}
+              aria-label={t(language, action.labelKey)}
               className={`flex items-center gap-3 w-full p-2.5 rounded-xl text-left transition-all ${
                 highContrast
                   ? action.completed ? 'bg-green-900 text-green-400' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -99,7 +96,7 @@ export default function SustainabilityContent() {
                 <Circle className="w-5 h-5 text-gray-400 flex-shrink-0" aria-hidden="true" />
               )}
               <span className="text-lg" aria-hidden="true">{action.icon}</span>
-              <span className={`text-xs font-medium ${action.completed ? 'line-through' : ''}`}>{getLabel(action)}</span>
+              <span className={`text-xs font-medium ${action.completed ? 'line-through' : ''}`}>{t(language, action.labelKey)}</span>
             </button>
           ))}
         </div>

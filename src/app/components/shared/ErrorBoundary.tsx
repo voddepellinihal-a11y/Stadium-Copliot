@@ -22,7 +22,9 @@ export class ErrorBoundary extends React.Component<
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('[Stadium Copilot Error]', error, errorInfo);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('[Stadium Copilot Error]', error, errorInfo);
+    }
     this.setState({ errorInfo });
   }
 

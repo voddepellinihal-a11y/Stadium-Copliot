@@ -12,6 +12,8 @@ export type CityKey =
   | 'nrg' | 'lumen' | 'mercedes_benz' | 'gillette'
   | 'cotton_bowl';
 
+export type UserRole = 'fan' | 'volunteer' | 'ops' | 'admin';
+
 interface AppState {
   mode: AppMode;
   setMode: (mode: AppMode) => void;
@@ -25,8 +27,8 @@ interface AppState {
   setCity: (city: CityKey) => void;
   isAuthenticated: boolean;
   setIsAuthenticated: (v: boolean) => void;
-  userRole: string;
-  setUserRole: (role: string) => void;
+  userRole: UserRole;
+  setUserRole: (role: UserRole) => void;
 }
 
 const AppContext = createContext<AppState | undefined>(undefined);
@@ -38,7 +40,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [fontScale, setFontScale] = useState(1);
   const [city, setCity] = useState<CityKey>('metlife');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState('fan');
+  const [userRole, setUserRole] = useState<UserRole>('fan');
 
   return (
     <AppContext.Provider value={{

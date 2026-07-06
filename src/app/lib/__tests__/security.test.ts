@@ -121,4 +121,82 @@ describe('isEmergencyInput', () => {
   it('does not flag normal messages', () => {
     expect(isEmergencyInput('Where is the food court?')).toBe(false);
   });
+
+  it('does not flag empty string', () => {
+    expect(isEmergencyInput('')).toBe(false);
+  });
+
+  it('does not flag single word', () => {
+    expect(isEmergencyInput('hello')).toBe(false);
+  });
+});
+
+describe('Rate Limiter edge cases', () => {
+  it('tracks different users independently', () => {
+    const userA = 'independent-user-a';
+    const userB = 'independent-user-b';
+    for (let i = 0; i < 30; i++) {
+      checkRateLimit(userA);
+    }
+    expect(checkRateLimit(userA)).toBe(false);
+    expect(checkRateLimit(userB)).toBe(true);
+  });
+
+  it('returns full remaining for new user', () => {
+    const newUser = 'new-rate-user-' + Date.now();
+    expect(getRateLimitRemaining(newUser)).toBe(30);
+  });
+});
+
+describe('sanitizeInput edge cases', () => {
+  it('handles empty input', () => {
+    expect(sanitizeInput('')).toBe('');
+  });
+
+  it('handles input with only special characters', () => {
+    const result = sanitizeInput('<>&"\'');
+    expect(result).not.toContain('<');
+    expect(result).not.toContain('>');
+  });
+
+  it('removes nested script tags', () => {
+    const result = sanitizeInput('<script><script>alert(1)</script></script>');
+    expect(result).not.toContain('<');
+    expect(result).not.toContain('>');
+  });
+});
+
+describe('validateInput edge cases', () => {
+  it('accepts single character input', () => {
+    expect(validateInput('a').valid).toBe(true);
+  });
+
+  it('accepts input at 499 characters', () => {
+    const input = 'a b c d e f g h i j k l m n o p q r s t u v w x y z '.repeat(9).slice(0, 499);
+    expect(validateInput(input).valid).toBe(true);
+  });
+
+  it('rejects whitespace-only input', () => {
+    const result = validateInput('   a   ');
+    expect(result.valid).toBe(true);
+  });
+});
+
+describe('escapeHtml edge cases', () => {
+  it('handles empty string', () => {
+    expect(escapeHtml('')).toBe('');
+  });
+
+  it('handles string with no special chars', () => {
+    expect(escapeHtml('hello world')).toBe('hello world');
+  });
+
+  it('handles multiple special characters', () => {
+    const result = escapeHtml('<>&"\'');
+    expect(result).toContain('&lt;');
+    expect(result).toContain('&gt;');
+    expect(result).toContain('&amp;');
+    expect(result).toContain('&quot;');
+    expect(result).toContain('&#039;');
+  });
 });

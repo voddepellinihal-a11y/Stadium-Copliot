@@ -1,6 +1,5 @@
 import knowledgeBase from './knowledge_base.json';
-
-export type Lang = 'en' | 'es' | 'fr';
+import { Lang } from '../components/shared/AppContext';
 
 export function detectEmergency(text: string): boolean {
   const keywords = ['fire', 'medical', 'emergency', 'help', 'doctor', 'hospital', 'police', 'fuego', 'médico', 'urgencia', 'policía', 'incendie', 'urgence', 'pompier'];
