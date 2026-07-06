@@ -12,18 +12,18 @@ import AccessibilityContent from './components/modes/AccessibilityContent';
 import { MessageSquare, Users, LayoutDashboard, BarChart3, Leaf, Accessibility } from 'lucide-react';
 
 const modes = [
-  { key: 'fan', icon: <MessageSquare className="w-4 h-4" /> },
-  { key: 'volunteer', icon: <Users className="w-4 h-4" /> },
-  { key: 'ops', icon: <LayoutDashboard className="w-4 h-4" /> },
-  { key: 'analytics', icon: <BarChart3 className="w-4 h-4" /> },
-  { key: 'sustainability', icon: <Leaf className="w-4 h-4" /> },
-  { key: 'accessibility', icon: <Accessibility className="w-4 h-4" /> },
+  { key: 'fan', icon: MessageSquare, label: { en: 'Fan', es: 'Fan', fr: 'Fan' } },
+  { key: 'volunteer', icon: Users, label: { en: 'Volunteer', es: 'Voluntario', fr: 'Bénévole' } },
+  { key: 'ops', icon: LayoutDashboard, label: { en: 'Ops', es: 'Operaciones', fr: 'Ops' } },
+  { key: 'analytics', icon: BarChart3, label: { en: 'Analytics', es: 'Analítica', fr: 'Analytique' } },
+  { key: 'sustainability', icon: Leaf, label: { en: 'Green', es: 'Verde', fr: 'Vert' } },
+  { key: 'accessibility', icon: Accessibility, label: { en: 'Access', es: 'Acceso', fr: 'Accès' } },
 ] as const;
 
 type ModeKey = typeof modes[number]['key'];
 
 function ModeRouter() {
-  const { mode, setMode, highContrast } = useApp();
+  const { mode, setMode, highContrast, language } = useApp();
 
   const renderContent = () => {
     switch (mode as ModeKey) {
@@ -38,19 +38,42 @@ function ModeRouter() {
   };
 
   return (
-    <div className={`flex flex-col min-h-screen transition-colors duration-300 ${highContrast ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`flex flex-col h-screen overflow-hidden transition-colors duration-300 ${highContrast ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'}`}>
       <GlobalHeader />
-      {renderContent()}
-      <nav className={`flex justify-around py-1 px-1 text-[10px] font-medium z-50 ${highContrast ? 'bg-gray-900 border-t-2 border-yellow-500' : 'bg-white border-t shadow-lg'}`}>
-        {modes.map(m => (
-          <button key={m.key} onClick={() => setMode(m.key)}
-            className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg transition-all ${
-              mode === m.key ? highContrast ? 'text-yellow-500' : 'text-blue-600' : highContrast ? 'text-gray-400' : 'text-gray-400'
-            }`}>
-            <div className={mode === m.key ? 'scale-110' : ''}>{m.icon}</div>
-            <span className="text-[9px] leading-tight capitalize">{m.key}</span>
-          </button>
-        ))}
+      <main className="flex-1 overflow-hidden">
+        {renderContent()}
+      </main>
+      <nav
+        className={`flex justify-around items-stretch py-1.5 px-1 text-[10px] font-semibold z-50 flex-shrink-0 ${
+          highContrast ? 'bg-gray-900 border-t-2 border-yellow-500' : 'bg-white border-t border-gray-200 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]'
+        }`}
+        role="tablist"
+        aria-label="Mode navigation"
+      >
+        {modes.map(m => {
+          const Icon = m.icon;
+          const isActive = mode === m.key;
+          return (
+            <button
+              key={m.key}
+              onClick={() => setMode(m.key)}
+              role="tab"
+              aria-selected={isActive}
+              className={`flex flex-col items-center justify-center gap-0.5 px-1.5 py-1 rounded-xl transition-all min-w-0 flex-1 ${
+                isActive
+                  ? highContrast
+                    ? 'bg-yellow-500 text-black'
+                    : 'bg-blue-50 text-blue-600'
+                  : highContrast
+                    ? 'text-gray-400 hover:text-white'
+                    : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              <Icon className={`w-5 h-5 ${isActive ? 'drop-shadow-sm' : ''}`} strokeWidth={isActive ? 2.5 : 2} />
+              <span className="text-[9px] leading-tight truncate w-full text-center">{m.label[language]}</span>
+            </button>
+          );
+        })}
       </nav>
     </div>
   );
