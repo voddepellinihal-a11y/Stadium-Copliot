@@ -1,0 +1,105 @@
+{
+  "metlife": {
+    "name": "MetLife Stadium",
+    "country": "USA",
+    "languages": ["en", "es"],
+    "gates": {
+      "gate_a": {"en": "Gate A - Sections 101-110, near Parking Lot A", "es": "Puerta A - Secciones 101-110, cerca del Estacionamiento A"},
+      "gate_b": {"en": "Gate B - Sections 111-120, near Train Station", "es": "Puerta B - Secciones 111-120, cerca de la Estación de Tren"},
+      "gate_c": {"en": "Gate C - Sections 121-130, near Bus Stop", "es": "Puerta C - Secciones 121-130, cerca de la Parada de Autobús"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 102 (Accessible)", "es": "Baño cerca de la Sección 102 (Accesible)"},
+      {"en": "Restroom near Section 115", "es": "Baño cerca de la Sección 115"}
+    ],
+    "food": [
+      {"en": "Pizza Stand on Concourse A (Italian)", "es": "Puesto de Pizza en Concourse A (Italiano)"},
+      {"en": "Burger Bar on Concourse B (American)", "es": "Bar de Hamburguesas en Concourse B (Americano)"},
+      {"en": "Taco Stand on Concourse C (Mexican)", "es": "Puesto de Tacos en Concourse C (Mexicano)"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid Station at Section 120, near Gate C", "es": "Estación de Primeros Auxilios en la Sección 120, cerca de la Puerta C"},
+      "lost_and_found": {"en": "Main Office at Gate A entrance", "es": "Oficina Principal en la entrada de la Puerta A"},
+      "wheelchair_assistance": {"en": "Available at all gates - request at entrance", "es": "Disponible en todas las puertas - solicite en la entrada"}
+    },
+    "transport": {
+      "shuttle": {"en": "Shuttles run from Gate B every 15 minutes", "es": "Los autobuses salen de la Puerta B cada 15 minutos"},
+      "train": {"en": "Nearest train station is 5 minutes from Gate A", "es": "La estación de tren más cercana está a 5 minutos de la Puerta A"},
+      "parking": {"en": "Parking lots open 4 hours before kickoff. $40 per vehicle", "es": "Estacionamientos abren 4 horas antes del inicio. $40 por vehículo"}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "All concourses wheelchair accessible. Elevators near every gate.", "es": "Todas las explanadas accesibles en silla de ruedas. Ascensores cerca de cada puerta."},
+      "assistance": {"en": "Text HELP for immediate volunteer assistance or call 555-STADIUM", "es": "Envíe AYUDA para asistencia inmediata de voluntarios o llame al 555-ESTADIO"}
+    },
+    "schedule": {"en": "Match starts at 3:00 PM EDT. Gates open at 1:00 PM.", "es": "El partido comienza a las 3:00 PM EDT. Puertas abren a la 1:00 PM."},
+    "bag_policy": {"en": "Bags must be clear plastic, max 12x6x12 inches. No backpacks.", "es": "Las bolsas deben ser de plástico transparente, máximo 12x6x12 pulgadas. Sin mochilas."}
+  },
+  "sofi": {
+    "name": "SoFi Stadium",
+    "country": "USA",
+    "languages": ["en", "es"],
+    "gates": {
+      "gate_1": {"en": "Gate 1 - Sections 201-210, near Parking Structure A", "es": "Puerta 1 - Secciones 201-210, cerca del Estacionamiento A"},
+      "gate_2": {"en": "Gate 2 - Sections 211-220, near Metro Station", "es": "Puerta 2 - Secciones 211-220, cerca de la Estación de Metro"},
+      "gate_3": {"en": "Gate 3 - Sections 221-230, near Ride Share Drop-off", "es": "Puerta 3 - Secciones 221-230, cerca de la Zona de Viajes Compartidos"}
+    },
+    "restrooms": [{"en": "Restroom near Section 205 (Accessible)", "es": "Baño cerca de la Sección 205 (Accesible)"}, {"en": "Restroom near Section 218", "es": "Baño cerca de la Sección 218"}],
+    "food": [{"en": "Sushi Bar on Concourse A", "es": "Bar de Sushi en Concourse A"}, {"en": "BBQ Pit on Concourse B", "es": "Parrilla BBQ en Concourse B"}, {"en": "Vegan Corner on Concourse C", "es": "Esquina Vegana en Concourse C"}],
+    "services": {
+      "medical": {"en": "First Aid Station at Section 215", "es": "Estación de Primeros Auxilios en la Sección 215"},
+      "lost_and_found": {"en": "Guest Services at Gate 1", "es": "Servicios al Huésped en la Puerta 1"},
+      "wheelchair_assistance": {"en": "Available at all gates - request at Guest Services", "es": "Disponible en todas las puertas - solicite en Servicios al Huésped"}
+    },
+    "transport": {
+      "shuttle": {"en": "Free shuttles from Metro Station to Gate 2 every 10 minutes", "es": "Autobuses gratis desde la Estación de Metro hasta la Puerta 2 cada 10 minutos"},
+      "metro": {"en": "Metro Line A stops at SoFi Stadium station", "es": "La Línea A del Metro para en la estación del Estadio SoFi"},
+      "parking": {"en": "Parking available in Structures A, B, C. $50 prepaid, $60 at gate.", "es": "Estacionamiento disponible en las Estructuras A, B, C. $50 prepago, $60 en puerta."}
+    },
+    "schedule": {"en": "Match starts at 5:30 PM PDT. Gates open at 3:00 PM.", "es": "El partido comienza a las 5:30 PM PDT. Puertas abren a las 3:00 PM."}
+  },
+  "azteca": {
+    "name": "Estadio Azteca",
+    "country": "Mexico",
+    "languages": ["es", "en"],
+    "gates": {
+      "puerta_1": {"en": "Gate 1 - Sections 1-10, near Metro Station", "es": "Puerta 1 - Secciones 1-10, cerca de la Estación de Metro"},
+      "puerta_2": {"en": "Gate 2 - Sections 11-20, near Parking Lot", "es": "Puerta 2 - Secciones 11-20, cerca del Estacionamiento"},
+      "puerta_3": {"en": "Gate 3 - Sections 21-30, near Bus Terminal", "es": "Puerta 3 - Secciones 21-30, cerca de la Terminal de Autobuses"}
+    },
+    "restrooms": [{"en": "Restroom near Section 8 (Accessible)", "es": "Baño cerca de la Sección 8 (Accesible)"}, {"en": "Restroom near Section 15", "es": "Baño cerca de la Sección 15"}],
+    "food": [{"en": "Taquería on Concourse 1", "es": "Taquería en Explanada 1"}, {"en": "Tortas Stand on Concourse 2", "es": "Puesto de Tortas en Explanada 2"}, {"en": "Elotes Cart on Concourse 3", "es": "Carrito de Elotes en Explanada 3"}],
+    "services": {
+      "medical": {"en": "First Aid at Section 12", "es": "Primeros Auxilios en la Sección 12"},
+      "lost_and_found": {"en": "Main Office at Gate 1 entrance", "es": "Oficina Principal en la entrada de la Puerta 1"},
+      "wheelchair_assistance": {"en": "Available at all gates", "es": "Disponible en todas las puertas"}
+    },
+    "transport": {
+      "metro": {"en": "Metro Line 2 stops at Estadio Azteca station", "es": "La Línea 2 del Metro para en la estación Estadio Azteca"},
+      "parking": {"en": "Parking available for 4,000 cars. $200 MXN", "es": "Estacionamiento disponible para 4,000 autos. $200 MXN"}
+    },
+    "schedule": {"en": "Match starts at 7:00 PM CST. Gates open at 4:00 PM.", "es": "El partido comienza a las 7:00 PM CST. Puertas abren a las 4:00 PM."}
+  },
+  "bc_place": {
+    "name": "BC Place",
+    "country": "Canada",
+    "languages": ["en", "fr"],
+    "gates": {
+      "gate_a": {"en": "Gate A - Sections 201-210 near SkyTrain Station", "fr": "Porte A - Sections 201-210 près de la station SkyTrain"},
+      "gate_b": {"en": "Gate B - Sections 211-220 near Parking Garage", "fr": "Porte B - Sections 211-220 près du garage de stationnement"},
+      "gate_c": {"en": "Gate C - Sections 221-230 near Bus Loop", "fr": "Porte C - Sections 221-230 près du terminal d'autobus"}
+    },
+    "restrooms": [{"en": "Restroom near Section 205 (Accessible)", "fr": "Toilettes près de la Section 205 (Accessible)"}, {"en": "Restroom near Section 215", "fr": "Toilettes près de la Section 215"}],
+    "food": [{"en": "Poutine Stand on Concourse A", "fr": "Stand de Poutine sur la Promenade A"}, {"en": "Sushi Bar on Concourse B", "fr": "Bar à Sushi sur la Promenade B"}, {"en": "Maple Syrup Treats on Concourse C", "fr": "Gâteries au Sirop d'Érable sur la Promenade C"}],
+    "services": {
+      "medical": {"en": "First Aid Station at Section 210", "fr": "Poste de Premiers Soins à la Section 210"},
+      "lost_and_found": {"en": "Guest Services at Gate A", "fr": "Services aux Invités à la Porte A"},
+      "wheelchair_assistance": {"en": "Available at all gates", "fr": "Disponible à toutes les portes"}
+    },
+    "transport": {
+      "skytrain": {"en": "SkyTrain Expo Line stops at Stadium-Chinatown station", "fr": "La ligne Expo du SkyTrain s'arrête à la station Stadium-Chinatown"},
+      "seabus": {"en": "SeaBus connects from North Vancouver to Waterfront Station, then SkyTrain to stadium", "fr": "SeaBus relie North Vancouver à la station Waterfront, puis SkyTrain jusqu'au stade"},
+      "parking": {"en": "Parking available at lots A-D. $25 CAD.", "fr": "Stationnement disponible aux lots A-D. 25 $ CAD."}
+    },
+    "schedule": {"en": "Match starts at 2:00 PM PDT. Gates open at 11:00 AM.", "fr": "Le match commence à 14h00 PDT. Portes ouvrent à 11h00."}
+  }
+}

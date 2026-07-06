@@ -1,0 +1,37 @@
+{
+  "venues": {
+    "stadium_name": "MetLife Stadium",
+    "location": {
+      "en": "East Rutherford, NJ, USA",
+      "es": "East Rutherford, NJ, EE.UU.",
+      "fr": "East Rutherford, NJ, États-Unis"
+    },
+    "gates": {
+      "gate_a": {"en": "Serves sections 101-110 and is near Parking Lot A.", "es": "Sirve las secciones 101-110 y está cerca del estacionamiento A.", "fr": "Sert les sections 101-110 et se trouve près du parking A."},
+      "gate_b": {"en": "Serves sections 111-120 and is near the Train Station.", "es": "Sirve las secciones 111-120 y está cerca de la estación de tren.", "fr": "Sert les sections 111-120 et se trouve près de la gare."},
+      "gate_c": {"en": "Serves sections 121-130 and is near the Bus Stop.", "es": "Sirve las secciones 121-130 y está cerca de la parada de autobús.", "fr": "Sert les sections 121-130 et se trouve près de l'arrêt de bus."},
+      "gate_g": {"en": "Located on the east side. Serves sections 201-210.", "es": "Ubicado en el lado este. Sirve las secciones 201-210.", "fr": "Situé sur le côté est. Sert les sections 201-210."}
+    },
+    "restrooms": [
+      {"id": "restroom_1", "en": "Near Section 102, Accessible.", "es": "Cerca de Sección 102, Accesible.", "fr": "Près de la section 102, Accessible."},
+      {"id": "restroom_2", "en": "Near Section 115.", "es": "Cerca de Sección 115.", "fr": "Près de la section 115."}
+    ],
+    "food": [
+      {"en": "Pizza Stand on Concourse A (Italian).", "es": "Puesto de Pizza en Concourse A (Italiano).", "Settlement": "Stand de Pizza sur le Concourse A (Italien)."},
+      {"en": "Burger Bar on Concourse B (American).", "es": "Bar de Hamburguesas en Concourse B (Americano).", "fr": "Le Burger Bar sur le Concourse B (Américain)."}
+    ]
+  },
+  "faqs": [
+    {"en": "Match starts at 3:00 PM EDT.", "es": "El partido comienza a las 3:00 PM EDT.", "fr": "Le match commence à 15h00 EDT."}
+  ],
+  "emergency": {
+    "en": "EMERGENCY: Best to stop in place and contact a staff member, or call 911 for assistance.",
+    "es": "EMERGENCIA: Es mejor detenerse en el lugar y contactar a un miembro del personal, o llamar al 911 para asistencia.",
+    "fr": "URGENCE: Il est préférable de s'arrêter sur place et de contacter un membre du personnel, ou d'appeler le 112 pour obtenir de l'aide."
+  },
+  "fallback": {
+    "en": "I don't have that information. Please ask a volunteer for assistance.",
+    "es": "No tengo esa información. Por favor, pide ayuda a un voluntario.",
+    "fr": "Je n'ai pas cette information. Veuillez demander de l'aide à un bénévole."
+  }
+}

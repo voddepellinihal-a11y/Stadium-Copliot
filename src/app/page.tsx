@@ -1,101 +1,65 @@
-import Image from "next/image";
+'use client';
+
+import React from 'react';
+import { AppProvider, useApp } from './components/shared/AppContext';
+import GlobalHeader from './components/shared/GlobalHeader';
+import { Chat } from './components/chat/ChatMain';
+import VolunteerContent from './components/modes/VolunteerContent';
+import OpsContent from './components/modes/OpsContent';
+import AnalyticsContent from './components/modes/AnalyticsContent';
+import SustainabilityContent from './components/modes/SustainabilityContent';
+import AccessibilityContent from './components/modes/AccessibilityContent';
+import { MessageSquare, Users, LayoutDashboard, BarChart3, Leaf, Accessibility } from 'lucide-react';
+
+const modes = [
+  { key: 'fan', icon: <MessageSquare className="w-4 h-4" /> },
+  { key: 'volunteer', icon: <Users className="w-4 h-4" /> },
+  { key: 'ops', icon: <LayoutDashboard className="w-4 h-4" /> },
+  { key: 'analytics', icon: <BarChart3 className="w-4 h-4" /> },
+  { key: 'sustainability', icon: <Leaf className="w-4 h-4" /> },
+  { key: 'accessibility', icon: <Accessibility className="w-4 h-4" /> },
+] as const;
+
+type ModeKey = typeof modes[number]['key'];
+
+function ModeRouter() {
+  const { mode, setMode, highContrast } = useApp();
+
+  const renderContent = () => {
+    switch (mode as ModeKey) {
+      case 'fan': return <Chat />;
+      case 'volunteer': return <VolunteerContent />;
+      case 'ops': return <OpsContent />;
+      case 'analytics': return <AnalyticsContent />;
+      case 'sustainability': return <SustainabilityContent />;
+      case 'accessibility': return <AccessibilityContent />;
+      default: return <Chat />;
+    }
+  };
+
+  return (
+    <div className={`flex flex-col min-h-screen transition-colors duration-300 ${highContrast ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'}`}>
+      <GlobalHeader />
+      {renderContent()}
+      <nav className={`flex justify-around py-1 px-1 text-[10px] font-medium z-50 ${highContrast ? 'bg-gray-900 border-t-2 border-yellow-500' : 'bg-white border-t shadow-lg'}`}>
+        {modes.map(m => (
+          <button key={m.key} onClick={() => setMode(m.key)}
+            className={`flex flex-col items-center gap-0.5 px-2 py-1 rounded-lg transition-all ${
+              mode === m.key ? highContrast ? 'text-yellow-500' : 'text-blue-600' : highContrast ? 'text-gray-400' : 'text-gray-400'
+            }`}>
+            <div className={mode === m.key ? 'scale-110' : ''}>{m.icon}</div>
+            <span className="text-[9px] leading-tight capitalize">{m.key}</span>
+          </button>
+        ))}
+      </nav>
+    </div>
+  );
+}
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    <AppProvider>
+      <ModeRouter />
+    </AppProvider>
   );
 }
