@@ -2,16 +2,20 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
+/** Supported languages for the application */
 export type Lang = 'en' | 'es' | 'fr';
 
+/** Available UI modes for different user personas */
 export type AppMode = 'fan' | 'volunteer' | 'ops' | 'analytics' | 'sustainability' | 'accessibility';
 
+/** All 13 FIFA World Cup 2026 host venue city keys */
 export type CityKey =
   | 'metlife' | 'sofi' | 'azteca' | 'bc_place'
   | 'arrowhead' | 'at_t_stadium' | 'hard_rock' | 'lincoln_financial'
   | 'nrg' | 'lumen' | 'mercedes_benz' | 'gillette'
   | 'cotton_bowl';
 
+/** User roles for authentication-based access control */
 export type UserRole = 'fan' | 'volunteer' | 'ops' | 'admin';
 
 interface AppState {

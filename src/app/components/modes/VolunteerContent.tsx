@@ -6,6 +6,7 @@ import { useApp } from '../shared/AppContext';
 import { t } from '../../data/translations';
 import { getCityData } from '../../data/cityData';
 
+/** Volunteer scripted response hub with FAQ topics and custom question support */
 export default function VolunteerContent() {
   const { language, highContrast, city } = useApp();
   const [query, setQuery] = useState('');

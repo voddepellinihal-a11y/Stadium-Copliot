@@ -9,6 +9,7 @@ import { getCityData } from '../../data/cityData';
 type ZoneData = { capacity: number; current: number; trend: 'up' | 'down' | 'stable' };
 type Incident = { id: number; zone: string; severity: 'low' | 'medium' | 'high'; title: string; status: 'active' | 'resolved' };
 
+/** Operations dashboard with live crowd heatmap, incident tracking, and zone monitoring */
 export default function OpsContent() {
   const { language, highContrast, city } = useApp();
   const [selectedZone, setSelectedZone] = useState<string | null>(null);

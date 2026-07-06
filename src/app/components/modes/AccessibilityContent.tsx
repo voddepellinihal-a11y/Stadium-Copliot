@@ -6,10 +6,13 @@ import { useApp } from '../shared/AppContext';
 import { t } from '../../data/translations';
 import { getCityData } from '../../data/cityData';
 
+/** Accessibility companion with display settings, step-free routes, and emergency escalation */
 export default function AccessibilityContent() {
   const { language, highContrast, setHighContrast, fontScale, setFontScale, city } = useApp();
   const [activeFeature, setActiveFeature] = useState<string | null>(null);
   const [emergencyActive, setEmergencyActive] = useState(false);
+  const [emergencyType, setEmergencyType] = useState<string | null>(null);
+  const [ttsEnabled, setTtsEnabled] = useState(false);
   const emergencyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -19,10 +22,20 @@ export default function AccessibilityContent() {
   }, []);
   const cityData = getCityData(city);
 
-  const handleEmergency = (_type: 'medical' | 'security' | 'lost') => {
+  const handleEmergency = (type: 'medical' | 'security' | 'lost') => {
+    setEmergencyType(type);
     setEmergencyActive(true);
     if (emergencyTimerRef.current) clearTimeout(emergencyTimerRef.current);
-    emergencyTimerRef.current = setTimeout(() => setEmergencyActive(false), 5000);
+    emergencyTimerRef.current = setTimeout(() => { setEmergencyActive(false); setEmergencyType(null); }, 5000);
+  };
+
+  const speak = (text: string) => {
+    if (!ttsEnabled || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = language === 'es' ? 'es-MX' : language === 'fr' ? 'fr-FR' : 'en-US';
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
   };
 
   const getAccessibleRoutes = () => [
@@ -87,6 +100,23 @@ export default function AccessibilityContent() {
               <div className="w-4 h-4 rounded-full bg-white shadow" />
             </div>
           </button>
+          <button
+            onClick={() => setTtsEnabled(!ttsEnabled)}
+            role="switch"
+            aria-checked={ttsEnabled}
+            aria-label="Text-to-speech"
+            className={`flex items-center justify-between w-full p-2.5 rounded-xl transition-all ${
+              ttsEnabled ? 'bg-blue-100 text-blue-700 font-bold' : 'bg-gray-100 hover:bg-gray-200'
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <Volume2 className="w-4 h-4" aria-hidden="true" />
+              <span className="text-xs font-medium">Text-to-Speech</span>
+            </div>
+            <div className={`w-10 h-5 rounded-full flex items-center px-0.5 ${ttsEnabled ? 'bg-blue-600 justify-end' : 'bg-gray-300 justify-start'}`}>
+              <div className="w-4 h-4 rounded-full bg-white shadow" />
+            </div>
+          </button>
         </div>
       </div>
 
@@ -146,13 +176,73 @@ export default function AccessibilityContent() {
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ backgroundColor: route.color + '20', color: route.color }}>
                   <MapPin className="w-4 h-4" aria-hidden="true" />
                 </div>
-                <div className="flex-1">
+                <button className="flex-1 text-left" onClick={() => speak(`${route.from} to ${route.to}, ${route.distance}, elevator available`)} aria-label={`Speak route from ${route.from} to ${route.to}`}>
                   <div className="text-[10px] font-semibold">{route.from} → {route.to}</div>
                   <div className="text-[9px] text-gray-500">{route.distance} • {route.elevator ? 'Elevator' : 'Ramp'}</div>
-                </div>
+                </button>
                 <CheckCircle className="w-4 h-4 text-green-500" aria-hidden="true" />
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Hearing Aid Info */}
+      {activeFeature === 'hearing' && (
+        <div className={`rounded-2xl p-3 mb-3 ${highContrast ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}>
+          <h3 className="font-bold text-xs mb-2">{t(language, 'hearingAid')}</h3>
+          <div className="space-y-2">
+            <div className={`p-2 rounded-xl text-xs ${highContrast ? 'bg-gray-700' : 'bg-blue-50'}`}>
+              <div className="flex items-center gap-2 mb-1">
+                <Volume2 className="w-4 h-4 text-blue-500" aria-hidden="true" />
+                <span className="font-semibold">Hearing Loop Systems</span>
+              </div>
+              <p className="text-[10px]">Available at all guest services desks, information booths, and ticket counters. Look for the hearing loop symbol.</p>
+            </div>
+            <div className={`p-2 rounded-xl text-xs ${highContrast ? 'bg-gray-700' : 'bg-blue-50'}`}>
+              <div className="flex items-center gap-2 mb-1">
+                <Volume2 className="w-4 h-4 text-blue-500" aria-hidden="true" />
+                <span className="font-semibold">Assistive Listening Devices</span>
+              </div>
+              <p className="text-[10px]">Available at Guest Services. Compatible with hearing aids (T-coil). ID required for checkout.</p>
+            </div>
+            <div className={`p-2 rounded-xl text-xs ${highContrast ? 'bg-gray-700' : 'bg-blue-50'}`}>
+              <div className="flex items-center gap-2 mb-1">
+                <Volume2 className="w-4 h-4 text-blue-500" aria-hidden="true" />
+                <span className="font-semibold">Sign Language Interpretation</span>
+              </div>
+              <p className="text-[10px]">Available upon request for all matches. Request at least 48 hours in advance via Guest Services.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sensory Kit Info */}
+      {activeFeature === 'sensory' && (
+        <div className={`rounded-2xl p-3 mb-3 ${highContrast ? 'bg-gray-800' : 'bg-white border border-gray-200'}`}>
+          <h3 className="font-bold text-xs mb-2">{t(language, 'sensoryKits')}</h3>
+          <div className="space-y-2">
+            <div className={`p-2 rounded-xl text-xs ${highContrast ? 'bg-gray-700' : 'bg-indigo-50'}`}>
+              <div className="flex items-center gap-2 mb-1">
+                <Languages className="w-4 h-4 text-indigo-500" aria-hidden="true" />
+                <span className="font-semibold">Sensory Kits</span>
+              </div>
+              <p className="text-[10px]">Available at Guest Services. Each kit includes noise-cancelling headphones, fidget tools, weighted lap pad, and visual schedule cards.</p>
+            </div>
+            <div className={`p-2 rounded-xl text-xs ${highContrast ? 'bg-gray-700' : 'bg-indigo-50'}`}>
+              <div className="flex items-center gap-2 mb-1">
+                <Languages className="w-4 h-4 text-indigo-500" aria-hidden="true" />
+                <span className="font-semibold">Quiet Rooms</span>
+              </div>
+              <p className="text-[10px]">Designated quiet areas located near Sections 110 and 230. Available for anyone needing a sensory break from stadium noise.</p>
+            </div>
+            <div className={`p-2 rounded-xl text-xs ${highContrast ? 'bg-gray-700' : 'bg-indigo-50'}`}>
+              <div className="flex items-center gap-2 mb-1">
+                <Languages className="w-4 h-4 text-indigo-500" aria-hidden="true" />
+                <span className="font-semibold">Calm Down Kits</span>
+              </div>
+              <p className="text-[10px]">Available at first aid stations for children and adults with sensory sensitivities. Includes stress balls, fidget spinners, and noise-reducing ear plugs.</p>
+            </div>
           </div>
         </div>
       )}
@@ -187,12 +277,16 @@ export default function AccessibilityContent() {
               <Phone className="w-4 h-4 animate-pulse" aria-hidden="true" />
               <span>{t(language, 'alertSent')}</span>
             </div>
-            <p className="text-[10px] text-red-600">Staff notified • Response team dispatched</p>
+            <p className="text-[10px] text-red-600">
+              {emergencyType === 'medical' ? 'Medical team dispatched to your location' :
+               emergencyType === 'security' ? 'Security personnel alerted to your area' :
+               'Staff notified — lost person protocols activated'}
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-3 gap-2">
             <button
-              onClick={() => handleEmergency('medical')}
+              onClick={() => { handleEmergency('medical'); speak('Medical emergency reported. Help is on the way.'); }}
               aria-label="Medical emergency escalation"
               className="flex flex-col items-center p-2 rounded-xl bg-red-50 hover:bg-red-100 transition-colors"
             >
@@ -200,7 +294,7 @@ export default function AccessibilityContent() {
               <span className="text-[9px] font-semibold mt-1">{t(language, 'medical')}</span>
             </button>
             <button
-              onClick={() => handleEmergency('security')}
+              onClick={() => { handleEmergency('security'); speak('Security emergency reported. Personnel alerted.'); }}
               aria-label="Security emergency escalation"
               className="flex flex-col items-center p-2 rounded-xl bg-amber-50 hover:bg-amber-100 transition-colors"
             >
@@ -208,7 +302,7 @@ export default function AccessibilityContent() {
               <span className="text-[9px] font-semibold mt-1">{t(language, 'security')}</span>
             </button>
             <button
-              onClick={() => handleEmergency('lost')}
+              onClick={() => { handleEmergency('lost'); speak('Lost person reported. Staff notified.'); }}
               aria-label="Lost person emergency escalation"
               className="flex flex-col items-center p-2 rounded-xl bg-blue-50 hover:bg-blue-100 transition-colors"
             >

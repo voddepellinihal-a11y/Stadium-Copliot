@@ -14,6 +14,7 @@ const AnalyticsContent = dynamic(() => import('./components/modes/AnalyticsConte
 const SustainabilityContent = dynamic(() => import('./components/modes/SustainabilityContent'), { ssr: false, loading: () => <LoadingSpinner /> });
 const AccessibilityContent = dynamic(() => import('./components/modes/AccessibilityContent'), { ssr: false, loading: () => <LoadingSpinner /> });
 
+/** Loading spinner shown during dynamic component loading */
 function LoadingSpinner() {
   return (
     <div className="flex items-center justify-center h-full" role="status" aria-label="Loading">
@@ -31,6 +32,7 @@ const modes = [
   { key: 'accessibility', icon: Accessibility, labelKey: 'accessibility' as const },
 ] as const;
 
+/** Union type derived from the modes list for type-safe mode switching */
 type ModeKey = typeof modes[number]['key'];
 
 const langConfig: { code: Lang; name: string; flag: string; nativeName: string }[] = [
@@ -39,6 +41,7 @@ const langConfig: { code: Lang; name: string; flag: string; nativeName: string }
   { code: 'fr', name: 'French', flag: '🇫🇷', nativeName: 'Français' },
 ];
 
+/** Full-screen language selector modal with flag icons and native language names */
 function LanguageModal({ onSelect, onClose }: { onSelect: (lang: Lang) => void; onClose: () => void }) {
   const firstButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -87,6 +90,7 @@ function LanguageModal({ onSelect, onClose }: { onSelect: (lang: Lang) => void; 
   );
 }
 
+/** Routes between 6 mode views based on current AppContext mode state */
 function ModeRouter() {
   const { mode, setMode, highContrast, language, setLanguage } = useApp();
   const [showLangModal, setShowLangModal] = useState(false);
@@ -152,6 +156,7 @@ function ModeRouter() {
   );
 }
 
+/** Main application entry point wrapping the entire app in global state provider */
 export default function Home() {
   return (
     <AppProvider>

@@ -8,7 +8,6 @@ type TranslationKeys = {
   selectLanguage: string;
   enableHighContrast: string;
   disableHighContrast: string;
-  currentMode: string;
 
   // Bottom Nav
   fan: string;
@@ -23,7 +22,6 @@ type TranslationKeys = {
   typeYourQuestion: string;
   askAboutStadium: string;
   sendMessage: string;
-  sendHint: string;
   charactersLeft: string;
   typing: string;
   chatMessages: string;
@@ -191,6 +189,7 @@ type TranslationKeys = {
   cottonBowlStadium: string;
 };
 
+/** Complete translations for all supported languages */
 export const translations: Record<Lang, TranslationKeys> = {
   en: {
     // Header
@@ -200,7 +199,6 @@ export const translations: Record<Lang, TranslationKeys> = {
     selectLanguage: 'Select language',
     enableHighContrast: 'Enable high contrast',
     disableHighContrast: 'Disable high contrast',
-    currentMode: 'Current mode',
 
     // Bottom Nav
     fan: 'Fan',
@@ -215,7 +213,6 @@ export const translations: Record<Lang, TranslationKeys> = {
     typeYourQuestion: 'Type your question...',
     askAboutStadium: 'Ask me anything about the stadium...',
     sendMessage: 'Send message',
-    sendHint: 'Type and press Enter',
     charactersLeft: 'characters left',
     typing: 'Typing...',
     chatMessages: 'Chat messages',
@@ -391,7 +388,6 @@ export const translations: Record<Lang, TranslationKeys> = {
     selectLanguage: 'Seleccionar idioma',
     enableHighContrast: 'Activar alto contraste',
     disableHighContrast: 'Desactivar alto contraste',
-    currentMode: 'Modo actual',
 
     // Bottom Nav
     fan: 'Fan',
@@ -406,7 +402,6 @@ export const translations: Record<Lang, TranslationKeys> = {
     typeYourQuestion: 'Escribe tu pregunta...',
     askAboutStadium: 'Pregúntame sobre el estadio...',
     sendMessage: 'Enviar mensaje',
-    sendHint: 'Escribe y presiona Enter',
     charactersLeft: 'caracteres restantes',
     typing: 'Escribiendo...',
     chatMessages: 'Mensajes del chat',
@@ -582,7 +577,6 @@ export const translations: Record<Lang, TranslationKeys> = {
     selectLanguage: 'Sélectionner la langue',
     enableHighContrast: 'Activer le contraste élevé',
     disableHighContrast: 'Désactiver le contraste élevé',
-    currentMode: 'Mode actuel',
 
     // Bottom Nav
     fan: 'Fan',
@@ -597,7 +591,6 @@ export const translations: Record<Lang, TranslationKeys> = {
     typeYourQuestion: 'Tapez votre question...',
     askAboutStadium: 'Demandez-moi sur le stade...',
     sendMessage: 'Envoyer le message',
-    sendHint: 'Tapez et appuyez sur Entrée',
     charactersLeft: 'caractères restants',
     typing: 'En train d\'écrire...',
     chatMessages: 'Messages du chat',
@@ -777,6 +770,7 @@ export function t(lang: Lang, key: keyof TranslationKeys): string {
   return translations[lang][key] || translations.en[key] || key;
 }
 
+/** Shape of the city knowledge base entries for all 13 FIFA 2026 venues */
 export type CityKnowledge = Record<string, {
   name: string;
   country: string;

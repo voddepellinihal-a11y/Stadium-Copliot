@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { ErrorBoundary } from "./components/shared/ErrorBoundary";
 
+/** SEO metadata for the Stadium Copilot application */
 export const metadata: Metadata = {
   title: "Stadium Copilot 2026 – FIFA World Cup AI Assistant",
   description: "A GenAI-powered fan assistant for the FIFA World Cup 2026. Navigate stadiums, find amenities, multilingual support, and real-time operational intelligence across 13 cities in 3 countries.",
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
+/** Viewport configuration for responsive design and accessibility */
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -21,6 +23,7 @@ export const viewport: Viewport = {
   userScalable: true,
 };
 
+/** Root layout wrapping all pages with error boundary, skip link, and global styles */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="h-full" dir="ltr">

@@ -28,6 +28,7 @@ const modeLabelKeys: Record<AppMode, 'fan' | 'volunteer' | 'ops' | 'analytics' |
   fan: 'fan', volunteer: 'volunteer', ops: 'ops', analytics: 'analytics', sustainability: 'sustainability', accessibility: 'accessibility',
 };
 
+/** Global header with mode tabs, 13-city selector, language toggle, and contrast controls */
 export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: () => void }) {
   const { mode, setMode, language, highContrast, setHighContrast, city, setCity } = useApp();
   const [cityOpen, setCityOpen] = React.useState(false);

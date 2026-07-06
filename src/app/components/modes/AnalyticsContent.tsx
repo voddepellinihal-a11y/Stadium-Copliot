@@ -5,6 +5,7 @@ import { BarChart3, MessageSquare, Users, Clock, ThumbsUp, CheckCircle, Activity
 import { useApp } from '../shared/AppContext';
 import { t } from '../../data/translations';
 
+/** Analytics dashboard with KPIs, query stats, language breakdown, and security compliance */
 export default function AnalyticsContent() {
   const { language, highContrast } = useApp();
   const [activeTab, setActiveTab] = useState<'overview' | 'questions' | 'satisfaction' | 'performance' | 'security'>('overview');

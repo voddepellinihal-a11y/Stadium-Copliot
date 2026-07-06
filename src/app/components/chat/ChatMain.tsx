@@ -68,6 +68,7 @@ function findAnswer(question: string, city: CityKey, lang: Lang): string {
   return answer;
 }
 
+/** Fan chat interface with keyword-driven Q&A, rate limiting, and accessibility support */
 export function Chat() {
   const { language: lang, highContrast, city } = useApp();
   const [messages, setMessages] = useState<Message[]>([

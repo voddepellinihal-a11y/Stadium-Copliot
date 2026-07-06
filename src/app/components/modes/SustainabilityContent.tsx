@@ -1,20 +1,33 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Leaf, CheckCircle, Circle, Droplets, Zap, Recycle } from 'lucide-react';
 import { useApp } from '../shared/AppContext';
 import { t } from '../../data/translations';
 import { getCityData } from '../../data/cityData';
 
+/** Sustainability tracker with eco-action checklist and venue sustainability features */
 export default function SustainabilityContent() {
   const { language, highContrast, city } = useApp();
-  const [actions, setActions] = useState([
-    { id: 1, labelKey: 'usePublicTransit' as const, icon: '🚌', completed: false },
-    { id: 2, labelKey: 'bringReusableBottle' as const, icon: '♻️', completed: false },
-    { id: 3, labelKey: 'useRecyclingBins' as const, icon: '♻️', completed: false },
-    { id: 4, labelKey: 'walkToAmenities' as const, icon: '🚶', completed: false },
-    { id: 5, labelKey: 'shareRideWithFriends' as const, icon: '🚗', completed: false },
-  ]);
+  type Action = { id: number; labelKey: string; icon: string; completed: boolean };
+  const loadActions = useCallback((): Action[] => {
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('sustainability_actions') : null;
+    if (saved) {
+      try { return JSON.parse(saved) as Action[]; } catch { /* ignore */ }
+    }
+    return [
+      { id: 1, labelKey: 'usePublicTransit', icon: '🚌', completed: false },
+      { id: 2, labelKey: 'bringReusableBottle', icon: '♻️', completed: false },
+      { id: 3, labelKey: 'useRecyclingBins', icon: '♻️', completed: false },
+      { id: 4, labelKey: 'walkToAmenities', icon: '🚶', completed: false },
+      { id: 5, labelKey: 'shareRideWithFriends', icon: '🚗', completed: false },
+    ];
+  }, []);
+  const [actions, setActions] = useState<Action[]>(loadActions);
+
+  useEffect(() => {
+    localStorage.setItem('sustainability_actions', JSON.stringify(actions));
+  }, [actions]);
   const cityData = getCityData(city);
 
   const score = Math.round((actions.filter(a => a.completed).length / actions.length) * 100);
@@ -35,7 +48,7 @@ export default function SustainabilityContent() {
     return highContrast ? 'bg-red-900' : 'bg-red-50';
   };
 
-  const sustainabilityFeatures = cityData.sustainability?.features || [
+  const sustainabilityFeatures: string[] = cityData.sustainability?.features || [
     'Water recycling systems',
     'Solar panel arrays',
     'Composting programs'
@@ -78,7 +91,7 @@ export default function SustainabilityContent() {
               onClick={() => toggleAction(action.id)}
               role="checkbox"
               aria-checked={action.completed}
-              aria-label={t(language, action.labelKey)}
+              aria-label={t(language, action.labelKey as 'usePublicTransit' | 'bringReusableBottle' | 'useRecyclingBins' | 'walkToAmenities' | 'shareRideWithFriends')}
               className={`flex items-center gap-3 w-full p-2.5 rounded-xl text-left transition-all ${
                 highContrast
                   ? action.completed ? 'bg-green-900 text-green-400' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -91,7 +104,7 @@ export default function SustainabilityContent() {
                 <Circle className="w-5 h-5 text-gray-400 flex-shrink-0" aria-hidden="true" />
               )}
               <span className="text-lg" aria-hidden="true">{action.icon}</span>
-              <span className={`text-xs font-medium ${action.completed ? 'line-through' : ''}`}>{t(language, action.labelKey)}</span>
+              <span className={`text-xs font-medium ${action.completed ? 'line-through' : ''}`}>{t(language, action.labelKey as 'usePublicTransit' | 'bringReusableBottle' | 'useRecyclingBins' | 'walkToAmenities' | 'shareRideWithFriends')}</span>
             </button>
           ))}
         </div>
@@ -105,21 +118,21 @@ export default function SustainabilityContent() {
             <Droplets className="w-4 h-4 text-blue-500" aria-hidden="true" />
             <div>
               <div className="text-[10px] font-semibold">{t(language, 'waterRecycling')}</div>
-              <div className="text-[9px] text-gray-500">{sustainabilityFeatures[0]}</div>
+              <div className="text-[9px] text-gray-500">{sustainabilityFeatures[0] || ''}</div>
             </div>
           </div>
           <div className={`flex items-center gap-2 p-2 rounded-xl ${highContrast ? 'bg-gray-700' : 'bg-gray-50'}`}>
             <Zap className="w-4 h-4 text-yellow-500" aria-hidden="true" />
             <div>
               <div className="text-[10px] font-semibold">{t(language, 'solarPower')}</div>
-              <div className="text-[9px] text-gray-500">{sustainabilityFeatures[1]}</div>
+              <div className="text-[9px] text-gray-500">{sustainabilityFeatures[1] || ''}</div>
             </div>
           </div>
           <div className={`flex items-center gap-2 p-2 rounded-xl ${highContrast ? 'bg-gray-700' : 'bg-gray-50'}`}>
             <Recycle className="w-4 h-4 text-green-500" aria-hidden="true" />
             <div>
               <div className="text-[10px] font-semibold">{t(language, 'composting')}</div>
-              <div className="text-[9px] text-gray-500">{sustainabilityFeatures[2]}</div>
+              <div className="text-[9px] text-gray-500">{sustainabilityFeatures[2] || ''}</div>
             </div>
           </div>
         </div>
