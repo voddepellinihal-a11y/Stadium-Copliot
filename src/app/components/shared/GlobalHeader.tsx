@@ -6,27 +6,26 @@ import { useApp, AppMode, CityKey } from './AppContext';
 import { t } from '../../data/translations';
 
 const cityFlags: Record<CityKey, string> = {
-  metlife: '🇺🇸',
-  sofi: '🇺🇸',
-  azteca: '🇲🇽',
-  bc_place: '🇨🇦',
+  metlife: '🇺🇸', sofi: '🇺🇸', azteca: '🇲🇽', bc_place: '🇨🇦',
+  arrowhead: '🇺🇸', at_t_stadium: '🇺🇸', hard_rock: '🇺🇸', lincoln_financial: '🇺🇸',
+  nrg: '🇺🇸', lumen: '🇺🇸', mercedes_benz: '🇺🇸', gillette: '🇺🇸', cotton_bowl: '🇺🇸',
 };
 
-const cityKeys: CityKey[] = ['metlife', 'sofi', 'azteca', 'bc_place'];
-const cityNameKeys: Record<CityKey, 'metlifeStadium' | 'sofiStadium' | 'aztecaStadium' | 'bcPlaceStadium'> = {
-  metlife: 'metlifeStadium',
-  sofi: 'sofiStadium',
-  azteca: 'aztecaStadium',
-  bc_place: 'bcPlaceStadium',
+const cityKeys: CityKey[] = [
+  'metlife', 'sofi', 'azteca', 'bc_place',
+  'arrowhead', 'at_t_stadium', 'hard_rock', 'lincoln_financial',
+  'nrg', 'lumen', 'mercedes_benz', 'gillette', 'cotton_bowl',
+];
+
+const cityNameKeys: Record<CityKey, string> = {
+  metlife: 'metlifeStadium', sofi: 'sofiStadium', azteca: 'aztecaStadium', bc_place: 'bcPlaceStadium',
+  arrowhead: 'arrowheadStadium', at_t_stadium: 'attStadium', hard_rock: 'hardRockStadium',
+  lincoln_financial: 'lincolnStadium', nrg: 'nrgStadium', lumen: 'lumenStadium',
+  mercedes_benz: 'mercedesBenzStadium', gillette: 'gilletteStadium', cotton_bowl: 'cottonBowlStadium',
 };
 
 const modeLabelKeys: Record<AppMode, 'fan' | 'volunteer' | 'ops' | 'analytics' | 'sustainability' | 'accessibility'> = {
-  fan: 'fan',
-  volunteer: 'volunteer',
-  ops: 'ops',
-  analytics: 'analytics',
-  sustainability: 'sustainability',
-  accessibility: 'accessibility',
+  fan: 'fan', volunteer: 'volunteer', ops: 'ops', analytics: 'analytics', sustainability: 'sustainability', accessibility: 'accessibility',
 };
 
 export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: () => void }) {
@@ -105,13 +104,13 @@ export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: ()
                 }`}
               >
                 <span>{cityFlags[city]}</span>
-                <span className="hidden sm:inline">{t(language, cityNameKeys[city]).split(' ')[0]}</span>
-                <span className="sm:hidden text-[10px]">{city.toUpperCase().slice(0, 3)}</span>
+                <span className="hidden sm:inline">{t(language, cityNameKeys[city] as 'metlifeStadium').split(' ')[0]}</span>
+                <span className="sm:hidden text-[10px]">{city.toUpperCase().slice(0, 4)}</span>
                 <ChevronDown className="w-3 h-3 opacity-70" />
               </button>
               {cityOpen && (
                 <div
-                  className={`absolute right-0 mt-1 w-52 rounded-xl shadow-2xl z-50 overflow-hidden ${
+                  className={`absolute right-0 mt-1 w-64 max-h-80 overflow-y-auto rounded-xl shadow-2xl z-50 ${
                     highContrast ? 'bg-gray-900 border border-gray-700' : 'bg-white border'
                   }`}
                   role="listbox"
@@ -122,14 +121,14 @@ export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: ()
                       onClick={() => { setCity(key); setCityOpen(false); }}
                       role="option"
                       aria-selected={city === key}
-                      className={`flex items-center gap-2 w-full text-left px-3 py-2.5 text-sm transition-colors ${
+                      className={`flex items-center gap-2 w-full text-left px-3 py-2 text-sm transition-colors ${
                         city === key
                           ? highContrast ? 'bg-yellow-500 text-black font-bold' : 'bg-blue-50 text-blue-700 font-semibold'
                           : highContrast ? 'text-white hover:bg-gray-800' : 'text-gray-700 hover:bg-gray-50'
                       }`}
                     >
                       <span className="text-lg">{cityFlags[key]}</span>
-                      <span>{t(language, cityNameKeys[key])}</span>
+                      <span>{t(language, cityNameKeys[key] as 'metlifeStadium')}</span>
                     </button>
                   ))}
                 </div>
@@ -167,7 +166,7 @@ export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: ()
           <div className="flex items-center gap-1.5 text-xs opacity-80">
             <span className="font-medium">{t(language, modeLabelKeys[mode])}</span>
             <span className="opacity-50">•</span>
-            <span className="opacity-50">{t(language, cityNameKeys[city])}</span>
+            <span className="opacity-50">{t(language, cityNameKeys[city] as 'metlifeStadium')}</span>
           </div>
         </div>
       </div>

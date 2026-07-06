@@ -124,6 +124,15 @@ type TranslationKeys = {
   sofiStadium: string;
   aztecaStadium: string;
   bcPlaceStadium: string;
+  arrowheadStadium: string;
+  attStadium: string;
+  hardRockStadium: string;
+  lincolnStadium: string;
+  nrgStadium: string;
+  lumenStadium: string;
+  mercedesBenzStadium: string;
+  gilletteStadium: string;
+  cottonBowlStadium: string;
 };
 
 export const translations: Record<Lang, TranslationKeys> = {
@@ -251,6 +260,15 @@ export const translations: Record<Lang, TranslationKeys> = {
     sofiStadium: 'SoFi Stadium',
     aztecaStadium: 'Estadio Azteca',
     bcPlaceStadium: 'BC Place',
+    arrowheadStadium: 'Arrowhead Stadium',
+    attStadium: 'AT&T Stadium',
+    hardRockStadium: 'Hard Rock Stadium',
+    lincolnStadium: 'Lincoln Financial',
+    nrgStadium: 'NRG Stadium',
+    lumenStadium: 'Lumen Field',
+    mercedesBenzStadium: 'Mercedes-Benz',
+    gilletteStadium: 'Gillette Stadium',
+    cottonBowlStadium: 'Cotton Bowl',
   },
 
   es: {
@@ -377,6 +395,15 @@ export const translations: Record<Lang, TranslationKeys> = {
     sofiStadium: 'Estadio SoFi',
     aztecaStadium: 'Estadio Azteca',
     bcPlaceStadium: 'Estadio BC Place',
+    arrowheadStadium: 'Estadio Arrowhead',
+    attStadium: 'Estadio AT&T',
+    hardRockStadium: 'Estadio Hard Rock',
+    lincolnStadium: 'Lincoln Financial',
+    nrgStadium: 'Estadio NRG',
+    lumenStadium: 'Lumen Field',
+    mercedesBenzStadium: 'Mercedes-Benz',
+    gilletteStadium: 'Estadio Gillette',
+    cottonBowlStadium: 'Cotton Bowl',
   },
 
   fr: {
@@ -503,6 +530,15 @@ export const translations: Record<Lang, TranslationKeys> = {
     sofiStadium: 'Stade SoFi',
     aztecaStadium: 'Estadio Azteca',
     bcPlaceStadium: 'Stade BC Place',
+    arrowheadStadium: 'Stade Arrowhead',
+    attStadium: 'Stade AT&T',
+    hardRockStadium: 'Stade Hard Rock',
+    lincolnStadium: 'Lincoln Financial',
+    nrgStadium: 'Stade NRG',
+    lumenStadium: 'Lumen Field',
+    mercedesBenzStadium: 'Mercedes-Benz',
+    gilletteStadium: 'Stade Gillette',
+    cottonBowlStadium: 'Cotton Bowl',
   },
 };
 

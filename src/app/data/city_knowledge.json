@@ -1,8 +1,448 @@
 {
+  "sofi": {
+    "name": "SoFi Stadium",
+    "country": "USA",
+    "location": "Inglewood, CA",
+    "languages": ["en", "es"],
+    "capacity": 70240,
+    "gates": {
+      "gate_1": {"en": "Gate 1 - Sections 201-210, near Parking Structure A", "es": "Puerta 1 - Secciones 201-210, cerca del Estacionamiento A"},
+      "gate_2": {"en": "Gate 2 - Sections 211-220, near Metro Station", "es": "Puerta 2 - Secciones 211-220, cerca de la Estación de Metro"},
+      "gate_3": {"en": "Gate 3 - Sections 221-230, near Ride Share Drop-off", "es": "Puerta 3 - Secciones 221-230, cerca de la Zona de Viajes Compartidos"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 205 (Accessible)", "es": "Baño cerca de la Sección 205 (Accesible)"},
+      {"en": "Restroom near Section 218", "es": "Baño cerca de la Sección 218"}
+    ],
+    "food": [
+      {"en": "Sushi Bar on Concourse A", "es": "Bar de Sushi en Concourse A"},
+      {"en": "BBQ Pit on Concourse B", "es": "Parrilla BBQ en Concourse B"},
+      {"en": "Vegan Corner on Concourse C", "es": "Esquina Vegana en Concourse C"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid Station at Section 215", "es": "Estación de Primeros Auxilios en la Sección 215"},
+      "lost_and_found": {"en": "Guest Services at Gate 1", "es": "Servicios al Huésped en la Puerta 1"},
+      "wheelchair_assistance": {"en": "Available at all gates - request at Guest Services", "es": "Disponible en todas las puertas - solicite en Servicios al Huésped"},
+      "guest_services": {"en": "Guest Services at each gate entrance", "es": "Servicios al Huésped en cada entrada de puerta"}
+    },
+    "transport": {
+      "shuttle": {"en": "Free shuttles from Metro Station to Gate 2 every 10 minutes", "es": "Autobuses gratis desde la Estación de Metro hasta la Puerta 2 cada 10 minutos"},
+      "metro": {"en": "Metro Line A stops at SoFi Stadium station", "es": "La Línea A del Metro para en la estación del Estadio SoFi"},
+      "parking": {"en": "Parking available in Structures A, B, C. $50 prepaid, $60 at gate.", "es": "Estacionamiento disponible en las Estructuras A, B, C. $50 prepago, $60 en puerta."}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "Fully wheelchair accessible with ramps at all entries", "es": "Totalmente accesible en silla de ruedas con rampas en todas las entradas"},
+      "assistance": {"en": "Text HELP to 555-SOFI for immediate assistance", "es": "Envíe AYUDA al 555-SOFI para asistencia inmediata"},
+      "sensory_rooms": {"en": "Quiet rooms available near Section 210", "es": "Salas tranquilas disponibles cerca de la Sección 210"}
+    },
+    "schedule": {"en": "Match starts at 5:30 PM PDT. Gates open at 3:00 PM.", "es": "El partido comienza a las 5:30 PM PDT. Puertas abren a las 3:00 PM."},
+    "bag_policy": {"en": "Clear bags only, max 12x6x12. Small clutch OK.", "es": "Solo bolsas transparentes, máximo 12x6x12. Bolsillo pequeño permitido."}
+  },
+  "azteca": {
+    "name": "Estadio Azteca",
+    "country": "Mexico",
+    "location": "Mexico City",
+    "languages": ["es", "en"],
+    "capacity": 87523,
+    "gates": {
+      "puerta_1": {"en": "Gate 1 - Sections 1-10, near Metro Station", "es": "Puerta 1 - Secciones 1-10, cerca de la Estación de Metro"},
+      "puerta_2": {"en": "Gate 2 - Sections 11-20, near Parking Lot", "es": "Puerta 2 - Secciones 11-20, cerca del Estacionamiento"},
+      "puerta_3": {"en": "Gate 3 - Sections 21-30, near Bus Terminal", "es": "Puerta 3 - Secciones 21-30, cerca de la Terminal de Autobuses"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 8 (Accessible)", "es": "Baño cerca de la Sección 8 (Accesible)"},
+      {"en": "Restroom near Section 15", "es": "Baño cerca de la Sección 15"}
+    ],
+    "food": [
+      {"en": "Taquería on Concourse 1", "es": "Taquería en Explanada 1"},
+      {"en": "Tortas Stand on Concourse 2", "es": "Puesto de Tortas en Explanada 2"},
+      {"en": "Elotes Cart on Concourse 3", "es": "Carrito de Elotes en Explanada 3"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid at Section 12", "es": "Primeros Auxilios en la Sección 12"},
+      "lost_and_found": {"en": "Main Office at Gate 1 entrance", "es": "Oficina Principal en la entrada de la Puerta 1"},
+      "wheelchair_assistance": {"en": "Available at all gates", "es": "Disponible en todas las puertas"},
+      "guest_services": {"en": "Servicio al Cliente at each gate", "es": "Servicio al Cliente en cada puerta"}
+    },
+    "transport": {
+      "metro": {"en": "Metro Line 2 stops at Estadio Azteca station", "es": "La Línea 2 del Metro para en la estación Estadio Azteca"},
+      "parking": {"en": "Parking available for 4,000 cars. $200 MXN", "es": "Estacionamiento disponible para 4,000 autos. $200 MXN"}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "Wheelchair areas in all sections. Elevators at Gates 1 and 3.", "es": "Áreas para silla de ruedas en todas las secciones. Ascensores en Puertas 1 y 3."},
+      "assistance": {"en": "Text AYUDA to 555-AZTECA for help", "es": "Envíe AYUDA al 555-AZTECA para ayuda"}
+    },
+    "schedule": {"en": "Match starts at 7:00 PM CST. Gates open at 4:00 PM.", "es": "El partido comienza a las 7:00 PM CST. Puertas abren a las 4:00 PM."},
+    "bag_policy": {"en": "Small bags only. No large backpacks or hard coolers.", "es": "Solo bolsas pequeñas. Sin mochilas grandes ni cooler rígido."}
+  },
+  "bc_place": {
+    "name": "BC Place",
+    "country": "Canada",
+    "location": "Vancouver, BC",
+    "languages": ["en", "fr"],
+    "capacity": 54500,
+    "gates": {
+      "gate_a": {"en": "Gate A - Sections 201-210 near SkyTrain Station", "fr": "Porte A - Sections 201-210 près de la station SkyTrain"},
+      "gate_b": {"en": "Gate B - Sections 211-220 near Parking Garage", "fr": "Porte B - Sections 211-220 près du garage de stationnement"},
+      "gate_c": {"en": "Gate C - Sections 221-230 near Bus Loop", "fr": "Porte C - Sections 221-230 près du terminal d'autobus"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 205 (Accessible)", "fr": "Toilettes près de la Section 205 (Accessible)"},
+      {"en": "Restroom near Section 215", "fr": "Toilettes près de la Section 215"}
+    ],
+    "food": [
+      {"en": "Poutine Stand on Concourse A", "fr": "Stand de Poutine sur la Promenade A"},
+      {"en": "Sushi Bar on Concourse B", "fr": "Bar à Sushi sur la Promenade B"},
+      {"en": "Maple Syrup Treats on Concourse C", "fr": "Gâteries au Sirop d'Érable sur la Promenade C"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid Station at Section 210", "fr": "Poste de Premiers Soins à la Section 210"},
+      "lost_and_found": {"en": "Guest Services at Gate A", "fr": "Services aux Invités à la Porte A"},
+      "wheelchair_assistance": {"en": "Available at all gates", "fr": "Disponible à toutes les portes"},
+      "guest_services": {"en": "Guest Services at each gate", "fr": "Services aux Invités à chaque porte"}
+    },
+    "transport": {
+      "skytrain": {"en": "SkyTrain Expo Line stops at Stadium-Chinatown station", "fr": "La ligne Expo du SkyTrain s'arrête à la station Stadium-Chinatown"},
+      "seabus": {"en": "SeaBus connects from North Vancouver to Waterfront Station, then SkyTrain to stadium", "fr": "SeaBus relie North Vancouver à la station Waterfront, puis SkyTrain jusqu'au stade"},
+      "parking": {"en": "Parking available at lots A-D. $25 CAD.", "fr": "Stationnement disponible aux lots A-D. 25 $ CAD."}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "Fully accessible. Elevators at all gates.", "fr": "Entièrement accessible. Ascenseurs à toutes les portes."},
+      "assistance": {"en": "Text HELP to 555-BCPLACE for assistance", "fr": "Envoyez AIDE au 555-BCPLACE pour assistance"}
+    },
+    "schedule": {"en": "Match starts at 2:00 PM PDT. Gates open at 11:00 AM.", "fr": "Le match commence à 14h00 PDT. Portes ouvrent à 11h00."},
+    "bag_policy": {"en": "Clear bags only. Max 12x6x12 inches.", "fr": "Sacs transparents uniquement. Max 12x6x12 pouces."}
+  },
+  "arrowhead": {
+    "name": "GEHA Field at Arrowhead Stadium",
+    "country": "USA",
+    "location": "Kansas City, MO",
+    "languages": ["en", "es"],
+    "capacity": 76416,
+    "gates": {
+      "gate_a": {"en": "Gate A - East side, near Parking Lot J", "es": "Puerta A - Lado este, cerca del Estacionamiento J"},
+      "gate_b": {"en": "Gate B - West side, near Metro Station", "es": "Puerta B - Lado oeste, cerca de la Estación de Metro"},
+      "gate_c": {"en": "Gate C - North side, near Guest Services", "es": "Puerta C - Lado norte, cerca de Servicios al Huésped"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 101 (Accessible)", "es": "Baño cerca de la Sección 101 (Accesible)"},
+      {"en": "Restroom near Section 120", "es": "Baño cerca de la Sección 120"}
+    ],
+    "food": [
+      {"en": "BBQ Stand on Concourse (Kansas City style)", "es": "Puesto de BBQ en la Explanada (estilo Kansas City)"},
+      {"en": "Nacho Bar on Concourse", "es": "Bar de Nachos en la Explanada"},
+      {"en": "Craft Beer Garden on Concourse", "es": "Jardín de Cerveza Artesanal en la Explanada"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid at Section 115", "es": "Primeros Auxilios en la Sección 115"},
+      "lost_and_found": {"en": "Guest Services at Gate A", "es": "Servicios al Huésped en la Puerta A"},
+      "wheelchair_assistance": {"en": "Available at all gates", "es": "Disponible en todas las puertas"}
+    },
+    "transport": {
+      "shuttle": {"en": "Free shuttles from Metro Station every 10 minutes", "es": "Autobuses gratis desde la Estación de Metro cada 10 minutos"},
+      "parking": {"en": "Parking lots open 4 hours before kickoff. $45 per vehicle", "es": "Estacionamientos abren 4 horas antes del inicio. $45 por vehículo"}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "Wheelchair accessible throughout. Elevators at Gates A, B, C.", "es": "Accesible en silla de ruedas en todo el estadio. Ascensores en Puertas A, B, C."},
+      "assistance": {"en": "Text HELP to 555-ARROW for assistance", "es": "Envíe AYUDA al 555-ARROW para asistencia"}
+    },
+    "schedule": {"en": "Match starts at 4:00 PM CDT. Gates open at 1:30 PM.", "es": "El partido comienza a las 4:00 PM CDT. Puertas abren a la 1:30 PM."},
+    "bag_policy": {"en": "Clear bags only. Max 12x6x12 inches.", "es": "Solo bolsas transparentes. Máximo 12x6x12 pulgadas."}
+  },
+  "at_t_stadium": {
+    "name": "AT&T Stadium",
+    "country": "USA",
+    "location": "Arlington, TX",
+    "languages": ["en", "es"],
+    "capacity": 80000,
+    "gates": {
+      "gate_a": {"en": "Gate A - East side, near Parking Lot A", "es": "Puerta A - Lado este, cerca del Estacionamiento A"},
+      "gate_b": {"en": "Gate B - West side, near Bus Terminal", "es": "Puerta B - Lado oeste, cerca de la Terminal de Autobuses"},
+      "gate_c": {"en": "Gate C - North side, near Party Pass", "es": "Puerta C - Lado norte, cerca de Party Pass"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 201 (Accessible)", "es": "Baño cerca de la Sección 201 (Accesible)"},
+      {"en": "Restroom near Section 230", "es": "Baño cerca de la Sección 230"}
+    ],
+    "food": [
+      {"en": "Tex-Mex on Concourse A", "es": "Tex-Mex en la Explanada A"},
+      {"en": "BBQ on Concourse B", "es": "BBQ en la Explanada B"},
+      {"en": "Premium Dining on Club Level", "es": "Comida Premium en el Nivel Club"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid at Section 215", "es": "Primeros Auxilios en la Sección 215"},
+      "lost_and_found": {"en": "Guest Services at Gate A", "es": "Servicios al Huésped en la Puerta A"},
+      "wheelchair_assistance": {"en": "Available at all gates", "es": "Disponible en todas las puertas"}
+    },
+    "transport": {
+      "shuttle": {"en": "Shuttles from Arlington Transit Center every 15 minutes", "es": "Autobuses desde Arlington Transit Center cada 15 minutos"},
+      "parking": {"en": "Pre-paid parking required. $75 at gate.", "es": "Estacionamiento prepago requerido. $75 en puerta."}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "Fully wheelchair accessible. All levels via elevators.", "es": "Totalmente accesible en silla de ruedas. Todos los niveles con ascensores."},
+      "assistance": {"en": "Text HELP to 555-ATT for assistance", "es": "Envíe AYUDA al 555-ATT para asistencia"}
+    },
+    "schedule": {"en": "Match starts at 3:00 PM CDT. Gates open at 12:00 PM.", "es": "El partido comienza a las 3:00 PM CDT. Puertas abren a las 12:00 PM."},
+    "bag_policy": {"en": "Clear bags only. Max 12x6x12. No purses or clutches.", "es": "Solo bolsas transparentes. Máximo 12x6x12. Sin carteras."}
+  },
+  "hard_rock": {
+    "name": "Hard Rock Stadium",
+    "country": "USA",
+    "location": "Miami Gardens, FL",
+    "languages": ["en", "es"],
+    "capacity": 65000,
+    "gates": {
+      "gate_a": {"en": "Gate A - North side, near Parking Lot 1", "es": "Puerta A - Lado norte, cerca del Estacionamiento 1"},
+      "gate_b": {"en": "Gate B - South side, near Orange Bowl", "es": "Puerta B - Lado sur, cerca del Orange Bowl"},
+      "gate_c": {"en": "Gate C - East side, near Club Entrance", "es": "Puerta C - Lado este, cerca de la entrada del Club"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 101 (Accessible)", "es": "Baño cerca de la Sección 101 (Accesible)"},
+      {"en": "Restroom near Section 130", "es": "Baño cerca de la Sección 130"}
+    ],
+    "food": [
+      {"en": "Cuban Sandwich Stand", "es": "Puesto de Sándwich Cubano"},
+      {"en": "Seafood on Concourse", "es": "Mariscos en la Explanada"},
+      {"en": "Tropical Drinks Bar", "es": "Bar de Bebidas Tropicales"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid at Section 115", "es": "Primeros Auxilios en la Sección 115"},
+      "lost_and_found": {"en": "Guest Services at Gate A", "es": "Servicios al Huésped en la Puerta A"},
+      "wheelchair_assistance": {"en": "Available at all gates", "es": "Disponible en todas las puertas"}
+    },
+    "transport": {
+      "shuttle": {"en": "Free shuttles from Aventura Mall every 20 minutes", "es": "Autobuses gratis desde Aventura Mall cada 20 minutos"},
+      "parking": {"en": "Pre-paid parking required. $60 at gate.", "es": "Estacionamiento prepago requerido. $60 en puerta."}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "Fully accessible. Shaded wheelchair areas available.", "es": "Totalmente accesible. Áreas con techo para silla de ruedas."},
+      "assistance": {"en": "Text HELP to 555-HARD for assistance", "es": "Envíe AYUDA al 555-HARD para asistencia"}
+    },
+    "schedule": {"en": "Match starts at 8:00 PM EDT. Gates open at 5:00 PM.", "es": "El partido comienza a las 8:00 PM EDT. Puertas abren a las 5:00 PM."},
+    "bag_policy": {"en": "Clear bags only. Max 12x6x12. No backpacks.", "es": "Solo bolsas transparentes. Máximo 12x6x12. Sin mochilas."}
+  },
+  "lincoln_financial": {
+    "name": "Lincoln Financial Field",
+    "country": "USA",
+    "location": "Philadelphia, PA",
+    "languages": ["en", "es"],
+    "capacity": 69176,
+    "gates": {
+      "gate_a": {"en": "Gate A - North side, near Broad Street", "es": "Puerta A - Lado norte, cerca de Broad Street"},
+      "gate_b": {"en": "Gate B - South side, near Xfinity Live", "es": "Puerta B - Lado sur, cerca de Xfinity Live"},
+      "gate_c": {"en": "Gate C - East side, near Parking", "es": "Puerta C - Lado este, cerca del Estacionamiento"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 101 (Accessible)", "es": "Baño cerca de la Sección 101 (Accesible)"},
+      {"en": "Restroom near Section 128", "es": "Baño cerca de la Sección 128"}
+    ],
+    "food": [
+      {"en": "Cheesesteak Stand", "es": "Puesto de Cheesesteak"},
+      {"en": "Pretzel Cart", "es": "Carrito de Pretzels"},
+      {"en": "Italian Hoagies", "es": "Bocadillos Italianos"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid at Section 115", "es": "Primeros Auxilios en la Sección 115"},
+      "lost_and_found": {"en": "Guest Services at Gate A", "es": "Servicios al Huésped en la Puerta A"},
+      "wheelchair_assistance": {"en": "Available at all gates", "es": "Disponible en todas las puertas"}
+    },
+    "transport": {
+      "train": {"en": "SEPTA Broad Street Line to AT&T Station", "es": "Línea Broad Street de SEPTA hasta la estación AT&T"},
+      "parking": {"en": "Pre-paid parking required. $55 at gate.", "es": "Estacionamiento prepago requerido. $55 en puerta."}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "Fully accessible. Elevators at all gates.", "es": "Totalmente accesible. Ascensores en todas las puertas."},
+      "assistance": {"en": "Text HELP to 555-LINC for assistance", "es": "Envíe AYUDA al 555-LINC para asistencia"}
+    },
+    "schedule": {"en": "Match starts at 7:00 PM EDT. Gates open at 4:30 PM.", "es": "El partido comienza a las 7:00 PM EDT. Puertas abren a las 4:30 PM."},
+    "bag_policy": {"en": "Clear bags only. Max 12x6x12 inches.", "es": "Solo bolsas transparentes. Máximo 12x6x12 pulgadas."}
+  },
+  "nrg": {
+    "name": "NRG Stadium",
+    "country": "USA",
+    "location": "Houston, TX",
+    "languages": ["en", "es"],
+    "capacity": 72220,
+    "gates": {
+      "gate_a": {"en": "Gate A - Red Lot side", "es": "Puerta A - Lado del Lote Rojo"},
+      "gate_b": {"en": "Gate B - Green Lot side", "es": "Puerta B - Lado del Lote Verde"},
+      "gate_c": {"en": "Gate C - Blue Lot side", "es": "Puerta C - Lado del Lote Azul"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 101 (Accessible)", "es": "Baño cerca de la Sección 101 (Accesible)"},
+      {"en": "Restroom near Section 130", "es": "Baño cerca de la Sección 130"}
+    ],
+    "food": [
+      {"en": "BBQ Pit on Concourse", "es": "Parrilla BBQ en la Explanada"},
+      {"en": "Tex-Mex on Concourse", "es": "Tex-Mex en la Explanada"},
+      {"en": "Brisket Sandwich Stand", "es": "Puesto de Sándwich de Brisket"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid at Section 115", "es": "Primeros Auxilios en la Sección 115"},
+      "lost_and_found": {"en": "Guest Services at Gate A", "es": "Servicios al Huésped en la Puerta A"},
+      "wheelchair_assistance": {"en": "Available at all gates", "es": "Disponible en todas las puertas"}
+    },
+    "transport": {
+      "metro": {"en": "METRORail Purple Line stops at Stadium Park/Astrodome", "es": "Línea Púrpura del METRORail para en Stadium Park/Astrodome"},
+      "parking": {"en": "Pre-paid parking required. $50 at gate.", "es": "Estacionamiento prepago requerido. $50 en puerta."}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "Fully accessible. Air-conditioned concourses.", "es": "Totalmente accesible. Explanadas con aire acondicionado."},
+      "assistance": {"en": "Text HELP to 555-NRG for assistance", "es": "Envíe AYUDA al 555-NRG para asistencia"}
+    },
+    "schedule": {"en": "Match starts at 3:00 PM CDT. Gates open at 12:00 PM.", "es": "El partido comienza a las 3:00 PM CDT. Puertas abren a las 12:00 PM."},
+    "bag_policy": {"en": "Clear bags only. Max 12x6x12 inches.", "es": "Solo bolsas transparentes. Máximo 12x6x12 pulgadas."}
+  },
+  "lumen": {
+    "name": "Lumen Field",
+    "country": "USA",
+    "location": "Seattle, WA",
+    "languages": ["en", "es"],
+    "capacity": 68740,
+    "gates": {
+      "gate_a": {"en": "Gate A - North end, near Pioneer Square", "es": "Puerta A - Extremo norte, cerca de Pioneer Square"},
+      "gate_b": {"en": "Gate B - South end, near International District", "es": "Puerta B - Extremo sur, cerca del Distrito Internacional"},
+      "gate_c": {"en": "Gate C - East side, near Light Rail", "es": "Puerta C - Lado este, cerca del Light Rail"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 101 (Accessible)", "es": "Baño cerca de la Sección 101 (Accesible)"},
+      {"en": "Restroom near Section 130", "es": "Baño cerca de la Sección 130"}
+    ],
+    "food": [
+      {"en": "Pike Place Chowder Stand", "es": "Puesto de Pike Place Chowder"},
+      {"en": "Pacific Northwest Seafood", "es": "Mariscos del Pacífico Noroeste"},
+      {"en": "Coffee & Pastries Cart", "es": "Carrito de Café y Pastelería"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid at Section 115", "es": "Primeros Auxilios en la Sección 115"},
+      "lost_and_found": {"en": "Guest Services at Gate A", "es": "Servicios al Huésped en la Puerta A"},
+      "wheelchair_assistance": {"en": "Available at all gates", "es": "Disponible en todas las puertas"}
+    },
+    "transport": {
+      "train": {"en": "Link Light Rail to Stadium Station", "es": "Link Light Rail hasta la estación Stadium"},
+      "parking": {"en": "Pre-paid parking required. $50 at gate.", "es": "Estacionamiento prepago requerido. $50 en puerta."}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "Fully accessible. Covered wheelchair areas.", "es": "Totalmente accesible. Áreas techadas para silla de ruedas."},
+      "assistance": {"en": "Text HELP to 555-LUMEN for assistance", "es": "Envíe AYUDA al 555-LUMEN para asistencia"}
+    },
+    "schedule": {"en": "Match starts at 5:00 PM PDT. Gates open at 2:30 PM.", "es": "El partido comienza a las 5:00 PM PDT. Puertas abren a las 2:30 PM."},
+    "bag_policy": {"en": "Clear bags only. Max 12x6x12 inches.", "es": "Solo bolsas transparentes. Máximo 12x6x12 pulgadas."}
+  },
+  "mercedes_benz": {
+    "name": "Mercedes-Benz Stadium",
+    "country": "USA",
+    "location": "Atlanta, GA",
+    "languages": ["en", "es"],
+    "capacity": 71000,
+    "gates": {
+      "gate_a": {"en": "Gate A - North side, near Home Depot Backyard", "es": "Puerta A - Lado norte, cerca de Home Depot Backyard"},
+      "gate_b": {"en": "Gate B - South side, near GWCC", "es": "Puerta B - Lado sur, cerca de GWCC"},
+      "gate_c": {"en": "Gate C - East side, near Vine City Station", "es": "Puerta C - Lado este, cerca de la estación Vine City"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 101 (Accessible)", "es": "Baño cerca de la Sección 101 (Accesible)"},
+      {"en": "Restroom near Section 130", "es": "Baño cerca de la Sección 130"}
+    ],
+    "food": [
+      {"en": "Waffle House Stand", "es": "Puesto de Waffle House"},
+      {"en": "Southern BBQ on Concourse", "es": "BBQ del Sur en la Explanada"},
+      {"en": "Peach Cobbler Cart", "es": "Carrito de Peach Cobbler"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid at Section 115", "es": "Primeros Auxilios en la Sección 115"},
+      "lost_and_found": {"en": "Guest Services at Gate A", "es": "Servicios al Huésped en la Puerta A"},
+      "wheelchair_assistance": {"en": "Available at all gates", "es": "Disponible en todas las puertas"}
+    },
+    "transport": {
+      "train": {"en": "MARTA Rail to GWCC/CNN Center Station", "es": "MARTA Rail hasta la estación GWCC/CNN Center"},
+      "parking": {"en": "Pre-paid parking required. $40 at gate.", "es": "Estacionamiento prepago requerido. $40 en puerta."}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "Fully accessible. All levels via elevators.", "es": "Totalmente accesible. Todos los niveles con ascensores."},
+      "assistance": {"en": "Text HELP to 555-MB for assistance", "es": "Envíe AYUDA al 555-MB para asistencia"}
+    },
+    "schedule": {"en": "Match starts at 7:00 PM EDT. Gates open at 4:30 PM.", "es": "El partido comienza a las 7:00 PM EDT. Puertas abren a las 4:30 PM."},
+    "bag_policy": {"en": "Clear bags only. Max 12x6x12 inches.", "es": "Solo bolsas transparentes. Máximo 12x6x12 pulgadas."}
+  },
+  "gillette": {
+    "name": "Gillette Stadium",
+    "country": "USA",
+    "location": "Foxborough, MA",
+    "languages": ["en", "es"],
+    "capacity": 65878,
+    "gates": {
+      "gate_a": {"en": "Gate A - North side, near Route 1", "es": "Puerta A - Lado norte, cerca de la Ruta 1"},
+      "gate_b": {"en": "Gate B - South side, near Patriot Place", "es": "Puerta B - Lado sur, cerca de Patriot Place"},
+      "gate_c": {"en": "Gate C - East side, near the Lighthouse", "es": "Puerta C - Lado este, cerca del Faro"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 101 (Accessible)", "es": "Baño cerca de la Sección 101 (Accesible)"},
+      {"en": "Restroom near Section 128", "es": "Baño cerca de la Sección 128"}
+    ],
+    "food": [
+      {"en": "New England Clam Chowder Stand", "es": "Puesto de New England Clam Chowder"},
+      {"en": "Lobster Roll Cart", "es": "Carrito de Lobster Rolls"},
+      {"en": "Craft Beer Garden", "es": "Jardín de Cerveza Artesanal"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid at Section 115", "es": "Primeros Auxilios en la Sección 115"},
+      "lost_and_found": {"en": "Guest Services at Gate A", "es": "Servicios al Huésped en la Puerta A"},
+      "wheelchair_assistance": {"en": "Available at all gates", "es": "Disponible en todas las puertas"}
+    },
+    "transport": {
+      "shuttle": {"en": "FanRider shuttles from South Station and Providence", "es": "Autobuses FanRider desde South Station y Providence"},
+      "parking": {"en": "Pre-paid parking required. $60 at gate.", "es": "Estacionamiento prepago requerido. $60 en puerta."}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "Fully accessible. Elevators at all gates.", "es": "Totalmente accesible. Ascensores en todas las puertas."},
+      "assistance": {"en": "Text HELP to 555-GIL for assistance", "es": "Envíe AYUDA al 555-GIL para asistencia"}
+    },
+    "schedule": {"en": "Match starts at 3:00 PM EDT. Gates open at 12:30 PM.", "es": "El partido comienza a las 3:00 PM EDT. Puertas abren a las 12:30 PM."},
+    "bag_policy": {"en": "Clear bags only. Max 12x6x12 inches.", "es": "Solo bolsas transparentes. Máximo 12x6x12 pulgadas."}
+  },
+  "cotton_bowl": {
+    "name": "Cotton Bowl",
+    "country": "USA",
+    "location": "Dallas, TX",
+    "languages": ["en", "es"],
+    "capacity": 92100,
+    "gates": {
+      "gate_a": {"en": "Gate A - East side, near Fair Park", "es": "Puerta A - Lado este, cerca de Fair Park"},
+      "gate_b": {"en": "Gate B - West side, near Coliseum", "es": "Puerta B - Lado oeste, cerca del Coliseo"},
+      "gate_c": {"en": "Gate C - North side, near Midway", "es": "Puerta C - Lado norte, cerca de Midway"}
+    },
+    "restrooms": [
+      {"en": "Restroom near Section 101 (Accessible)", "es": "Baño cerca de la Sección 101 (Accesible)"},
+      {"en": "Restroom near Section 130", "es": "Baño cerca de la Sección 130"}
+    ],
+    "food": [
+      {"en": "State Fair Funnel Cake Stand", "es": "Puesto de Funnel Cake de State Fair"},
+      {"en": "Texas BBQ on Concourse", "es": "BBQ de Texas en la Explanada"},
+      {"en": "Corn Dog Cart", "es": "Carrito de Corn Dogs"}
+    ],
+    "services": {
+      "medical": {"en": "First Aid at Section 115", "es": "Primeros Auxilios en la Sección 115"},
+      "lost_and_found": {"en": "Guest Services at Gate A", "es": "Servicios al Huésped en la Puerta A"},
+      "wheelchair_assistance": {"en": "Available at all gates", "es": "Disponible en todas las puertas"}
+    },
+    "transport": {
+      "train": {"en": "DART Green Line to Fair Park Station", "es": "DART Línea Verde hasta la estación Fair Park"},
+      "parking": {"en": "Pre-paid parking required. $40 at gate.", "es": "Estacionamiento prepago requerido. $40 en puerta."}
+    },
+    "accessibility": {
+      "wheelchair_routes": {"en": "Fully accessible. Historic venue with modern accessibility.", "es": "Totalmente accesible. Recinto histórico con accesibilidad moderna."},
+      "assistance": {"en": "Text HELP to 555-COTTON for assistance", "es": "Envíe AYUDA al 555-COTTON para asistencia"}
+    },
+    "schedule": {"en": "Match starts at 4:00 PM CDT. Gates open at 1:30 PM.", "es": "El partido comienza a las 4:00 PM CDT. Puertas abren a las 1:30 PM."},
+    "bag_policy": {"en": "Clear bags only. Max 12x6x12 inches.", "es": "Solo bolsas transparentes. Máximo 12x6x12 pulgadas."}
+  },
   "metlife": {
     "name": "MetLife Stadium",
     "country": "USA",
+    "location": "East Rutherford, NJ",
     "languages": ["en", "es"],
+    "capacity": 82500,
     "gates": {
       "gate_a": {"en": "Gate A - Sections 101-110, near Parking Lot A", "es": "Puerta A - Secciones 101-110, cerca del Estacionamiento A"},
       "gate_b": {"en": "Gate B - Sections 111-120, near Train Station", "es": "Puerta B - Secciones 111-120, cerca de la Estación de Tren"},
@@ -13,93 +453,25 @@
       {"en": "Restroom near Section 115", "es": "Baño cerca de la Sección 115"}
     ],
     "food": [
-      {"en": "Pizza Stand on Concourse A (Italian)", "es": "Puesto de Pizza en Concourse A (Italiano)"},
-      {"en": "Burger Bar on Concourse B (American)", "es": "Bar de Hamburguesas en Concourse B (Americano)"},
-      {"en": "Taco Stand on Concourse C (Mexican)", "es": "Puesto de Tacos en Concourse C (Mexicano)"}
+      {"en": "Pizza Stand on Concourse A", "es": "Puesto de Pizza en Concourse A"},
+      {"en": "Burger Bar on Concourse B", "es": "Bar de Hamburguesas en Concourse B"},
+      {"en": "Taco Stand on Concourse C", "es": "Puesto de Tacos en Concourse C"}
     ],
     "services": {
-      "medical": {"en": "First Aid Station at Section 120, near Gate C", "es": "Estación de Primeros Auxilios en la Sección 120, cerca de la Puerta C"},
+      "medical": {"en": "First Aid Station at Section 120", "es": "Estación de Primeros Auxilios en la Sección 120"},
       "lost_and_found": {"en": "Main Office at Gate A entrance", "es": "Oficina Principal en la entrada de la Puerta A"},
-      "wheelchair_assistance": {"en": "Available at all gates - request at entrance", "es": "Disponible en todas las puertas - solicite en la entrada"}
-    },
-    "transport": {
-      "shuttle": {"en": "Shuttles run from Gate B every 15 minutes", "es": "Los autobuses salen de la Puerta B cada 15 minutos"},
-      "train": {"en": "Nearest train station is 5 minutes from Gate A", "es": "La estación de tren más cercana está a 5 minutos de la Puerta A"},
-      "parking": {"en": "Parking lots open 4 hours before kickoff. $40 per vehicle", "es": "Estacionamientos abren 4 horas antes del inicio. $40 por vehículo"}
-    },
-    "accessibility": {
-      "wheelchair_routes": {"en": "All concourses wheelchair accessible. Elevators near every gate.", "es": "Todas las explanadas accesibles en silla de ruedas. Ascensores cerca de cada puerta."},
-      "assistance": {"en": "Text HELP for immediate volunteer assistance or call 555-STADIUM", "es": "Envíe AYUDA para asistencia inmediata de voluntarios o llame al 555-ESTADIO"}
-    },
-    "schedule": {"en": "Match starts at 3:00 PM EDT. Gates open at 1:00 PM.", "es": "El partido comienza a las 3:00 PM EDT. Puertas abren a la 1:00 PM."},
-    "bag_policy": {"en": "Bags must be clear plastic, max 12x6x12 inches. No backpacks.", "es": "Las bolsas deben ser de plástico transparente, máximo 12x6x12 pulgadas. Sin mochilas."}
-  },
-  "sofi": {
-    "name": "SoFi Stadium",
-    "country": "USA",
-    "languages": ["en", "es"],
-    "gates": {
-      "gate_1": {"en": "Gate 1 - Sections 201-210, near Parking Structure A", "es": "Puerta 1 - Secciones 201-210, cerca del Estacionamiento A"},
-      "gate_2": {"en": "Gate 2 - Sections 211-220, near Metro Station", "es": "Puerta 2 - Secciones 211-220, cerca de la Estación de Metro"},
-      "gate_3": {"en": "Gate 3 - Sections 221-230, near Ride Share Drop-off", "es": "Puerta 3 - Secciones 221-230, cerca de la Zona de Viajes Compartidos"}
-    },
-    "restrooms": [{"en": "Restroom near Section 205 (Accessible)", "es": "Baño cerca de la Sección 205 (Accesible)"}, {"en": "Restroom near Section 218", "es": "Baño cerca de la Sección 218"}],
-    "food": [{"en": "Sushi Bar on Concourse A", "es": "Bar de Sushi en Concourse A"}, {"en": "BBQ Pit on Concourse B", "es": "Parrilla BBQ en Concourse B"}, {"en": "Vegan Corner on Concourse C", "es": "Esquina Vegana en Concourse C"}],
-    "services": {
-      "medical": {"en": "First Aid Station at Section 215", "es": "Estación de Primeros Auxilios en la Sección 215"},
-      "lost_and_found": {"en": "Guest Services at Gate 1", "es": "Servicios al Huésped en la Puerta 1"},
-      "wheelchair_assistance": {"en": "Available at all gates - request at Guest Services", "es": "Disponible en todas las puertas - solicite en Servicios al Huésped"}
-    },
-    "transport": {
-      "shuttle": {"en": "Free shuttles from Metro Station to Gate 2 every 10 minutes", "es": "Autobuses gratis desde la Estación de Metro hasta la Puerta 2 cada 10 minutos"},
-      "metro": {"en": "Metro Line A stops at SoFi Stadium station", "es": "La Línea A del Metro para en la estación del Estadio SoFi"},
-      "parking": {"en": "Parking available in Structures A, B, C. $50 prepaid, $60 at gate.", "es": "Estacionamiento disponible en las Estructuras A, B, C. $50 prepago, $60 en puerta."}
-    },
-    "schedule": {"en": "Match starts at 5:30 PM PDT. Gates open at 3:00 PM.", "es": "El partido comienza a las 5:30 PM PDT. Puertas abren a las 3:00 PM."}
-  },
-  "azteca": {
-    "name": "Estadio Azteca",
-    "country": "Mexico",
-    "languages": ["es", "en"],
-    "gates": {
-      "puerta_1": {"en": "Gate 1 - Sections 1-10, near Metro Station", "es": "Puerta 1 - Secciones 1-10, cerca de la Estación de Metro"},
-      "puerta_2": {"en": "Gate 2 - Sections 11-20, near Parking Lot", "es": "Puerta 2 - Secciones 11-20, cerca del Estacionamiento"},
-      "puerta_3": {"en": "Gate 3 - Sections 21-30, near Bus Terminal", "es": "Puerta 3 - Secciones 21-30, cerca de la Terminal de Autobuses"}
-    },
-    "restrooms": [{"en": "Restroom near Section 8 (Accessible)", "es": "Baño cerca de la Sección 8 (Accesible)"}, {"en": "Restroom near Section 15", "es": "Baño cerca de la Sección 15"}],
-    "food": [{"en": "Taquería on Concourse 1", "es": "Taquería en Explanada 1"}, {"en": "Tortas Stand on Concourse 2", "es": "Puesto de Tortas en Explanada 2"}, {"en": "Elotes Cart on Concourse 3", "es": "Carrito de Elotes en Explanada 3"}],
-    "services": {
-      "medical": {"en": "First Aid at Section 12", "es": "Primeros Auxilios en la Sección 12"},
-      "lost_and_found": {"en": "Main Office at Gate 1 entrance", "es": "Oficina Principal en la entrada de la Puerta 1"},
       "wheelchair_assistance": {"en": "Available at all gates", "es": "Disponible en todas las puertas"}
     },
     "transport": {
-      "metro": {"en": "Metro Line 2 stops at Estadio Azteca station", "es": "La Línea 2 del Metro para en la estación Estadio Azteca"},
-      "parking": {"en": "Parking available for 4,000 cars. $200 MXN", "es": "Estacionamiento disponible para 4,000 autos. $200 MXN"}
+      "train": {"en": "NJ Transit to MetLife Stadium Station", "es": "NJ Transit hasta la estación MetLife Stadium"},
+      "shuttle": {"en": "Shuttles from Port Authority every 15 minutes", "es": "Autobuses desde Port Authority cada 15 minutos"},
+      "parking": {"en": "Pre-paid parking required. $40 at gate.", "es": "Estacionamiento prepago requerido. $40 en puerta."}
     },
-    "schedule": {"en": "Match starts at 7:00 PM CST. Gates open at 4:00 PM.", "es": "El partido comienza a las 7:00 PM CST. Puertas abren a las 4:00 PM."}
-  },
-  "bc_place": {
-    "name": "BC Place",
-    "country": "Canada",
-    "languages": ["en", "fr"],
-    "gates": {
-      "gate_a": {"en": "Gate A - Sections 201-210 near SkyTrain Station", "fr": "Porte A - Sections 201-210 près de la station SkyTrain"},
-      "gate_b": {"en": "Gate B - Sections 211-220 near Parking Garage", "fr": "Porte B - Sections 211-220 près du garage de stationnement"},
-      "gate_c": {"en": "Gate C - Sections 221-230 near Bus Loop", "fr": "Porte C - Sections 221-230 près du terminal d'autobus"}
+    "accessibility": {
+      "wheelchair_routes": {"en": "Fully wheelchair accessible. Elevators near every gate.", "es": "Totalmente accesible en silla de ruedas. Ascensores cerca de cada puerta."},
+      "assistance": {"en": "Text HELP to 555-METLIFE for assistance", "es": "Envíe AYUDA al 555-METLIFE para asistencia"}
     },
-    "restrooms": [{"en": "Restroom near Section 205 (Accessible)", "fr": "Toilettes près de la Section 205 (Accessible)"}, {"en": "Restroom near Section 215", "fr": "Toilettes près de la Section 215"}],
-    "food": [{"en": "Poutine Stand on Concourse A", "fr": "Stand de Poutine sur la Promenade A"}, {"en": "Sushi Bar on Concourse B", "fr": "Bar à Sushi sur la Promenade B"}, {"en": "Maple Syrup Treats on Concourse C", "fr": "Gâteries au Sirop d'Érable sur la Promenade C"}],
-    "services": {
-      "medical": {"en": "First Aid Station at Section 210", "fr": "Poste de Premiers Soins à la Section 210"},
-      "lost_and_found": {"en": "Guest Services at Gate A", "fr": "Services aux Invités à la Porte A"},
-      "wheelchair_assistance": {"en": "Available at all gates", "fr": "Disponible à toutes les portes"}
-    },
-    "transport": {
-      "skytrain": {"en": "SkyTrain Expo Line stops at Stadium-Chinatown station", "fr": "La ligne Expo du SkyTrain s'arrête à la station Stadium-Chinatown"},
-      "seabus": {"en": "SeaBus connects from North Vancouver to Waterfront Station, then SkyTrain to stadium", "fr": "SeaBus relie North Vancouver à la station Waterfront, puis SkyTrain jusqu'au stade"},
-      "parking": {"en": "Parking available at lots A-D. $25 CAD.", "fr": "Stationnement disponible aux lots A-D. 25 $ CAD."}
-    },
-    "schedule": {"en": "Match starts at 2:00 PM PDT. Gates open at 11:00 AM.", "fr": "Le match commence à 14h00 PDT. Portes ouvrent à 11h00."}
+    "schedule": {"en": "Match starts at 3:00 PM EDT. Gates open at 1:00 PM.", "es": "El partido comienza a las 3:00 PM EDT. Puertas abren a la 1:00 PM."},
+    "bag_policy": {"en": "Clear bags only. Max 12x6x12 inches.", "es": "Solo bolsas transparentes. Máximo 12x6x12 pulgadas."}
   }
 }

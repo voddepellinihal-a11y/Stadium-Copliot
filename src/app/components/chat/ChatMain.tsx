@@ -113,8 +113,7 @@ export function Chat() {
       await new Promise(r => setTimeout(r, 600));
       const answer = findAnswer(question, city, lang);
       setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), text: answer, sender: 'ai', timestamp: new Date() }]);
-    } catch (err) {
-      console.error('[Chat Error]', err);
+    } catch {
       setMessages(prev => [...prev, { id: (Date.now() + 1).toString(), text: t(lang, 'sorryError'), sender: 'ai', timestamp: new Date() }]);
     } finally {
       setIsLoading(false);

@@ -5,7 +5,12 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 export type Lang = 'en' | 'es' | 'fr';
 
 export type AppMode = 'fan' | 'volunteer' | 'ops' | 'analytics' | 'sustainability' | 'accessibility';
-export type CityKey = 'metlife' | 'sofi' | 'azteca' | 'bc_place';
+
+export type CityKey =
+  | 'metlife' | 'sofi' | 'azteca' | 'bc_place'
+  | 'arrowhead' | 'at_t_stadium' | 'hard_rock' | 'lincoln_financial'
+  | 'nrg' | 'lumen' | 'mercedes_benz' | 'gillette'
+  | 'cotton_bowl';
 
 interface AppState {
   mode: AppMode;
