@@ -30,6 +30,14 @@ build_log.txt
 
 # local env files
 .env*.local
+.env
+
+# backend
+backend/.env
+backend/chroma_db/
+__pycache__/
+*.pyc
+venv/
 
 # vercel
 .vercel
@@ -37,3 +45,7 @@ build_log.txt
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# ngrok
+tunnel_error.txt
+tunnel_output.txt

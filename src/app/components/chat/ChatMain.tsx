@@ -19,6 +19,7 @@ const responseCache = new Map<string, string>();
 
 function findAnswer(question: string, city: string, lang: Lang): string {
   const lower = question.toLowerCase();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const venue = (cityKnowledge as Record<string, any>)[city];
   if (!venue) return t(lang, 'sorryError');
 

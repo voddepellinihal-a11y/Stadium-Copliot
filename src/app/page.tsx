@@ -1,16 +1,26 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { AppProvider, useApp, Lang } from './components/shared/AppContext';
 import GlobalHeader from './components/shared/GlobalHeader';
-import { Chat } from './components/chat/ChatMain';
-import VolunteerContent from './components/modes/VolunteerContent';
-import OpsContent from './components/modes/OpsContent';
-import AnalyticsContent from './components/modes/AnalyticsContent';
-import SustainabilityContent from './components/modes/SustainabilityContent';
-import AccessibilityContent from './components/modes/AccessibilityContent';
 import { MessageSquare, Users, LayoutDashboard, BarChart3, Leaf, Accessibility } from 'lucide-react';
 import { t } from './data/translations';
+
+const Chat = dynamic(() => import('./components/chat/ChatMain').then(m => m.Chat), { ssr: false, loading: () => <LoadingSpinner /> });
+const VolunteerContent = dynamic(() => import('./components/modes/VolunteerContent'), { ssr: false, loading: () => <LoadingSpinner /> });
+const OpsContent = dynamic(() => import('./components/modes/OpsContent'), { ssr: false, loading: () => <LoadingSpinner /> });
+const AnalyticsContent = dynamic(() => import('./components/modes/AnalyticsContent'), { ssr: false, loading: () => <LoadingSpinner /> });
+const SustainabilityContent = dynamic(() => import('./components/modes/SustainabilityContent'), { ssr: false, loading: () => <LoadingSpinner /> });
+const AccessibilityContent = dynamic(() => import('./components/modes/AccessibilityContent'), { ssr: false, loading: () => <LoadingSpinner /> });
+
+function LoadingSpinner() {
+  return (
+    <div className="flex items-center justify-center h-full" role="status" aria-label="Loading">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600" />
+    </div>
+  );
+}
 
 const modes = [
   { key: 'fan', icon: MessageSquare, labelKey: 'fan' as const },
@@ -31,10 +41,10 @@ const langConfig: { code: Lang; name: string; flag: string; nativeName: string }
 
 function LanguageModal({ onSelect, onClose }: { onSelect: (lang: Lang) => void; onClose: () => void }) {
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={onClose} role="dialog" aria-modal="true" aria-label={t('en', 'selectLanguage')}>
       <div className="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden" onClick={e => e.stopPropagation()}>
         <div className="bg-gradient-to-r from-blue-600 to-blue-800 p-6 text-center text-white">
-          <div className="text-4xl mb-2">🌍</div>
+          <div className="text-4xl mb-2" aria-hidden="true">🌍</div>
           <h2 className="text-xl font-bold">Choose Your Language</h2>
           <p className="text-sm opacity-80 mt-1">Elige tu idioma / Choisissez votre langue</p>
         </div>
@@ -44,13 +54,14 @@ function LanguageModal({ onSelect, onClose }: { onSelect: (lang: Lang) => void; 
               key={l.code}
               onClick={() => { onSelect(l.code); onClose(); }}
               className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all group"
+              aria-label={`Select ${l.nativeName}`}
             >
-              <span className="text-3xl">{l.flag}</span>
+              <span className="text-3xl" aria-hidden="true">{l.flag}</span>
               <div className="text-left flex-1">
                 <div className="font-bold text-gray-900 text-lg">{l.nativeName}</div>
                 <div className="text-sm text-gray-500">{l.name}</div>
               </div>
-              <div className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-blue-500 group-hover:text-white flex items-center justify-center transition-all">
+              <div className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-blue-500 group-hover:text-white flex items-center justify-center transition-all" aria-hidden="true">
                 →
               </div>
             </button>
@@ -84,7 +95,9 @@ function ModeRouter() {
     <div className={`flex flex-col h-screen overflow-hidden transition-colors duration-300 ${highContrast ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'}`}>
       <GlobalHeader onLanguageClick={() => setShowLangModal(true)} />
       <main className="flex-1 overflow-hidden">
-        {renderContent()}
+        <Suspense fallback={<LoadingSpinner />}>
+          {renderContent()}
+        </Suspense>
       </main>
       <nav
         className={`flex justify-around items-stretch py-1.5 px-1 text-[10px] font-semibold z-50 flex-shrink-0 ${
@@ -113,7 +126,7 @@ function ModeRouter() {
                     : 'text-gray-400 hover:text-gray-600'
               }`}
             >
-              <Icon className={`w-5 h-5 ${isActive ? 'drop-shadow-sm' : ''}`} strokeWidth={isActive ? 2.5 : 2} />
+              <Icon className={`w-5 h-5 ${isActive ? 'drop-shadow-sm' : ''}`} strokeWidth={isActive ? 2.5 : 2} aria-hidden="true" />
               <span className="text-[9px] leading-tight truncate w-full text-center">{t(language, m.labelKey)}</span>
             </button>
           );

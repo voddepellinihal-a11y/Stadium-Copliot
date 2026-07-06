@@ -5,6 +5,11 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  reactStrictMode: true,
+  compress: true,
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
 };
 
 export default nextConfig;

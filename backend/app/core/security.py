@@ -5,16 +5,22 @@ from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from app.core.config import settings
+import os
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
+
+
+def _get_password(env_var: str, fallback: str) -> str:
+    return os.getenv(env_var, fallback)
+
 
 fake_users_db = {
     "admin": {
         "username": "admin",
         "full_name": "Admin User",
         "email": "admin@stadium-copilot.com",
-        "hashed_password": pwd_context.hash("admin123"),
+        "hashed_password": pwd_context.hash(_get_password("ADMIN_PASSWORD", "admin123")),
         "role": "admin",
         "city": "all",
         "disabled": False,
@@ -23,7 +29,7 @@ fake_users_db = {
         "username": "operator_metlife",
         "full_name": "MetLife Operator",
         "email": "operator@metlife.com",
-        "hashed_password": pwd_context.hash("operator123"),
+        "hashed_password": pwd_context.hash(_get_password("OPERATOR_PASSWORD", "operator123")),
         "role": "operator",
         "city": "metlife",
         "disabled": False,
@@ -32,7 +38,7 @@ fake_users_db = {
         "username": "volunteer_metlife",
         "full_name": "MetLife Volunteer",
         "email": "volunteer@metlife.com",
-        "hashed_password": pwd_context.hash("volunteer123"),
+        "hashed_password": pwd_context.hash(_get_password("VOLUNTEER_PASSWORD", "volunteer123")),
         "role": "volunteer",
         "city": "metlife",
         "disabled": False,

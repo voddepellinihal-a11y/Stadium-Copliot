@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { BarChart3, MessageSquare, Clock, Languages, CheckCircle, AlertCircle, TrendingUp, Globe } from 'lucide-react';
+import { BarChart3, MessageSquare, Clock, Languages, CheckCircle, AlertCircle, Globe } from 'lucide-react';
 import { useApp } from '../shared/AppContext';
 
 export default function AnalyticsContent() {

@@ -30,7 +30,7 @@ const modeLabelKeys: Record<AppMode, 'fan' | 'volunteer' | 'ops' | 'analytics' |
 };
 
 export default function GlobalHeader({ onLanguageClick }: { onLanguageClick?: () => void }) {
-  const { mode, setMode, language, setLanguage, highContrast, setHighContrast, city, setCity } = useApp();
+  const { mode, setMode, language, highContrast, setHighContrast, city, setCity } = useApp();
   const [cityOpen, setCityOpen] = React.useState(false);
   const cityRef = useRef<HTMLDivElement>(null);
 

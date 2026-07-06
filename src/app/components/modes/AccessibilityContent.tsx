@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Accessibility, Volume2, Eye, Ear, ZoomIn, Map, ChevronRight, HelpCircle } from 'lucide-react';
+import { Accessibility, Volume2, Eye, ZoomIn, Map, ChevronRight } from 'lucide-react';
 import { useApp } from '../shared/AppContext';
 
 export default function AccessibilityContent() {

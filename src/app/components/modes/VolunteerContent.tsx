@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Languages, MessageSquare, BookOpen, ChevronRight } from 'lucide-react';
+import { MessageSquare, BookOpen, ChevronRight } from 'lucide-react';
 import { useApp } from '../shared/AppContext';
 
 const scripts: Record<string, Record<string, string>> = {
