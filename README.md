@@ -10,7 +10,7 @@
 
 | Requirement | Implementation |
 |---|---|
-| **Smart Navigation** | Multilingual RAG-based chat with gate, restroom, food, parking info for all 4 venues |
+| **Smart Navigation** | Multilingual RAG-based chat with gate, restroom, food, parking info for all 13 venues |
 | **Crowd Management** | Real-time live heatmap simulation with density tracking and hotspot alerts |
 | **Accessibility** | WCAG-compliant: high contrast mode, text size slider, step-free routes, screen reader support, skip-to-content link |
 | **Transportation** | Shuttle, train, metro, SkyTrain, SeaBus, parking info per city |
@@ -25,7 +25,7 @@
 ┌─────────────────────────────────────────────────────────┐
 │                    Frontend (Next.js)                     │
 │  6 Modes: Fan Chat │ Volunteer │ Ops │ Analytics │ Green │ Access │
-│  3 Languages: EN │ ES │ FR     4 Cities: MetLife │ SoFi │ Azteca │ BC Place │
+│  3 Languages: EN │ ES │ FR     13 Cities across USA │ Mexico │ Canada │
 └─────────────────────┬───────────────────────────────────┘
                       │ REST API
 ┌─────────────────────▼───────────────────────────────────┐
@@ -49,8 +49,8 @@
 
 - **Frontend:** Next.js 14, React 18, TypeScript, Tailwind CSS
 - **Backend:** Python FastAPI, Gemini Pro API, ChromaDB, Redis
-- **Testing:** Jest, React Testing Library (34 tests)
-- **Security:** CSP headers, XSS prevention, rate limiting, input sanitization, JWT auth
+- **Testing:** Jest, React Testing Library (59 tests across 6 suites)
+- **Security:** CSP headers, XSS prevention, rate limiting, input sanitization, JWT auth, env-based secrets
 - **Accessibility:** ARIA labels, role attributes, high contrast, screen reader support
 
 ## Getting Started
@@ -97,9 +97,9 @@ stadium-copilot/
 │   ├── data/
 │   │   ├── translations.ts          # 100+ keys × 3 languages
 │   │   ├── city_knowledge.json      # Stadium knowledge base (4 cities)
-│   │   └── __tests__/
-│   │       ├── translations.test.ts
-│   │       └── cityKnowledge.test.ts
+│   │   ├── __tests__/
+│   │   │   ├── translations.test.ts      # 14 tests: completeness, fallbacks
+│   │   │   └── cityKnowledge.test.ts     # 12 tests: structure, cities, services
 │   └── lib/
 │       ├── security.ts              # Rate limiting, sanitization, XSS
 │       └── __tests__/
@@ -120,14 +120,18 @@ stadium-copilot/
 
 ## Security Features
 
-- Content Security Policy (CSP) headers
+- Content Security Policy (CSP) headers via middleware.ts
 - X-Content-Type-Options, X-Frame-Options, X-XSS-Protection
-- Rate limiting (30 requests/minute)
-- Input sanitization (XSS prevention, length validation)
-- Spam detection (repeated chars, URL detection)
-- Emergency keyword detection (EN/ES/FR)
+- Referrer-Policy, Permissions-Policy headers
+- Rate limiting (30 requests/minute per user)
+- Input sanitization (XSS prevention, length validation, event handler stripping)
+- Spam detection (repeated characters, URL detection)
+- Emergency keyword detection (EN/ES/FR) with immediate escalation
 - JWT authentication with bcrypt password hashing
-- Environment variables for secrets (no hardcoded credentials)
+- Environment variables for all secrets (SECRET_KEY, passwords, API keys)
+- .env files excluded from version control
+- No hardcoded credentials in source code
+- `serve.json` security headers for static hosting
 
 ## Accessibility Features
 
@@ -146,12 +150,14 @@ stadium-copilot/
 
 This prototype uses simulated data for demonstration. Production integration points:
 
-- **Live Scores:** FIFA API or sports data providers for real match data
-- **Ticketing:** Integration with FIFA ticketing platform for seat info
-- **Transport:** Real-time transit APIs (Google Transit, local agencies)
-- **Weather:** Weather API for match-day conditions
-- **Emergency Services:** Integration with venue emergency systems
-- **Analytics:** Real-time query logging and NLP pipeline
+- **Live Scores:** FIFA API or sports data providers (Opta, Sportradar) for real match data
+- **Ticketing:** Integration with FIFA ticketing platform for seat info and digital tickets
+- **Transport:** Real-time transit APIs (Google Transit, NJ Transit, SEPTA, DART, MARTA, etc.)
+- **Weather:** Weather API (OpenWeatherMap) for match-day conditions at each venue
+- **Emergency Services:** Integration with venue emergency systems and 911 dispatch
+- **Analytics:** Real-time query logging, NLP pipeline, and Gemini Pro for intelligent responses
+- **Crowd Management:** IoT sensor integration for real-time density monitoring
+- **Sustainability:** Carbon footprint tracking per attendee and venue-wide metrics
 
 ## Testing
 
@@ -161,11 +167,12 @@ npm test -- --coverage  # Run with coverage report
 ```
 
 Test coverage:
-- Security functions (rate limiting, sanitization, XSS, spam, emergency detection)
-- Translations (completeness, fallback behavior)
-- City knowledge base (structure validation)
-- AppContext (state management, mode/language switching)
-- ErrorBoundary (error handling, fallback rendering)
+- Security functions: rate limiting, sanitization, XSS, spam detection, emergency detection (23 tests)
+- Translations: completeness, fallback behavior, city names (14 tests)
+- City knowledge: structure validation, 13 cities, services, accessibility (12 tests)
+- AppContext: state management, mode/language switching, auth (7 tests)
+- ErrorBoundary: error handling, fallback rendering (3 tests)
+- Integration: mode switching with language preservation (3 tests)
 
 ## Deployment
 
